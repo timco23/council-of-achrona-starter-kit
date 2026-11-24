@@ -1,44 +1,38 @@
 {
-  "run_id": "2026-11-24T11:40:52+01:00_2e2e0ad9",
-  "samenvatting": "Het verdict wijst op een tweede pols naast de Kroonklok, de hulpslag die de Engineer op dag 10 om 02:40 activeerde (ENG-011), als waarschijnlijke oorzaak van de Desync. Die hypothese is door de Rollen verenigbaar genoemd maar niet bewezen, omdat het record van ENG-011 niet door een andere Rol is bevestigd. De nachtelijke onrust en schildopeningen tussen 04:15 en 04:50 keren sinds dag 10 elke vierde nacht terug, maar waarom juist in dat ritme is niet met bewijs gedragen. Eerst moet een afschrift van het datanetregister worden gemaakt, daarna wordt de hulpslag stapsgewijs bijgestuurd.",
+  "run_id": "2026-11-24T11:57:36+01:00_8d2f6b80",
+  "samenvatting": "Op dag 10 om 02:40 is de hulpslag geactiveerd als 'eigen pols los van de Kroonklok' (ENG-011), waarna de doorvoer met 38% steeg (ENG-012). Vanaf dag 10 volgt een vast ritme van zware nachten om de vier dagen (ORA-110, ORA-114 t/m ORA-142), dat verenigbaar is met de hulpslag maar niet bewezen is. De bressen en de dag-24-verhoging zijn niet eenduidig bevestigd, en de archieftijdstempels zijn onbetrouwbaar. Het herstel begint met een afschrift van het register en gaat daarna stapsgewijs, zonder abrupt uitzetten (HIS-110).",
   "oorzaak": {
     "ingreep": {
-      "bewering": "Op dag 10 om 02:40 activeerde de Engineer de hulpslag als eigen pols voor het datanet, los van de Kroonklok, na goedkeuring van 'hogerhand' op dag 9 zonder genoemde naam; de Archmage stemde op dag 8 in met het net 'op eigen maat' en hield dat buiten het register.",
-      "bewijs": [
-        "ENG-011",
-        "ENG-010",
-        "ENG-105",
-        "ARC-106"
-      ],
-      "zekerheid": 0.6
-    },
-    "mechanisme": {
-      "bewering": "Een tweede pols naast de Kroonklok brengt het datanet uit de maat (HIS-109). Verkeer dat midden tussen twee tikken van de Kroonklok binnenkomt, wordt van binnenuit geopend zonder toets (GUA-104), en een zegel breekt niet bij die route (GUA-105). Zo verklaart het de openingen van binnenuit (GUA-019 op dag 10 om 04:47, GUA-043 op dag 22 om 04:15), de doorvoersprong van +38% (ENG-012, ENG-120) en de klachten over half aangekomen berichten (ENG-107, HIS-036). Het record van een andere pols is bij uitval niet terug te lezen (HIS-110), wat het verlies van berichten verklaart. Waarom de verstoring in een ritme van elke vierde nacht terugkomt, is niet met bewijs gedragen: het tikinterval van de Kroonklok staat in geen enkele bron (GUA-104, ARC-104). Dat deel van de verklaring blijft dus onbewezen.",
+      "bewering": "Op dag 10 om 02:40 activeerde de Engineer de hulpslag als 'eigen pols voor het datanet, los van de Kroonklok' (ENG-011); de doorvoer steeg daarna met 38% (ENG-012). Op dag 24 om 11:00 is de hulpslag met 5% opgedreven (ENG-029), mogelijk tweemaal (ENG-062). Wie de activatie heeft goedgekeurd is niet vastgesteld: de Archmage gaf op dag 8 toestemming dat het net 'op eigen maat' liep (ARC-106), en de Engineer noemt een goedkeuring 'van hogerhand' op dag 9 zonder naam (ENG-105).",
       "bewijs": [
         "ENG-011",
         "ENG-012",
-        "ENG-120",
-        "ENG-107",
+        "ENG-029",
+        "ENG-062",
+        "ARC-106",
+        "ENG-105"
+      ],
+      "zekerheid": 0.5
+    },
+    "mechanisme": {
+      "bewering": "De hulpslag-pols loopt los van de Kroonklok, terwijl de schilden alleen op de pols van de Kroonklok zijn ingesteld (GUA-103). Verkeer dat tussen twee tikken valt, gaat zonder toets door (GUA-104). Zo passeert verkeer van de hulpslag de schilden ongecontroleerd, wat past bij de bressen op dag 10 en 22 (GUA-019, GUA-043) en bij de 'half aangekomen' berichten (HIS-036, ENG-107). Een abrupte uitschakeling van een pols doet records op die pols verdwijnen (HIS-110), wat dezelfde symptomen kan geven. De Engineer meldt de hulpslag als sneller dan de Kroonklok (ENG-103), wat verklaart waarom de twee in fase uit elkaar kunnen lopen. Dat de twee na een vaste periode weer samenvallen, is niet met tempogetallen vastgesteld, omdat geen van de Rollen een interval noemt.",
+      "bewijs": [
+        "ENG-011",
+        "ENG-012",
+        "ENG-103",
+        "GUA-103",
         "GUA-104",
-        "GUA-105",
         "GUA-019",
         "GUA-043",
-        "HIS-109",
-        "HIS-110",
-        "HIS-036"
+        "HIS-036",
+        "ENG-107",
+        "HIS-110"
       ],
-      "zekerheid": 0.4
+      "zekerheid": 0.3
     },
     "verloop": {
-      "bewering": "Vanaf dag 10 treedt elke vierde nacht zware onrust op (dagen 10, 14, 18, 22, 26, 30, 34, 38, 42) met wakker worden of schildopening tussen 04:15 en 04:50. De rustige dagen 11–13, 15–17 en 21 vallen daarbuiten. Dag 21 is rustig, met BEA-044 op onrust 0 om 01:00. De dagen 14 en 21 vertonen dalende en herstellende leylijnen (ARC-015, ARC-029).",
+      "bewering": "Zware nachten rond 04:15 tot 04:45 komen elke vier dagen voor: dag 10, 14, 18, 22, 26, 30, 34, 38 en 42 (ORA-110, ORA-114, ORA-118, ORA-122, ORA-126, ORA-130, ORA-134, ORA-138, ORA-142). De rustige dagen daartussen zijn dag 11, 15, 19, 23, 27, 31, 35 en 39 (ORA-111 t/m ORA-139). BEA-113 bevestigt het ritme van elke vierde nacht sinds dag 10. De verhoging van dag 24 veranderde het ritme niet: de cyclus liep door op dag 26, 30, 34, 38 en 42. Vóór dag 10 is geen ritme gemeld (ORA-101 t/m ORA-109). Of het ritme na een vaste periode opnieuw samenvalt met de Kroonklok, is niet vastgesteld.",
       "bewijs": [
-        "BEA-019",
-        "BEA-020",
-        "BEA-028",
-        "BEA-029",
-        "BEA-044",
-        "BEA-045",
-        "BEA-113",
         "ORA-110",
         "ORA-114",
         "ORA-118",
@@ -48,90 +42,101 @@
         "ORA-134",
         "ORA-138",
         "ORA-142",
-        "GUA-019",
-        "GUA-043",
-        "ARC-015",
-        "ARC-029"
+        "BEA-113",
+        "ORA-101",
+        "ORA-109",
+        "ENG-029"
       ],
-      "zekerheid": 0.7
+      "zekerheid": 0.6
     }
   },
   "acties": [
     {
-      "actie": "Maak eerst een afschrift van het datanetregister voordat er iets aan de hulpslag verandert.",
-      "reden": "Bij herstel hoort eerst een afschrift van het register (artikel 2). Dat ontbreekt nu, en de Engineer had het vóór de opdrijving van dag 24 moeten maken.",
+      "actie": "Maak een afschrift van het register van het datanet, de schilden en de hulpslag voordat er iets wordt aangepast.",
+      "reden": "De bouwakte schrijft voor dat een herstel eerst een afschrift van het register maakt (HIS-110). Dit is alleen een lees- en kopieerhandeling en veroorzaakt geen schade.",
       "bewijs": [
-        "HIS-110",
-        "HIS-109",
-        "ENG-126"
+        "HIS-110"
       ]
     },
     {
-      "actie": "Controleer de tijdstempels van ENG-011, HIS-035, HIS-036 en HIS-053 tegen het afschrift en leg de vastleggingsklok vast, voordat er conclusies over de volgorde worden getrokken.",
-      "reden": "De tijdstempels wijken af van het principe gebeurd_op = vastgelegd_op. Zonder deze controle is niet vast te stellen of de activatie vóór of na de onrust van 04:40 valt.",
+      "actie": "Leg vast wie de goedkeuring 'van hogerhand' op dag 9 heeft gegeven en wie de activatie op dag 10 om 02:40 heeft bevolen.",
+      "reden": "Geen van de bronnen in het archief bevat de goedkeuring of de opdracht (HIS-032 t/m HIS-034, HIS-035 t/m HIS-037). Dit is een controle op het archief zonder ingreep.",
       "bewijs": [
-        "HIS-103",
-        "HIS-035",
-        "HIS-036",
-        "HIS-053",
+        "ENG-105",
         "ENG-011",
-        "BEA-019"
+        "HIS-032",
+        "HIS-034"
       ]
     },
     {
-      "actie": "Stel de hulpslag stapsgewijs bij met de fijnregeling in stappen van 0,1% en zet de opdrijving van 5% terug naar de oorspronkelijke stand, net als bij de test op dag 12.",
-      "reden": "De fijnregeling is de instelling om het tempo veilig bij te sturen. Het terugzetten is eerder getest en het tempo blijft gelijk. De opdrijving van dag 24 had geen toestemming.",
+      "actie": "Controleer of de 5%-verhoging van dag 24 één of twee keer is toegepast en lees de huidige versterking af, zonder iets terug te draaien.",
+      "reden": "ENG-062 kan een tweede verhoging van dezelfde 5% zijn, en ENG-029 en ENG-062 zijn niet met elkaar in overeenstemming. Eerst meten, dan pas bijsturen.",
       "bewijs": [
-        "ENG-114",
-        "ENG-061",
         "ENG-029",
         "ENG-062"
       ]
     },
     {
-      "actie": "Dek het venster 03:00 tot 06:00 met rondes en controleer de schilden op openingen van binnenuit tijdens de verwachte nachten.",
-      "reden": "Tussen 03:00 en 06:00 lopen geen rondes, zodat openingen onopgemerkt kunnen blijven.",
+      "actie": "Controleer de firewallwijziging van dag 22 (aanscherping na het pakketverlies op poort oost) op toestemming.",
+      "reden": "Voor deze wijziging is geen toestemming vastgelegd. Dit is een controle zonder ingreep.",
       "bewijs": [
-        "GUA-106",
-        "GUA-104",
-        "GUA-115"
+        "ENG-027",
+        "ENG-026",
+        "GUA-043"
       ]
     },
     {
-      "actie": "Zet de hulpslag pas uit nadat het afschrift is gemaakt en de bijsturing is gecontroleerd. Vraag daarvoor eerst om een veilige uitschakelprocedure, want die staat niet in de bron.",
-      "reden": "De Archmage adviseerde uitzetten, maar een pols die wegvalt neemt records mee van de andere pols. Zonder afschrift en procedure is uitzetten te riskant.",
+      "actie": "Zet de hulpslag niet abrupt uit.",
+      "reden": "Een abrupt uitzetten van een pols doet de records op die pols verdwijnen (HIS-110). Dit is een verbod op een schadelijke handeling.",
       "bewijs": [
-        "ARC-109",
-        "ARC-116",
         "HIS-110"
+      ]
+    },
+    {
+      "actie": "Breng de hulpslag-pols en de Kroonklok langzaam samen met de fijnregeling in stappen van 0,1%. Controleer na elke stap de records op hun volledigheid en stop als er records ontbreken.",
+      "reden": "Dit is het voorgeschreven herstel: eerst een afschrift, dan langzaam samenbrengen (HIS-110). De fijnregeling werkt in stappen van 0,1% (ENG-114), en op dag 12 is een test met daarna een terugzetting uitgevoerd (ENG-061), wat laat zien dat de stap omkeerbaar is.",
+      "bewijs": [
+        "HIS-110",
+        "ENG-114",
+        "ENG-061"
+      ]
+    },
+    {
+      "actie": "Vergelijk de bresmomenten van de Guardian met de hulpslag-tikken, voordat de regels van Art. 3 (GUA-104) worden aangepast.",
+      "reden": "De verbanden tussen bressen en de hulpslag zijn niet bewezen. Eerst bevestigen, dan de regels wijzigen.",
+      "bewijs": [
+        "GUA-104",
+        "GUA-019",
+        "GUA-043",
+        "GUA-115"
       ]
     }
   ],
   "risicos": [
     {
-      "risico": "Uitzetten van de hulpslag of het datanet zonder afschrift kan records van de andere pols onherstelbaar verliezen.",
-      "mitigatie": "Maak eerst het afschrift van het register en voer daarna pas het uitzetten uit."
+      "risico": "Een abrupte uitschakeling of te grote stap verwijdert records op de hulpslag-pols.",
+      "mitigatie": "Eerst een afschrift maken (HIS-110), stappen van 0,1% gebruiken en na elke stap de records controleren."
     },
     {
-      "risico": "De hogerhand-goedkeuring en de toestemming van de Archmage (ARC-106) zijn niet in het register opgenomen en niet gekoppeld aan een naam.",
-      "mitigatie": "Leg beide goedkeuringen alsnog vast in het register en zoek de naam van de hogerhand op voordat de hulpslag verder wordt aangepast."
+      "risico": "De oorzaak is niet bewezen; de hulpslag kan de symptomen veroorzaken, maar dat is niet vastgesteld. Een ingreep op de verkeerde plek kan de situatie verergeren.",
+      "mitigatie": "Behandel de hypothese als werkhypothese. Meet na elke stap of het pakketverlies, de bressen en de onrust veranderen."
     },
     {
-      "risico": "De oorzaak is niet bewezen; de Oracle verwachtte de zwaarste nacht op dag 33, maar die kwam op dag 34 (ORA-121, ORA-134). De conjunctie-verklaring is daardoor verzwakt.",
-      "mitigatie": "Behandel de conjunctie en de hulpslag als concurrerende hypothesen en toets ze tegen de records van de volgende nachten."
+      "risico": "De archieftijdstempels zijn onbetrouwbaar (GUA-115, HIS-053, HIS-036) en HIS-103 spreekt de CSV tegen. De volgorde van gebeurtenissen op dag 10 en 22 kan verkeerd zijn.",
+      "mitigatie": "Gebruik de tijdstempels niet als bewijs van volgorde. Vergelijk ze met de onafhankelijke metingen van de Guardian en de Beast Master."
     },
     {
-      "risico": "Het tikinterval van de Kroonklok ontbreekt in de bronnen, waardoor de verklaring van het vierdagen-ritme niet controleerbaar is.",
-      "mitigatie": "Vraag de voorschriften van de Kroonklok op bij de klokkenmeester en leg het tikinterval vast."
+      "risico": "De goedkeuring 'van hogerhand' (ENG-105) en de opdracht van dag 10 zijn niet te verifiëren; er kan een ingreep zijn zonder bekende verantwoordelijke.",
+      "mitigatie": "Actie 2 uitvoeren voordat er verdere wijzigingen worden gedaan."
     },
     {
-      "risico": "Het ritme van de onrust is niet zeker: de Engineer noemt een continu draaiende pols, terwijl de dierendata en het orakel op tussenpozen wijzen.",
-      "mitigatie": "Meet de doorvoer en de pols op de nachten 14, 18, 22 en 26 rond 04:20, want daarop ontbreken nu records."
+      "risico": "De 5%-verhoging van dag 24 kan twee keer zijn toegepast, waardoor de huidige instelling niet bekend is.",
+      "mitigatie": "Actie 3 uitvoeren: eerst de versterking meten, dan pas bijsturen."
     }
   ],
   "voorspelling": {
     "dag": 46,
-    "bewering": "Als het ritme van elke vierde nacht doorloopt, is de eerstvolgende zware nacht dag 46, rond 04:15 tot 04:50. Dit is een extrapolatie onder voorbehoud, want het tikinterval en de oorzaak zijn niet bewezen.",
+    "bewering": "Als het vierdaagse ritme doorloopt, is er op dag 46 een zware nacht rond 04:15 tot 04:45, en op dag 43, 44 en 45 niet. Dag 42 was de laatste gemelde zware nacht (ORA-142), na de reeks dag 10, 14, 18, 22, 26, 30, 34 en 38.",
     "bewijs": [
       "ORA-142",
       "ORA-138",

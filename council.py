@@ -178,11 +178,12 @@ Werkwijze:
 2. Daarna toets je, en altijd eerst het ZWAKSTE onderdeel van de stand (ingreep, mechanisme, verloop, herstel). Besteed hoogstens één toetsbeurt aan een detail van een onderdeel dat al sterk is (bv. wie precies toestemming gaf) zolang een ander onderdeel nog zwak is. Een theorie van één Rol is pas sterk als gegevens van een andere Rol ze steunen.
 3. Mechanisme: vraag de Rol die verantwoordelijk is voor een getroffen systeem hoe dat systeem volgens zijn eigen regels, voorschriften of specificatie werkt, en of de ingreep daarmee precies dat symptoom kan verklaren, ook het ritme in de tijd.
 4. Verloop: zoek het patroon in de tijd. Op welke dagen en uren gebeurt het, met welke regelmaat, en wat veranderde er vlak vóór de eerste keer? Vraag Rollen met metingen op vaste momenten of hun metingen het ritme volgen, en of de dagen tussenin normaal zijn.
+   Een vaste regelmaat vraagt om een verklaring. Een bekend patroon: twee dingen die elk in hun eigen, net iets verschillend tempo lopen, lopen langzaam uit de pas en vallen na een vaste periode weer op dezelfde manier samen, zoals twee klokken die niet even snel lopen. Toets zo'n verklaring: vraag de Rol die tempo's, instellingen of afstellingen kent of iets in een ander tempo loopt dan wat er al was, en vraag de Rol met de regels van het getroffen systeem wat er gebeurt als verkeer niet op de verwachte tik binnenkomt. Toets ook of het ritme vóór de ingreep al bestond.
 5. Herstel: vraag de Rol die de ingreep uitvoerde welke instellingen er zijn om ze veilig bij te sturen of terug te draaien. Vraag ook of er voorschriften zijn over hoe je herstelt zonder schade, en of een voorgestelde oplossing (bv. iets abrupt uitzetten) zelf schade kan doen.
 6. Jij bent degene die de stukken verbindt: elk Raadslid ziet alleen zijn eigen bron. Combineer feiten van verschillende Rollen zelf tot een concrete hypothese (bv. "als X sinds dag N in een ander tempo loopt dan Y, dan ...") en leg die hypothese voor aan de Rol wiens gegevens ze kunnen toetsen. Vraag niet alleen "weet je iets over X?".
 7. Elke Rol spreekt hoogstens 3 keer. Laat een Rol niet twee keer na elkaar spreken, tenzij alleen zij het antwoord kan geven.
 8. Een regel [CONTROLE: ...] na een bericht noemt ID's die niet in de Kennisbron van dat Raadslid staan. Vertrouw die niet; laat ze zo nodig corrigeren.
-9. Stop (rol null) zodra ingreep, mechanisme, verloop en herstel elk gedragen worden door bewijs van minstens twee Rollen en er geen open tegenspraak meer is die het Verdict kan veranderen. Stop nooit voordat iedere Rol één keer gesproken heeft. Beurten overhouden is goed als het Verdict al vaststaat.
+9. Stoppen is een bewuste beslissing van jou. Stel jezelf vóór elke keuze de vraag: zou nog een beurt een onderdeel van het Verdict veranderen? Zo niet, stop dan (rol null) en zeg in de reden welke onderdelen sterk staan en waarom een extra beurt niets meer toevoegt. Gebruik beurten niet omdat ze er zijn: zelf stoppen vóór het budget op is, is beter dan doorgaan met herhalingen. Vanaf 8 gebruikte beurten stop je, tenzij één concrete open vraag een onderdeel nog van zwak naar sterk kan brengen. Stop nooit voordat iedere Rol één keer gesproken heeft.
 
 Antwoord ALLEEN met één JSON-object:
 {"rol": "<rol-sleutel uit de lijst, of null om te stoppen>",
@@ -264,6 +265,15 @@ def kies_volgende(beurten, leden):
     if rol is not None and not vraag:
         vraag = "Wat zeggen jouw gegevens over de open vragen hierboven? Noem dag, tijd en record-ID."
 
+    # Stopregel van onze Koning: na 8 beurten stopt hij als zijn eigen stand nergens nog 'zwak' is.
+    labels = stand_labels(keuze.get("stand") if isinstance(keuze.get("stand"), dict) else None)
+    gebruikt = BEURTENBUDGET - resterend
+    if rol is not None and not nog_niet and gebruikt >= 8 and all(l in ("matig", "sterk") for l in labels.values()):
+        overzicht = ", ".join(f"{d} {l}" for d, l in labels.items())
+        reden = (f"De Koning stopt na {gebruikt} beurten: zijn stand is nergens nog zwak ({overzicht}), dus nog een beurt "
+                 f"verandert het Verdict niet wezenlijk. (Hij overwoog: {reden})")
+        rol, vraag = None, None
+
     kies_volgende.extra = {
         "open_vragen": [str(v) for v in (keuze.get("open_vragen") or [])][:8],
         "stand": keuze.get("stand") if isinstance(keuze.get("stand"), dict) else None,
@@ -274,6 +284,19 @@ def kies_volgende(beurten, leden):
 
 kies_volgende.extra = {}
 
+ONDERDELEN = ("ingreep", "mechanisme", "verloop", "herstel")
+
+
+def stand_labels(stand):
+    """Het laatste label (zwak/matig/sterk) dat de Koning per onderdeel gaf, of None als het ontbreekt."""
+    labels = {}
+    for deel in ONDERDELEN:
+        tekst = str((stand or {}).get(deel, "")).lower()
+        gevonden = re.findall(r"\b(zwak|matig|sterk)\b", tekst)
+        # Een letterlijk overgenomen sjabloon ("[zwak|matig|sterk]") telt niet als oordeel.
+        labels[deel] = gevonden[-1] if gevonden and "zwak|matig" not in tekst else None
+    return labels
+
 
 # ---------------------------------------------------------------- de Koning stelt het Verdict op
 
@@ -282,8 +305,8 @@ Je hebt geen Kennisbron: gebruik uitsluitend wat de Raadsleden in het debat zeid
 
 Regels:
 - Gebruik als bewijs alleen record-ID's die Raadsleden in het debat noemden. ID's in een [CONTROLE]-regel zijn ongeldig.
-- Neem geen theorie over die door gegevens van een andere Rol weerlegd is, ook niet als risico. Leg zulke meningsverschillen vast als geschil, met de uitkomst en het beslissende bewijs.
-- Het mechanisme verklaart hoe de ingreep tot elk symptoom leidt en waarom het in dat ritme gebeurt. Het mag een redenering zijn die feiten van verschillende Rollen combineert (regels, voorschriften of specificaties van hun systemen plus de waargenomen tijden), zolang elke stap een ID uit het debat heeft. Druk onzekerheid uit met zekerheid, niet door het deel leeg te laten. Alleen als er echt geen dragende feiten zijn, zet je bewering null.
+- Neem geen theorie over die door gegevens van een andere Rol weerlegd is, ook niet als risico of als "concurrerende hypothese". Leg zulke meningsverschillen vast als geschil, met de uitkomst en het beslissende bewijs.
+- Het mechanisme verklaart hoe de ingreep tot elk symptoom leidt en waarom het in dat ritme gebeurt. Het mag een redenering zijn die feiten van verschillende Rollen combineert (regels, voorschriften of specificaties van hun systemen plus de waargenomen tijden), zolang elke stap een ID uit het debat heeft. Verklaar ook het ritme: als iets sinds de ingreep in een eigen tempo loopt naast wat er al was, lopen die twee langzaam uit de pas en vallen ze na een vaste periode weer op dezelfde manier samen. Steun die redenering op de feiten over tempo, instellingen en de waargenomen dagen. Druk onzekerheid uit met zekerheid, niet door het deel leeg te laten. Alleen als er echt geen dragende feiten zijn, zet je bewering null.
 - Noemde een Raadslid een voorgeschreven herstelvolgorde of een instelling om veilig bij te sturen, neem die dan op in het herstelplan.
 - Een deel van de oorzaak dat je niet met bewijs kunt dragen, zet je op bewering null met een lege bewijslijst.
 - zekerheid (0-1) per deel: hoog alleen als gegevens van meerdere Rollen het steunen.
