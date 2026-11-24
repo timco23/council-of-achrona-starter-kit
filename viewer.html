@@ -781,6 +781,21 @@ function debatOpstelling() {
 }
 debatOpstelling();
 koning.mixer.update(0); koning.obj.updateMatrixWorld(true);
+// Elke stoel hoort bij een Raadslid: wie opstaat, schuift zijn stoel naar achter; wie zit, schuift weer aan.
+{
+  zaalGltf.scene.updateMatrixWorld(true);
+  const v = new THREE.Vector3();
+  for (const rol of raad) {
+    const z = sd.zetels[rol], sx = Math.sign(z.pos[0]);
+    let best = null, bd = .6;
+    for (const o of groepen.debat.children) {
+      o.getWorldPosition(v);
+      const d = Math.hypot(v.x - sx * 1.95, v.z - z.pos[2]);
+      if (d < bd && /chair/i.test(o.name + (o.children[0]?.name || ""))) { bd = d; best = o; }
+    }
+    if (best) figuren[rol].stoel = { obj: best, x: best.position.x, uit: 0, richting: sx };
+  }
+}
 // Hoogte van het gezicht van een staand figuur (gemeten aan de Koning in Idle), voor de camera en de volgspot.
 const GEZICHT = (() => { const v = new THREE.Vector3(); koning.hoofd.getWorldPosition(v); return v.y / sd.koning.schaal + 0.45; })();
 {  // kroon op de kruin: bovenkant van het figuur boven het hoofdbot
@@ -1159,6 +1174,12 @@ const klok = new THREE.Clock(), tmp = new THREE.Vector3();
 renderer.setAnimationLoop(() => {
   const dt = Math.min(klok.getDelta(), .05), t = klok.elapsedTime;
   stapLopers(dt);
+  for (const rol of raad) {  // stoel naar achter als het figuur staat of opstaat
+    const f = figuren[rol], st = f.stoel; if (!st) continue;
+    const wil = (f.zit && !f.praat && !f.bezig) || modus === "feest" ? 0 : 1;
+    st.uit += (wil - st.uit) * (1 - Math.exp(-dt * 5));
+    st.obj.position.x = st.x + st.richting * .6 * st.uit;
+  }
   hoofdenVoor();
   for (const f of Object.values(figuren)) f.mixer.update(dt);
   hoofdenNa(t, dt);
