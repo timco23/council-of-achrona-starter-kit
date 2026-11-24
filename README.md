@@ -77,7 +77,7 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 | Bestand | Wat |
 |---|---|
-| `council.py` | De Koning die het debat leidt (`kies_volgende()`, nu een vaste volgorde), het debat zelf en het Verdict van de Koning. Schrijft `trace.json` na elke beurt en `verdict.json` aan het einde. |
+| `council.py` | De Koning die het debat leidt (`kies_volgende()`, een LLM-agent die elke beurt kiest), het debat zelf en het Verdict van de Koning. Schrijft `trace.json` na elke beurt en `verdict.json` aan het einde. |
 | `raadsleden/<rol>.py` | Eén bestand per Raadslid: Rol, naam en publiek perspectief. |
 | `rolkaarten.md` | De zes Rolkaarten: perspectief, publiek Belang en soort Kennisbron per Rol. Begin hier om je Rollen te kiezen. |
 | `viewer.py` + `viewer.html` | De debatviewer (`uv run viewer`). Leest alleen `trace.json` en `verdict.json`, dus werkt ook als je een ander platform kiest. |
@@ -92,14 +92,14 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 - **Welke Rollen** meedoen: kopieer `raadsleden/oracle.py` naar bv. `raadsleden/engineer.py` en pas aan: `ROL` = de mapnaam van de Rol in kleine letters (`archmage`, `engineer`, `guardian_keeper`, `historian`, `oracle`, `beast_master`); `NAAM` en `PERSPECTIEF` haal je van de Rolkaart in `rolkaarten.md`. Het nieuwe bestand doet vanzelf mee; de volgorde in het debat is alfabetisch op bestandsnaam. Voeg in `.env` een regel `MCP_<ROL>=https://<mcp-host>/<rol>/mcp` toe.
 - **Kennisbronnen**: standaard leest elk Raadslid via MCP. Laat je `MCP_<ROL>` leeg, dan plakt de kit de bestanden uit `kennisbronnen/<rol>/` (uit `pack.zip`) in de prompt van dat Raadslid. Heeft een Raadslid geen van beide, dan meldt de kit dat bij de start.
 - **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Op het Roboest-endpoint zijn dat `achrona` en `achrona-groot`. Een andere provider kies je alleen via `.env` (blokken voor het Roboest-endpoint, FreeLLMAPI en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op het Roboest-endpoint en FreeLLMAPI; andere eigen modellen mogen, zonder support.
-- **Rondes**: `RONDES` in `.env` geldt alleen voor de vaste volgorde van de kit. Het Beurtenbudget (10 Raadslid-beurten) geldt altijd.
+- **Beurten**: de Koning kiest zelf hoeveel beurten hij gebruikt en stopt wanneer de Council genoeg weet. Het Beurtenbudget (10 Raadslid-beurten) geldt altijd.
 - **Het debat zelf**: de instructies, wie wie aan het woord laat (`kies_volgende()`), wat elk Raadslid van het debat ziet, en hoe de Koning het Verdict invult. Dat staat allemaal in `council.py`.
 
 **Verbruik**: je teamkey heeft $5 budget en maximaal 60 calls per minuut; dat volstaat voor tientallen volledige runs. Gratis tiers van FreeLLMAPI hebben eigen limieten per provider. De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw. Budget op? Dan geeft het endpoint een fout over het budget: schakel over op FreeLLMAPI (blok 2) of vraag een coach.
 
 ## De Koning leidt het debat
 
-`kies_volgende(beurten, leden)` in `council.py` beslist voor elke beurt wie spreekt. De functie krijgt het debat tot nu toe (dezelfde `beurten` als in `trace.json`) en de Raadsleden, en geeft `(rol, vraag, reden)` terug, of `(None, None, reden)` om te stoppen. De kit schrijft elke keuze als `routering`-beurt in de trace (`aan`, `vraag`, `reden`) en stopt zelf na 10 Raadslid-beurten.
+`kies_volgende(beurten, leden, koning, verbruik)` in `council.py` beslist voor elke beurt wie spreekt. De Koning is een agent op `MODEL_GROOT` (instructie: `KONING_INSTRUCTIES`): hij leest het debat tot nu toe (dezelfde `beurten` als in `trace.json`), de Raadsleden en het resterende budget, en antwoordt met JSON `{"rol", "vraag", "reden"}`, of `rol: null` om te stoppen. Onbruikbare JSON krijgt één herkansing; daarna kiest een noodregel wie het langst zweeg. De kit schrijft elke keuze als `routering`-beurt in de trace (`aan`, `vraag`, `reden`) en stopt zelf na 10 Raadslid-beurten.
 
 Standaard is het een vaste volgorde met `reden: "vaste volgorde"`. Laat jullie Koning beter kiezen: als agent (een LLM die het debat leest), met regels in code, of een mix. Vragen om mee te starten: wie moet een bewering toetsen? Welke Rol ontbreekt nog? Wanneer weet je genoeg? Wat moet elk Raadslid van het debat zien?
 

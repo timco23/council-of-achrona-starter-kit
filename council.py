@@ -1,7 +1,8 @@
 """Council of Achrona: een mini-Council met Raadsleden en een Koning.
 
 Start met `uv run council`. Schrijft verdict.json en trace.json in de root van de repo.
-De Koning leidt het debat in `kies_volgende()`: hij beslist wie spreekt, met welke vraag en waarom.
+De Koning leidt het debat in `kies_volgende()`: een LLM-agent (MODEL_GROOT) die elke beurt het debat leest
+en als JSON teruggeeft wie spreekt, met welke vraag en waarom. Hij beslist zelf wanneer hij stopt.
 """
 import asyncio
 import json
@@ -25,39 +26,105 @@ ROLLEN = ("archmage", "engineer", "guardian_keeper", "historian", "oracle", "bea
 BEURTENBUDGET = 10  # spelregel: maximaal 10 Raadslid-beurten (berichten van Raadsleden) per run
 
 
-def kies_volgende(beurten, leden):
-    """De Koning leidt het debat: hij beslist wie spreekt. De kit roept deze functie op vóór elke beurt.
-    (In AI-termen heet dit deel een orchestrator.)
+KONING_INSTRUCTIES = """Je bent de Koning van de Council of Achrona en je leidt het debat over de oorzaak van de Desync.
+Je hebt geen Kennisbron: je kent alleen wat de Raadsleden in het debat inbrachten.
+Vóór elke beurt kies je één Raadslid dat nu spreekt, met één gerichte vraag. Elke beurt is kostbaar.
 
-    Je krijgt:
-      beurten  het debat tot nu toe, dezelfde lijst als in trace.json. Een bericht van een
-               Raadslid ziet er zo uit: {"soort": "bericht", "spreker": "engineer", "tekst": "..."}
-      leden    de Raadsleden uit raadsleden/, elk met .ROL, .NAAM en .PERSPECTIEF
+Een goede keuze:
+- vult een gat: welk deel van de oorzaak (ingreep, mechanisme, verloop) is nog onbekend of zonder bewijs (record-ID's)?
+- laat een bewering toetsen: noemt iemand een andere Rol, of doet iemand een bewering die een ander kan bevestigen of weerleggen? Geef die Rol het woord.
+- geeft wie nog niet sprak een kans als zijn perspectief iets nieuws kan opleveren;
+- vermijdt herhaling: niet dezelfde Rol twee keer na elkaar, tenzij die een directe tegenspraak moet uitklaren;
+- stelt een concrete vraag die naar het debat verwijst, niet "geef je inbreng".
 
-    Je geeft terug:
-      (rol, vraag, reden)   wie nu spreekt, welke vraag die krijgt en waarom je hem kiest
-      (None, None, reden)   het debat stopt, met de reden waarom
-    De reden komt in de trace en in de viewer. De jury leest ze: maak ze concreet.
+Stop zelf (rol null) zodra de Council genoeg weet: ingreep, mechanisme en verloop hebben elk een bewering met record-ID's
+en de belangrijkste tegenspraak is uitgeklaard, of geen enkel Raadslid kan nog iets nieuws toevoegen.
+Stop nooit vóór het eerste bericht.
 
-    TODO voor jullie team:
-    Nu praat iedereen om de beurt, in een vaste volgorde, ook als dat niets toevoegt. Er zijn maar
-    10 Raadslid-beurten, dus zo verspil je beurten. Laat de Koning in deze functie naar het debat
-    kijken en elke beurt bewust kiezen. Vragen om mee te starten:
-      - Wie heeft nog niet gesproken, en wiens kennis ontbreekt nog?
-      - Iemand verwijst naar een andere Rol of doet een bewering: wie kan dat controleren?
-      - Welke delen van de oorzaak (ingreep, mechanisme, verloop) zijn nog onbekend?
-      - Weet de Council genoeg? Stop dan zelf, vóór het budget op is.
-    Twee manieren (of een mix):
-      - regels in code, bv. "wie genoemd wordt, moet het toetsen";
-      - een agent: de Koning als LLM die het debat leest en (rol, vraag, reden) teruggeeft.
-        Meestal sneller gebouwd en slimmer dan regels: zie "Regels of een agent?" in de README.
+Antwoord met alleen één JSON-object, zonder tekst eromheen:
+{"rol": "<ROL van een Raadslid of null>", "vraag": "<vraag aan dat Raadslid, of null bij stoppen>", "reden": "<waarom deze keuze, concreet: welk gat of welke bewering>"}"""
+
+
+def koning_prompt(beurten, leden, over):
+    raad = "\n".join(f"- {l.ROL}: {l.NAAM}. {l.PERSPECTIEF}" for l in leden)
+    namen = {l.ROL: l.NAAM for l in leden}
+    regels = []
+    for b in beurten:
+        if b["soort"] == "routering":
+            regels.append(f"[Koning → {b['aan'] or 'stop'}] vraag: {b['vraag']} (reden: {b['reden']})")
+        elif b["soort"] == "bericht" and b["spreker"] in namen:
+            regels.append(f"{namen[b['spreker']]} ({b['spreker']}): {b['tekst']}")
+    gesproken = {b["spreker"] for b in beurten if b["soort"] == "bericht"}
+    nog_niet = [l.ROL for l in leden if l.ROL not in gesproken]
+    return (
+        f"Raadsleden:\n{raad}\n\n"
+        "Debat tot nu toe:\n\n" + ("\n\n".join(regels) or "(nog niets)")
+        + f"\n\nNog niet gesproken: {', '.join(nog_niet) or 'iedereen sprak al'}."
+        + f"\nResterende Raadslid-beurten: {over}."
+        + "\n\nWie spreekt nu, met welke vraag en waarom? Of stop je? Antwoord met alleen het JSON-object."
+    )
+
+
+def lees_keuze(tekst, rollen):
+    """Haalt {"rol", "vraag", "reden"} uit het antwoord, ook met tekst of ```json eromheen."""
+    begin, einde = (tekst or "").find("{"), (tekst or "").rfind("}")
+    if begin < 0 or einde < begin:
+        raise ValueError("geen JSON-object in het antwoord")
+    data = json.loads(tekst[begin:einde + 1])
+    rol = data.get("rol")
+    if isinstance(rol, str) and rol.strip().lower() in ("", "null", "none", "stop"):
+        rol = None
+    reden = str(data.get("reden") or "").strip()
+    if not reden:
+        raise ValueError("geen reden opgegeven")
+    if rol is None:
+        return None, None, reden
+    rol = str(rol).strip().lower()
+    if rol not in rollen:
+        raise ValueError(f"rol {rol!r} zit niet in de Council; kies uit {', '.join(rollen)} of null")
+    vraag = str(data.get("vraag") or "").strip()
+    if not vraag:
+        raise ValueError("geen vraag opgegeven")
+    return rol, vraag, reden
+
+
+async def kies_volgende(beurten, leden, koning, verbruik, opties=None):
+    """De Koning leidt het debat als agent (in AI-termen: een orchestrator). De kit roept dit op vóór elke beurt.
+
+    De Koning (MODEL_GROOT) leest het debat tot nu toe en de Raadsleden, en antwoordt met JSON:
+      {"rol": ..., "vraag": ..., "reden": ...}   wie nu spreekt, welke vraag en waarom
+      {"rol": null, "vraag": null, "reden": ...}  het debat stopt, met de reden waarom
+    Hij beslist zelf wanneer de Council genoeg weet. Het Beurtenbudget bewaakt de kit in run().
+    Geeft hij twee keer geen bruikbaar antwoord, dan valt de kit terug op een eenvoudige regel.
     """
-    rondes = int(os.getenv("RONDES", "2"))
-    gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in ROLLEN)
-    if gesproken >= rondes * len(leden):
-        return None, None, "vaste volgorde: alle rondes gespeeld"
-    lid = leden[gesproken % len(leden)]
-    return lid.ROL, "Geef je inbreng in hoogstens 150 woorden. Reageer op wat de anderen zeiden.", "vaste volgorde"
+    rollen = [l.ROL for l in leden]
+    gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in rollen)
+    prompt = koning_prompt(beurten, leden, BEURTENBUDGET - gesproken)
+    fout = None
+    for _ in range(2):
+        vraag_aan_koning = prompt if fout is None else (
+            prompt + f"\n\nJe vorige antwoord was onbruikbaar ({fout}). Antwoord met alleen het JSON-object.")
+        r = await koning.run(vraag_aan_koning, options=opties)
+        tel(verbruik, "groot", r.usage_details)
+        try:
+            rol, vraag, reden = lees_keuze(r.text, rollen)
+        except (ValueError, json.JSONDecodeError) as e:
+            fout = str(e)
+            continue
+        if rol is None and gesproken == 0:
+            fout = "je stopte vóór het eerste bericht"
+            continue
+        return rol, vraag, reden
+
+    # Noodregel: de Koning gaf geen bruikbare keuze. Wie nog niet sprak, anders wie het langst zweeg.
+    print(f"LET OP: de Koning gaf geen bruikbare keuze ({fout}); de kit kiest met een noodregel.")
+    laatst = {rol: -1 for rol in rollen}
+    for i, b in enumerate(beurten):
+        if b["soort"] == "bericht" and b["spreker"] in laatst:
+            laatst[b["spreker"]] = i
+    rol = min(rollen, key=lambda x: laatst[x])
+    return rol, "Wat kan jij met je Kennisbron toevoegen of weerleggen aan wat de anderen zeiden? Hoogstens 150 woorden.", \
+        f"noodregel: Koning gaf geen geldige JSON ({fout}); {rol} sprak het langst niet"
 
 
 def controleer(leden):
@@ -141,6 +208,8 @@ async def run():
         bewaar("trace.json", trace)  # na elke beurt: de viewer (`uv run viewer`) toont het debat live
 
     klein = client("MODEL_KLEIN")
+    groot = client("MODEL_GROOT")
+    voorzitter = Agent(groot, KONING_INSTRUCTIES, name="koning_voorzitter")
 
     async with AsyncExitStack() as stack:
         agents = []
@@ -170,7 +239,7 @@ async def run():
             if gesproken >= BEURTENBUDGET:
                 rol, vraag, reden = None, None, f"Beurtenbudget op ({BEURTENBUDGET} Raadslid-beurten)"
             else:
-                rol, vraag, reden = kies_volgende(beurten, leden)
+                rol, vraag, reden = await kies_volgende(beurten, leden, voorzitter, verbruik, opties)
             if rol is not None and rol not in per_rol:
                 sys.exit(f"kies_volgende() koos {rol!r}, maar die Rol zit niet in raadsleden/.")
             if rol is not None:
@@ -196,7 +265,7 @@ async def run():
     # De Koning heeft geen Rol en geen Kennisbron: hij kent alleen wat de Raadsleden inbrachten.
     trace["aan_het_woord"] = "koning"
     bewaar("trace.json", trace)
-    koning = Agent(client("MODEL_GROOT"), "Je bent de Koning van de Council of Achrona. Je hebt geen Kennisbron.", name="koning")
+    koning = Agent(groot, "Je bent de Koning van de Council of Achrona. Je hebt geen Kennisbron.", name="koning")
     r = await koning.run(
         options=opties,
         messages="Debat:\n\n" + "\n\n".join(debat)
