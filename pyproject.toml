@@ -18,11 +18,12 @@ devui = ["agent-framework-devui>=1.0.0b261008", "agent-framework-orchestrations>
 council = "council:main"
 validate = "validate:main"
 viewer = "viewer:main"
+check = "check_bewijs:main"
 
 [build-system]
 requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["council", "validate", "viewer"]
+py-modules = ["council", "validate", "viewer", "check_bewijs"]
 packages = ["raadsleden"]
