@@ -934,7 +934,10 @@ const draaiNaar = (f, y) => new Promise(klaar => {
   let t = 0; const stap = () => { t = Math.min(1, t + .08); f.obj.rotation.y = van + dr * t; t < 1 ? requestAnimationFrame(stap) : klaar(); }; stap();
 });
 // Het wapen staat rechtop naast de stoel, tegen de muurkant van de zaal.
-function rekPlek(f) { const z = sd.zetels[f.rol]; return [Math.sign(z.pos[0]) * 2.75, z.pos[2] + .7]; }
+function rekPlek(f) { const z = sd.zetels[f.rol]; return [Math.sign(z.pos[0]) * 2.75, z.pos[2] - .75]; }
+// Looproute: eigen gang per kant, achter de stoelen langs (x = ±3.3), zodat niemand door een ander of een stoel loopt.
+const kant = f => Math.sign(sd.zetels[f.rol].pos[0]);
+const kijkBinnen = f => kant(f) > 0 ? -Math.PI / 2 : Math.PI / 2;
 function zetWapenNeer(f) {
   if (f.rek) { f.rek.visible = true; return; }
   const groep = new THREE.Group(); let i = 0;
@@ -951,24 +954,25 @@ function zetWapenNeer(f) {
 }
 async function komBinnen(f, vertraging) {
   const t = ++f.token; f.bezig = true; f.zit = false;
-  f.obj.position.set(0, 0, 6.0); f.obj.rotation.set(0, Math.PI, 0); f.wapens(true);
+  f.obj.position.set(kant(f) * .7, 0, 6.0); f.obj.rotation.set(0, Math.PI, 0); f.wapens(true);
   f.obj.visible = false; await wacht(vertraging); f.obj.visible = true;
   const [rx, rz] = rekPlek(f);
-  await loop(f, Math.sign(rx) * .9, 2.2); await loop(f, rx * .82, rz + .5);
-  await draaiNaar(f, Math.sign(rx) > 0 ? Math.PI / 2 : -Math.PI / 2);
+  await loop(f, kant(f) * 3.3, 1.6); await loop(f, kant(f) * 3.3, rz);
+  await draaiNaar(f, kijkBinnen(f));
   await f.speel("Interact", { eenmaal: true });
   f.wapens(false); zetWapenNeer(f);
   const z = sd.zetels[f.rol];
-  await loop(f, z.pos[0], z.pos[2] + .9); await loop(f, z.pos[0], z.pos[2]);
+  await loop(f, kant(f) * 3.3, z.pos[2] + 1.1, 1.6); await loop(f, z.pos[0], z.pos[2] + 1.1, 1.6); await loop(f, z.pos[0], z.pos[2], 1.2);
   await draaiNaar(f, z.rotY);
   if (f.token !== t) return;
-  f.plaats(z); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 });
+  f.plaats(z); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .4 });
   f.zit = true; f.speel("Sit_Chair_Idle"); f.bezig = false;
 }
 async function binnenkomst() {
   modus = "binnen"; spreker = null;
   koning.speel("Idle");
-  await Promise.all(raad.map((rol, i) => komBinnen(figuren[rol], i * 900)));
+  const volgorde = [...raad].sort((a, b) => sd.zetels[a].pos[2] - sd.zetels[b].pos[2]);
+  await Promise.all(volgorde.map((rol, i) => komBinnen(figuren[rol], Math.floor(i / 2) * 1800 + (i % 2) * 400)));
   modus = "debat";
   if (wachtende) { const st = wachtende; wachtende = null; window.raad3d.regie(st); }
 }
@@ -981,9 +985,9 @@ async function pakWapens() {
     for (const h of [...f.hand.children]) if (h.userData.hapje) f.hand.remove(h);
     await wacht(i * 150);
     if (f.zit) { await f.speel("Sit_Chair_StandUp", { eenmaal: true, fade: .2 }); f.zit = false; }
-    const [rx, rz] = rekPlek(f);
-    await loop(f, rx * .82, rz + .5);
-    await draaiNaar(f, Math.sign(rx) > 0 ? Math.PI / 2 : -Math.PI / 2);
+    const [, rz] = rekPlek(f), z = sd.zetels[f.rol];
+    await loop(f, z.pos[0], z.pos[2] - 1.1, 1.4); await loop(f, kant(f) * 3.3, rz, 1.6);
+    await draaiNaar(f, kijkBinnen(f));
     await f.speel("PickUp", { eenmaal: true });
     if (f.rek) f.rek.visible = false; f.wapens(true);
     await f.speel("Cheer", { eenmaal: true });
