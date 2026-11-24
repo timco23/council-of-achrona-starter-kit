@@ -813,7 +813,7 @@ async function spreek(f) {
 async function zitWeer(f) {
   const t = ++f.token; f.praat = false;
   if (modus !== "debat" || f === koning) return;
-  if (!f.zit) { f.wapens(false); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 }); f.zit = true; }
+  if (!f.zit) { f.wapens(false); await draaiNaar(f, basisDraai(f)); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 }); f.zit = true; }
   if (f.token === t) { f.speel("Sit_Chair_Idle"); f.bezig = false; }
 }
 
@@ -1029,7 +1029,7 @@ function shot(f, pos, doel) {
   const gz = f.gezicht(), s = f.obj.scale.y;
   // Ver weg met een smalle lens (tele): het figuur vult het beeld zonder dat tafelgenoten of kaarsen ervoor komen.
   if (f === koning) pos.set(0, gz.y + 3.2, gz.z + 9.5);  // recht van voren, over de hoofden van de raad
-  else pos.set(-gz.x * .25, gz.y + 3.0, gz.z + 4.6);  // hoog en schuin vanaf de zaalkant: over hoofden en kaarsen heen
+  else pos.set(-gz.x * .25, gz.y + 1.8, gz.z + 4.8);  // hoog en schuin vanaf de zaalkant: over hoofden en kaarsen heen
   const vooruit = gz.clone().sub(pos), d = vooruit.length();
   const rechts = vooruit.normalize().cross(OMHOOG).normalize();
   // De spreker op een derde van de beeldbreedte; het perkament vult de andere twee derde.
@@ -1098,14 +1098,40 @@ function richtFocus(dt, t) {
 // Wie praat, knikt en kijkt rond: een kleine draai van het hoofdbot bovenop de animatie (additief).
 const KNIK = new THREE.Quaternion(), KNIK_E = new THREE.Euler();
 function hoofdenVoor() { for (const f of Object.values(figuren)) if (f.knik) f.hoofd.quaternion.copy(f.hoofdBasis); }
-function hoofdenNa(t) {
+// Wie spreekt, kijkt in de camera: het lijf draait een stukje mee, het hoofd doet de rest (zoals een look-at in games).
+const basisDraai = f => f === koning ? sd.koning.rotY : sd.zetels[f.rol].rotY;
+const hoek = a => Math.atan2(Math.sin(a), Math.cos(a));
+const KQ1 = new THREE.Quaternion(), KQ2 = new THREE.Quaternion(), KQ3 = new THREE.Quaternion(), KV1 = new THREE.Vector3(), KV2 = new THREE.Vector3(), KV3 = new THREE.Vector3();
+function hoofdenNa(t, dt) {
+  const k = 1 - Math.exp(-dt * 4);
   for (const f of Object.values(figuren)) {
-    f.knik = f.praat && !f.zit && modus === "debat";
+    const actief = spreker === f.rol && !f.loopt && modus === "debat";  // ook zittend kijkt hij al op
+    f.kijkW = (f.kijkW || 0) + ((actief ? 1 : 0) - (f.kijkW || 0)) * k;
+    const kop = f.hoofd.getWorldPosition(KV1), naar = KV2.copy(camera.position).sub(kop);
+    const camYaw = Math.atan2(naar.x, naar.z), basis = basisDraai(f);
+    // lijf: hoogstens ~30 graden naar de camera, en terug als hij klaar is
+    if (!f.zit && !f.loopt && modus === "debat") {
+      const wil = basis + (actief ? THREE.MathUtils.clamp(hoek(camYaw - basis), -.55, .55) : 0);
+      f.obj.rotation.y += hoek(wil - f.obj.rotation.y) * k;
+    }
+    f.knik = (f.praat && !f.zit && modus === "debat") || f.kijkW > .01;
     if (!f.knik) continue;
     f.hoofdBasis.copy(f.hoofd.quaternion);
-    const p = f.fase;
-    KNIK_E.set(Math.sin(t * 6.2 + p) * .07 + Math.sin(t * 2.3 + p) * .04, Math.sin(t * 1.4 + p) * .16, Math.sin(t * 3.1 + p) * .05);
-    f.hoofd.quaternion.multiply(KNIK.setFromEuler(KNIK_E));
+    if (f.praat && !f.zit) {
+      const p = f.fase;
+      KNIK_E.set(Math.sin(t * 6.2 + p) * .05 + Math.sin(t * 2.3 + p) * .03, Math.sin(t * 1.4 + p) * .06, Math.sin(t * 3.1 + p) * .04);
+      f.hoofd.quaternion.multiply(KNIK.setFromEuler(KNIK_E));
+    }
+    if (f.kijkW > .01) {  // hoofd: de rest van de draai en omhoog naar de lens, als draai in wereldruimte
+      const ry = f.obj.rotation.y, w = f.kijkW;
+      const yaw = THREE.MathUtils.clamp(hoek(camYaw - ry), -1.0, 1.0) * w;
+      const pitch = THREE.MathUtils.clamp(Math.atan2(naar.y, Math.hypot(naar.x, naar.z)), -.45, .45) * w;
+      KV3.set(-Math.cos(ry + yaw), 0, Math.sin(ry + yaw));  // rechterhand-as na de draai
+      const delta = KQ1.setFromAxisAngle(KV3, pitch).multiply(KQ2.setFromAxisAngle(OMHOOG, yaw));
+      const ouder = f.hoofd.parent.getWorldQuaternion(KQ3);
+      const wereld = ouder.clone().multiply(f.hoofd.quaternion);
+      f.hoofd.quaternion.copy(ouder.invert().multiply(delta.multiply(wereld)));
+    }
   }
 }
 
@@ -1131,7 +1157,7 @@ renderer.setAnimationLoop(() => {
   stapLopers(dt);
   hoofdenVoor();
   for (const f of Object.values(figuren)) f.mixer.update(dt);
-  hoofdenNa(t);
+  hoofdenNa(t, dt);
   renderer.toneMappingExposure += (belichting - renderer.toneMappingExposure) * (1 - Math.exp(-dt * (belichting < .5 ? 7 : 3)));
   for (const v of vlammen) { const u = v.userData; const k = 1 + Math.sin(t * 9 + u.fase) * .06 + Math.sin(t * 23 + u.fase * 2) * .05; v.scale.set(u.basis * k, u.basis * (k + .08), 1); }
   for (const l of flakkerLichten) { const u = l.userData; l.intensity = u.basis * (0.86 + Math.sin(t * 7 + u.fase) * .08 + Math.sin(t * 17 + u.fase * 1.7) * .06); }
