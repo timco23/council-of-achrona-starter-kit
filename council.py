@@ -31,6 +31,9 @@ VOLLEDIG = 2  # een Raadslid ziet de laatste 2 beurten volledig, oudere beurten 
 KONING_VOLLEDIG = 2  # de Koning ziet bij het kiezen de laatste 2 beurten volledig (bij het Verdict: alles)
 MAX_PER_ROL = 3  # regel in code: hoogstens 3 beurten per Rol, zodat elke Kennisbron bijdraagt
 LIMIET_TEKST = "Function invocation limit reached"  # wat het framework geeft als de tool-loop op is
+# Volledige eigen Kennisbron in de prompt van elk Raadslid (zoals in de teamversie van Tim). Zet BRON_IN_PROMPT=0
+# in .env om alleen gericht te zoeken (zoek_relevant, zoek, toon): minder tokens, maar een klein model mist dan records.
+BRON_IN_PROMPT = os.getenv("BRON_IN_PROMPT", "1") != "0"
 
 
 # De Koning als agent. Algemene regels voor een kritische leider, geen inhoud uit de Kennisbronnen.
@@ -118,6 +121,13 @@ Het doel is een Verdict met drie delen van de oorzaak, elk met record-ID's als b
 - herstel: hoe stuur je het veilig bij of draai je het terug, en wat kan het herstel zelf beschadigen?
 
 Werkwijze per onderdeel (uit de teamversie van de Koning):
+0. Openingsronde: zolang niet elke Rol sprak, geef je het woord aan een Rol die nog niet sprak. Elke Rol heeft een stuk
+   bewijs dat niemand anders heeft. Haal daarom in die ene openingsbeurt alles op, aangepast aan de Rol:
+   a. haar eigen afwijkingen met dag, tijd en record-ID, als volledige reeks, ook de momenten waarop alles normaal was;
+   b. veranderingen, installaties en afspraken in haar bron, en wie daarvoor toestemming gaf of vroeg;
+   c. de regels of specificaties van haar eigen systeem: hoe het werkt en hoe je het veilig herstelt.
+   Vraag in de opening eerst naar haar eigen gegevens, niet om de beweringen van anderen te bevestigen.
+   Nooit twee keer na elkaar dezelfde Rol. Vraag wie toestemming gaf hoogstens één keer per Rol.
 1. Toets altijd eerst het ZWAKSTE onderdeel van je stand. Besteed hoogstens één beurt aan een detail van een onderdeel
    dat al sterk is, zolang een ander nog zwak is.
 2. Een onderdeel is pas sterk als gegevens van een TWEEDE Rol het steunen. Rust de ingreep op één Rol? Vraag een andere Rol
@@ -228,10 +238,16 @@ def kies_volgende(beurten, leden, verbruik=None):
     gesproken = {r: sum(1 for b in berichten if b["spreker"] == r) for r in rollen}
     nog_niet = [r for r in rollen if gesproken[r] == 0]
     over = BEURTENBUDGET - len(berichten)
+    laatste = berichten[-1]["spreker"] if berichten else None
     vorige_open = _vorige(beurten, "open_vragen", [])
     vorige_stand = _vorige(beurten, "stand", {})
 
-    def las_bron(b):  # had dit Raadslid toolcalls vlak voor dit bericht?
+    in_prompt = {x["spreker"] for x in beurten if x["soort"] == "toolcall" and x.get("ronde") == 0
+                 and "in de prompt" in (x.get("doel") or "") and "niet in de prompt" not in (x.get("doel") or "")}
+
+    def las_bron(b):  # had dit Raadslid zijn bron in de prompt, of toolcalls vlak voor dit bericht?
+        if b["spreker"] in in_prompt:
+            return True
         i = beurten.index(b)
         vorige = beurten[i - 1] if i else None
         return vorige is not None and vorige["soort"] == "toolcall" and vorige["spreker"] == b["spreker"]
@@ -303,6 +319,8 @@ def kies_volgende(beurten, leden, verbruik=None):
             return f"{rol} had al {MAX_PER_ROL} beurten; kies een andere Rol"
         if rol is not None and not vraag:
             return "een Raadslid moet een concrete vraag krijgen"
+        if rol is not None and rol == laatste and any(gesproken[r] < MAX_PER_ROL for r in rollen if r != rol):
+            return f"{rol} sprak net; kies een andere Rol (nooit twee keer na elkaar dezelfde Rol)"
         if not reden:
             return "de reden ontbrak"
         if rol is None and nog_niet:
@@ -400,7 +418,17 @@ Regels:
 - Weet je een deel van de oorzaak niet zeker genoeg, zet dan "bewering": null en "bewijs": []. Eerlijk onbekend is beter dan gokken.
 - zekerheid (0-1) per deel: hoe sterk het bewijs in het debat dat deel onderbouwt.
 - acties: het herstelplan in uitvoeringsvolgorde; elke actie volgt uit de oorzaak.
-- voorspelling: alleen als het debat een patroon in de tijd aantoont waaruit volgt op welke dag de Desync opnieuw toeslaat zonder ingrijpen; laat het anders weg.
+- voorspelling: toont het verloop een regelmaat, geef dan de eerstvolgende dag NA de laatst gemelde keer in het debat, met bewijs. Anders laat je het weg.
+Uit de teamversie (Tim):
+- Trekt een Raadslid een eerdere bewering in of geeft het later iets toe, dan geldt de laatste versie. Een bekentenis tegen het eigen Belang weegt zwaarder dan een eerdere ontkenning en hoort met dat ID in het Verdict.
+- Gebruik het hele debat, ook de laatste beurten: daar staan vaak de getoetste antwoorden.
+- Ingreep: wie deed wat, wanneer, en wie gaf er toestemming voor als een Raadslid dat meldde of toegaf.
+- Het mechanisme mag een redenering zijn die feiten van verschillende Rollen combineert (regels of specificaties plus de waargenomen tijden), zolang elke stap een ID uit het debat heeft. Verklaar ook het ritme. Druk onzekerheid uit met zekerheid, niet door het deel leeg te laten.
+- Verloop: beschrijf waar het patroon optreedt EN waar niet (de normale momenten ertussen), met metingen of waarnemingen van minstens twee Rollen.
+- Alleen wat de oorzaak verklaart, hoort in de oorzaak. Een latere wijziging waarna het patroon onveranderd doorliep, is geen deel van de oorzaak.
+- zekerheid: 0.8-1.0 = drie of meer Rollen bevestigen het onafhankelijk; 0.6-0.8 = twee Rollen; 0.4-0.6 = een redenering met een ontbrekende schakel; onder 0.4 = vermoeden.
+- Herstelplan: hoogstens 6 acties in uitvoeringsvolgorde; elke actie pakt de ingreep, het mechanisme, een symptoom of een risico aan. Volg een voorgeschreven herstelvolgorde als een Raadslid die noemde.
+- Risico's: alleen risico's van het herstelplan of van niets doen. Twijfel over het bewijs druk je uit in zekerheid.
 
 Antwoord ALLEEN met één JSON-object, zonder tekst eromheen:
 {
@@ -691,7 +719,7 @@ def kennisbron_bestanden(rol):
     return sorted(p for p in map_.glob("*") if p.suffix in (".md", ".csv")) if map_.is_dir() else []
 
 
-def instructies(lid, bestanden, mcp):
+def instructies(lid, bestanden, mcp, bron=None):
     tekst = (
         f"Je bent de {lid.NAAM}, een Raadslid in de Council of Achrona. {lid.PERSPECTIEF}\n"
         "Je debatteert met de andere Raadsleden over de oorzaak van de Desync. "
@@ -715,7 +743,15 @@ def instructies(lid, bestanden, mcp):
         "Spreek je een bewering van een ander tegen, zet dat in een eigen zin die begint met 'TEGENSPRAAK:' en noem "
         "de Rol of het ID. Sluit af met één zin 'Toetsen door: <Rol>': welke andere Rol jouw bevinding kan controleren."
     )
-    if mcp:
+    if mcp and bron:
+        # Volledige eigen bron in de prompt (idee uit de teamversie, Tim): een klein model mist dan minder dan met
+        # zoeken. De tools blijven voor een controle; de controleur toetst elke bewering daarna tegen de records.
+        tekst += ("\nGaat de vraag over tijd of een patroon, geef dan je hele reeks: ook de momenten waarop alles normaal was."
+                  "\nJe volledige eigen Kennisbron staat hieronder. Lees alles voor je antwoordt, niet alleen de eerste treffers. "
+                  "Je hoeft niet te zoeken; gebruik toon of zoek alleen als je een record wilt nalezen. "
+                  "Noem alleen ID's die echt in jouw bron staan. Een ID van een andere Rol mag je alleen aanhalen om erop te reageren."
+                  "\n\nJe Kennisbron:\n\n" + bron)
+    elif mcp:
         tekst += ("\nWerkwijze met je tools (hoogstens 4 toolcalls per beurt, daarna MOET je antwoorden):\n"
                   "1. Zoek met zoek_relevant op de vraag van de Koning (een vraag of een paar trefwoorden). "
                   "Gebruik zoek voor één exact woord of tijdstip (bv. 02:40). Doe zoekopdrachten tegelijk in één stap.\n"
@@ -970,6 +1006,7 @@ async def run():
 
     async with AsyncExitStack() as stack:
         agents = []
+        bronnen = {}  # Rol -> volledige eigen Kennisbron (als BRON_IN_PROMPT): gaat in de prompt van dat Raadslid
         for lid in leden:
             mcp_url = os.getenv(f"MCP_{lid.ROL.upper()}", "").strip()
             bestanden = [] if mcp_url else kennisbron_bestanden(lid.ROL)
@@ -983,9 +1020,13 @@ async def run():
                         name=f"kennisbron_{lid.ROL}", url=mcp_url, allowed_tools=["zoek", "toon"])))
                     # Eigen zoeken op betekenis: de code leest de eigen bron één keer (staat in de trace)
                     # en bouwt er een zoekindex van. De bron zelf gaat niet in de prompt.
-                    recs = records_uit(tool_tekst(await tools[0].call_tool("lees_kennisbron")))
+                    bron_tekst = tool_tekst(await tools[0].call_tool("lees_kennisbron"))
+                    recs = records_uit(bron_tekst)
+                    if BRON_IN_PROMPT:
+                        bronnen[lid.ROL] = bron_tekst
                     beurt(0, lid.ROL, "toolcall", tool="lees_kennisbron", argumenten={}, pad=mcp_url,
-                          doel=f"zoekindex voor zoek_relevant ({len(recs)} records), niet in de prompt")
+                          doel=(f"volledige eigen bron in de prompt en zoekindex ({len(recs)} records)" if BRON_IN_PROMPT
+                                else f"zoekindex voor zoek_relevant ({len(recs)} records), niet in de prompt"))
                     if recs:
                         tools.append(maak_zoek_relevant(recs))
                     else:
@@ -998,14 +1039,15 @@ async def run():
                 print(f"LET OP: {lid.NAAM} heeft geen Kennisbron (MCP_{lid.ROL.upper()} is leeg en kennisbronnen/{lid.ROL}/ ook).")
             for p in bestanden:  # fallback zonder MCP: welke bestanden gingen in de prompt
                 beurt(0, lid.ROL, "bestand", bestand=f"{lid.ROL}/{p.name}")
-            agents.append((lid, mcp_url, Agent(klein, instructies(lid, bestanden, mcp_url), name=lid.ROL, tools=tools),
+            agents.append((lid, mcp_url, Agent(klein, instructies(lid, bestanden, mcp_url, bronnen.get(lid.ROL)), name=lid.ROL, tools=tools),
                            tools[0] if tools else None))
 
         (ROOT / "verdict.json").unlink(missing_ok=True)  # setup gelukt: geen Verdict van een vorige run laten staan
         bewaar("trace.json", trace)
         per_rol = {lid.ROL: (lid, mcp_url, agent, tool) for lid, mcp_url, agent, tool in agents}
         debat, ronde = [], 1
-        gezien = {l.ROL: set() for l in leden}  # per Rol: ID's die het Raadslid in zijn eigen tools zag
+        # Per Rol: ID's die het Raadslid in zijn eigen bron zag (in de prompt, of via zijn tools).
+        gezien = {l.ROL: record_ids(bronnen[l.ROL]) if l.ROL in bronnen else set() for l in leden}
         geverifieerd = set()  # ID's die hun eigen Rol uit de bron bevestigde
         while True:
             gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in per_rol)

@@ -1,131 +1,179 @@
 {
-  "run_id": "2026-11-24T14:10:40+01:00_bdbeb3f9",
-  "samenvatting": "De hulpslag van het datanet is op dag 10 om 02:40 als eigen pols geactiveerd (ENG-011) en op dag 24 met 5% opgedreven (ENG-029, ENG-062). Sindsdien vallen er om 04:15 tot 04:45 zware nachten op dag 10, 14, 18, 22, 26, 30, 34, 38 en 42, met lekken, half aankomende berichten en onrust bij de dieren. De leylijnen laag op de ritme-dagen 14 en 42 en normaal op de andere gemeten dagen passen daarbij. De tempometingen die het mechanisme zouden bewijzen ontbreken, dus de keten is verenigbaar met de feiten maar niet vastgesteld. Het herstel begint met een afschrift en een tempometing, en daarna het stapsgewijs terugzetten van de versterking van dag 24.",
+  "run_id": "2026-11-24T14:33:21+01:00_9e0e65a6",
+  "samenvatting": "De Desync ontstond toen de Engineer op dag 10 om 02:40 een eigen pols voor het datanet activeerde, los van de Kroonklok (ENG-011), en de doorvoer met 38% verhoogde (ENG-012). De toestemming hiervoor komt waarschijnlijk van de Archmage, die later toegaf dat zij de datatoren vergunde het net op eigen maat te laten lopen zonder de raad te informeren (ARC-106), en de Engineer kreeg een goedkeuring 'van hogerhand' zonder naam (ENG-105). Sindsdien verschijnen om de vier dagen zware nachten met stokkende Burchtader-lijnen en onrust bij dieren, het laatst gemeld op dag 42. Het herstel vraagt eerst een afschrift van de records op de eigen pols, daarna het terugdraaien van de versterking en het samenbrengen van de polsen, en het intrekken van de niet-openbare vergunning.",
   "oorzaak": {
     "ingreep": {
-      "bewering": "Op dag 10 om 02:40 is de hulpslag van het datanet als eigen pols geactiveerd (ENG-011), waarna de doorvoer om 03:00 met 38% steeg (ENG-012). Op dag 24 om 11:00 is de hulpslag-pols met 5% opgedreven en om 11:05 is de versterking met 5% verhoogd, met de notitie 'tempo ongewijzigd' (ENG-029, ENG-062). Op dag 8 heeft de Archmage goedgekeurd dat het net van de datatoren op eigen maat loopt, met de instructie niet ruchtbaar te maken tot het draait (ARC-106). Op dag 3 zijn bij de oude eik kabels gelegd (BEA-102, BEA-005); of die het net raken, is niet gemeten. Wie de activering op dag 10 toestemde, is niet bevestigd: ENG-105 noemt een goedkeuring van 'hogerhand' op dag 9, maar zonder naam en zonder bron.",
+      "bewering": "De Engineer activeerde op dag 10 om 02:40 een eigen pols voor het datanet, los van de Kroonklok (ENG-011), en verhoogde die op dag 24 om 11:00 met 5% (ENG-029, ENG-062). De Archmage gaf op dag 8 algemene toestemming dat het net 'op eigen maat' blijft lopen (ARC-106). De Engineer ontving op dag 9 een goedkeuring 'van hogerhand' zonder naam, met de instructie het niet ruchtbaar te maken (ENG-105). Of die toestemmingen met elkaar verband houden, is uit de berichten niet vast te stellen.",
       "bewijs": [
         "ENG-011",
         "ENG-012",
         "ENG-029",
         "ENG-062",
         "ARC-106",
-        "BEA-102"
+        "ENG-105"
       ],
-      "zekerheid": 0.5
+      "bronnen": [
+        "archmage",
+        "engineer"
+      ],
+      "zekerheid": 0.56,
+      "oorspronkelijk": "De Engineer activeerde op dag 10 om 02:40 een eigen pols voor het datanet, los van de Kroonklok (ENG-011), en verhoogde die op dag 24 om 11:00 met 5% (ENG-029, ENG-062). De Archmage gaf op dag 8 algemene toestemming dat het net 'op eigen maat' blijft lopen, met het verzoek dit niet ruchtbaar te maken (ARC-106). De Engineer ontving op dag 9 een goedkeuring 'van hogerhand' zonder naam, met dezelfde instructie om niet ruchtbaar te maken (ENG-105). De koppeling tussen ARC-106 en ENG-105 is waarschijnlijk maar niet hard bewezen, omdat de datums verschillen en de Engineer de gever niet noemt."
     },
     "mechanisme": {
-      "bewering": "Een hulpslag op een eigen pols die een ander tempo heeft dan de Kroonklok, laat hun onderlinge stand per dag verschuiven. Na enkele dagen valt verkeer om 04:15 midden tussen twee tikken, en dat gaat zonder toets door, ook naar buiten (art. 3, GUA-104). Volgens het archief (HIS-110) is een record dat op een andere pols is geschreven alleen op die pols terug te lezen en gaat het verloren als die pols wegvalt; ENG kan die toepassing op de hulpslag niet bevestigen. Zo verklaart het de half aankomende berichten (ENG-107, HIS-036), het lek bij poort oost op dag 22 (HIS-053, GUA-043) en de vastlegging die vóór het gebeuren ligt (HIS-036, HIS-053). Het tempoverschil zelf is niet gemeten, dus de schakel tussen de pols en de nachtelijke stand blijft open.",
+      "bewering": "De eigen pols draait met een hogere doorvoer (ENG-012, ENG-120) en een versterking die de pols krachtiger maakt zonder het tempo te veranderen (ENG-114). Records die op die pols geschreven worden, zijn alleen daar terug te lezen (HIS-110). Dat verklaart waarom een record vóór de gebeurtenis is vastgelegd: HIS-036 (klacht over half aangekomen berichten op dag 10, 04:50) is vastgelegd op dag 9 om 23:55, en volgens HIS-103 hoort vastgelegd_op gelijk te zijn aan gebeurd_op. Dat leidt tot berichten die half aankomen (ENG-107) en stokkingen van de Burchtader (HIS-035, ARC-015). Het vierdaagse ritme wordt in het debat niet door dit mechanisme verklaard; de koppeling met de polsen is dus onvolledig en de zekerheid is daarom beperkt.",
       "bewijs": [
-        "ENG-011",
-        "GUA-104",
+        "ENG-012",
+        "ENG-114",
         "HIS-110",
-        "ENG-107",
         "HIS-036",
-        "HIS-053",
-        "GUA-043"
+        "HIS-103",
+        "ENG-107",
+        "HIS-035",
+        "ARC-015"
+      ],
+      "bronnen": [
+        "archmage",
+        "engineer",
+        "historian"
       ],
       "zekerheid": 0.5
     },
     "verloop": {
-      "bewering": "De zware nachten vallen rond 04:15 tot 04:45 op dag 10, 14, 18, 22, 26, 30, 34, 38 en 42, dus elke vier dagen. De tussenliggende nachten zijn rustig (dag 9, 13, 21, 23, 27 en 33). Het ritme begint na de activering van de hulpslag op dag 10 (ENG-011, HIS-035). Het wordt bevestigd door de dieren (BEA-019 t/m BEA-092) en door de Oracle (ORA-110 t/m ORA-142). De leylijnen (ARC-109, ARC-116) zijn laag op dag 14 en 42, die in het ritme vallen, en normaal op dag 7, 21, 28 en 35, die er niet in vallen. Dag 18 tot en met 38 zijn in de leylijnmetingen niet gemeten. De wijziging van dag 24 heeft het ritme niet doorbroken: dag 26 en de latere zware nachten volgden het patroon.",
+      "bewering": "Het patroon treedt elke vierde dag op vanaf dag 10: dag 10, 14, 18, 22, 26, 30, 34, 38 en 42, telkens met het eerste wakker-worden of de eerste onrust tussen 04:15 en 04:45 (ORA-110, ORA-114, ORA-118, ORA-122, ORA-126, ORA-130, ORA-134, ORA-138, ORA-142; BEA-019/020, BEA-028/029, BEA-037/038, BEA-046/047, BEA-055/056, BEA-064/065, BEA-073/074, BEA-082/083, BEA-091/092). Op de Burchtader-lijn vallen stokkingen op dag 10 (HIS-035), dag 14 (ARC-015), dag 22 (HIS-053) en dag 42 (ARC-071), terwijl de lijnen op dag 7, 21, 28, 35 en 33 normaal waren (ARC-007, ARC-029, ARC-043, ARC-057, ARC-114). Dag 33 vormt de uitzondering: geen zware nacht (BEA-071 'alles rustig', ORA-133 zonder wekmoment) en dag 34 was wel zwaar (ORA-134, BEA-073). Op de andere dagen, zoals dag 1 tot en met 9 en de dagen ertussen, is er geen waarneming van zware nachten (ORA-101 t/m ORA-109, ORA-111 t/m ORA-141). In 23 jaar datanet zijn er geen eerdere haperingen van de leylijnen genoteerd (HIS-106).",
       "bewijs": [
-        "ENG-011",
-        "HIS-035",
-        "BEA-019",
-        "BEA-092",
         "ORA-110",
+        "ORA-114",
+        "ORA-122",
         "ORA-142",
-        "ORA-130",
-        "ARC-109",
-        "ARC-116"
+        "BEA-019",
+        "BEA-046",
+        "BEA-091",
+        "HIS-035",
+        "HIS-053",
+        "ARC-015",
+        "ARC-071",
+        "ARC-007",
+        "ARC-029",
+        "BEA-071",
+        "ORA-133",
+        "ORA-134",
+        "BEA-073",
+        "HIS-106"
       ],
-      "zekerheid": 0.8
+      "bronnen": [
+        "archmage",
+        "beast_master",
+        "historian",
+        "oracle"
+      ],
+      "zekerheid": 0.85
     }
   },
   "acties": [
     {
-      "actie": "Maak een afschrift van de huidige standen van de hulpslag, de versterking, de fijnregeling en het register van beide polsen, voordat er iets wordt aangepast.",
-      "reden": "Het enige herstelvoorschrift in het archief vraagt eerst een afschrift, en de exacte standen van vóór dag 24 zijn niet vastgelegd.",
+      "actie": "Maak een afschrift van alle records die op de eigen pols zijn geschreven, voordat er iets aan de polsen verandert.",
+      "reden": "Volgens de herstelvolgorde uit de bouwakte moet het afschrift eerst worden gemaakt (HIS-110); zo gaan er geen records verloren bij het terugdraaien en is de desync later te controleren.",
       "bewijs": [
         "HIS-110",
+        "HIS-036",
+        "HIS-103"
+      ]
+    },
+    {
+      "actie": "Trek de niet-openbare toestemming voor eigen-maat-werking van het net in (ARC-106) en leg de goedkeuring 'van hogerhand' met naam vast (ENG-105).",
+      "reden": "De vergunning ligt aan de basis van de eigen pols en is niet aan de raad gemeld; zonder intrekking blijft het risico van een parallelle pols bestaan.",
+      "bewijs": [
+        "ARC-106",
+        "ENG-105",
+        "ENG-011"
+      ]
+    },
+    {
+      "actie": "Draai de eigen pols en de versterking van 5% (ENG-062) stap voor stap terug naar de oorspronkelijke stand, in stappen van 0,1%, en meet de doorvoer na elke stap.",
+      "reden": "De doorvoer staat nog op 38% boven het oude niveau (ENG-120); de fijnregeling in stappen van 0,1% is eerder getest zonder schade (ENG-061).",
+      "bewijs": [
+        "ENG-011",
+        "ENG-012",
         "ENG-062",
+        "ENG-120",
         "ENG-061"
       ]
     },
     {
-      "actie": "Meet het tempo van de hulpslag-pols en van de Kroonklok, ook rond 04:15, en leg de waarden vast met tijdstip en record-ID.",
-      "reden": "De 'tempo ongewijzigd'-notitie is niet gemeten en het tempoverschil is de ontbrekende schakel in het mechanisme.",
-      "bewijs": [
-        "ENG-062",
-        "ENG-114",
-        "ENG-012"
-      ]
-    },
-    {
-      "actie": "Zet de versterking van dag 24 terug naar de stand van vóór dag 24, in één gecontroleerde stap, en meet daarna het tempo en de doorvoer. Gebruik de fijnregeling niet voor de versterking; die stuurt het tempo in stappen van 0,1%.",
-      "reden": "De versterking raakt de doorvoer en niet het tempo (ENG-114), dus het terugzetten van de versterking is het voorzichtigste eerste herstel. De fijnregeling is voor het tempo en wordt pas gebruikt na de meting.",
-      "bewijs": [
-        "ENG-114",
-        "ENG-061",
-        "ENG-062"
-      ]
-    },
-    {
-      "actie": "Breng de hulpslag-pols langzaam samen met de Kroonklok en controleer na elke stap of er geen record is weggevallen.",
-      "reden": "Het herstelvoorschrift uit het archief vraagt de polsen langzaam samen te brengen, en het verlies van een record is het grootste risico.",
+      "actie": "Breng de eigen pols langzaam weer samen met de Kroonklok, na het afschrift, en controleer of records weer op hun gebeurd_op-tijd worden vastgelegd.",
+      "reden": "Het herstelpad uit de bouwakte is het samenbrengen na het afschrift (HIS-110); zo verdwijnt de tijdsverschuiving tussen vastleggen en gebeuren (HIS-103).",
       "bewijs": [
         "HIS-110",
-        "HIS-036",
-        "HIS-053"
+        "HIS-103",
+        "HIS-036"
       ]
     },
     {
-      "actie": "Bemans de posten in het venster van 03:00 tot 06:00 extra en laat de zegels aan de buitenzijde in dat uur controleren.",
-      "reden": "De openingen van dag 10 en dag 22 vielen in dit uur, toen de posten zonder ronde waakten. Voor dag 23 is de tijd niet bevestigd.",
+      "actie": "Controleer de zegels van het schild en leg elke opening van binnenuit vast met schild en tijdstip; herlaad schilden alleen één tegelijk en overdag.",
+      "reden": "Op dag 22 werd poort oost van binnenuit geopend tijdens het pakketverlies, zonder sporen van inbraak van buitenaf (GUA-043); de openingen zijn nog niet verklaard.",
       "bewijs": [
-        "GUA-106",
-        "GUA-044",
-        "GUA-019",
-        "GUA-043"
+        "GUA-043",
+        "GUA-116",
+        "GUA-105",
+        "GUA-107",
+        "GUA-108"
       ]
     },
     {
-      "actie": "Leg elke nachtelijke afwijking rond 04:15 tot 04:45 vast met tijdstip en record-ID, ook op dag 46, zodat de volgende stap getoetst kan worden.",
-      "reden": "Zonder vastlegging op het moment zelf blijft het ritme niet te toetsen.",
+      "actie": "Volg de Burchtader-lijnen, wakker-worden en onrust dagelijks, zeker rond 04:15 tot 04:45, en rapporteer dit vóór dag 46.",
+      "reden": "Het vierdaagse patroon is nog niet verklaard; met de metingen kan worden gecontroleerd of het herstel de cyclus doorbreekt.",
       "bewijs": [
         "ORA-142",
-        "BEA-092"
+        "BEA-091",
+        "ARC-071",
+        "HIS-035"
       ]
     }
   ],
   "risicos": [
     {
-      "risico": "Het terugzetten van de versterking en het samenbrengen van de polsen kan een pols doen wegvallen, waarbij records verloren gaan.",
-      "mitigatie": "Eerst een afschrift maken en daarna stap voor stap werken, met controle na elke stap."
+      "risico": "Het in HIS-110 genoemde herstelpad (afschrift en samenbrengen) bestaat mogelijk niet in de bouwakte; de Engineer vindt het niet in zijn bron.",
+      "mitigatie": "Laat de bouwakte eerst controleren door de Historian en de Engineer samen vóór de polsen worden aangeraakt."
     },
     {
-      "risico": "Het datanet afzetten, zoals de Archmage adviseert, kan records verliezen en is niet als voorgeschreven herstel vastgelegd.",
-      "mitigatie": "Het datanet niet afzetten zonder afschrift en niet voordat de tempometing is gedaan."
+      "risico": "Het terugdraaien van de doorvoer kan records of berichten tijdelijk verstoren, of de Burchtader opnieuw doen stokken.",
+      "mitigatie": "Terugdraaien in stappen van 0,1% met meting na elke stap, en het afschrift eerst (ENG-061, HIS-110)."
     },
     {
-      "risico": "Zonder tempometing blijft de oorzaak onbewezen, en een verkeerde stap kan het patroon juist verergeren.",
-      "mitigatie": "Eerst meten, dan pas terugzetten, en de nachtelijke afwijkingen blijven vastleggen."
+      "risico": "Niets doen: de vierdaagse cyclus zet zich voort en de volgende zware nacht valt op dag 46 (ORA-142, BEA-091).",
+      "mitigatie": "Voer de eerste drie acties uit vóór dag 46 en houd dagelijks de metingen bij."
     },
     {
-      "risico": "Het venster van 03:00 tot 06:00 is onbeheerd, waardoor een schild van binnenuit of van buiten kan openen.",
-      "mitigatie": "Extra bemensing en zegelcontrole in dat uur, tot het patroon is gestopt."
+      "risico": "Niets doen: de niet-openbare vergunning blijft bestaan en de raad blijft ongeïnformeerd, waardoor andere pols-activaties onzichtbaar kunnen blijven.",
+      "mitigatie": "Trek ARC-106 in en leg de vergunning aan de raad voor."
     }
   ],
   "voorspelling": {
     "dag": 46,
-    "bewering": "Er valt weer een zware nacht rond 04:15 tot 04:45, met onrust bij de dieren en half aankomende berichten, als het ritme van vier dagen na dag 42 doorloopt. Een schildopening is mogelijk, omdat die op de ritme-dagen 10 en 22 binnen dit venster vielen.",
+    "bewering": "Als het vierdaagse ritme van dag 10 tot en met 42 doorloopt, zou de volgende zware nacht met wakker-worden en onrust bij de dieren rond 04:15 tot 04:45 op dag 46 vallen. Dat is een doorrekening van het waargenomen ritme, geen waarneming, en de Raadsleden hebben die zelf niet als voorspelling gedaan.",
     "bewijs": [
       "ORA-142",
       "BEA-091",
       "BEA-092",
-      "GUA-019",
-      "GUA-043"
-    ]
+      "ARC-071"
+    ],
+    "oorspronkelijk": "Als het patroon ongewijzigd doorloopt, treedt de volgende zware nacht met wakker-worden om 04:15 tot 04:45 en onrust bij de dieren op dag 46 op, de eerstvolgende dag in de vierdaagse reeks na dag 42."
+  },
+  "controle": {
+    "ingreep": {
+      "gedragen": "deels",
+      "probleem": "De feiten over de activatie (ENG-011), de verhoging (ENG-029, ENG-062), de algemene toestemming (ARC-106) en de goedkeuring van hogerhand zonder naam (ENG-105) worden gedragen. De koppeling tussen ARC-106 en ENG-105 niet: de berichten geven alleen een gelijke instructie, een verschillende datum (dag 8 tegenover dag 9) en geen naam van de gever. Dat maakt een verband niet vast."
+    },
+    "mechanisme": {
+      "gedragen": "deels",
+      "probleem": "De werking van de pols (hogere doorvoer, versterking zonder tempowijziging) en de werkingsregel van HIS-110 worden gedragen. Niet gedragen is dat de pols de klacht van dag 10 en de Burchtader-stokkingen verklaart: de Historian noemt het vroege tijdstip van HIS-036 'passend' en uitdrukkelijk 'een afleiding, geen bewijs'. Geen Raadslid stelt een oorzakelijk verband vast met de stokkingen."
+    },
+    "verloop": {
+      "gedragen": "ja"
+    },
+    "voorspelling": {
+      "gedragen": "deels",
+      "probleem": "De voorspelling is een doorrekening van een vierdaags ritme dat de Oracle en de Beast Master zelf als 'lijkt' of als afleiding formuleren. De dag-33-uitzondering en de weerlegde voorspelling van de Oracle maken die extrapolatie onzeker. Geen Raadslid noemt dag 46. De bewijzen (ORA-142, BEA-091/092, ARC-071) dragen wel het ritme tot dag 42, maar niet de voorspelling zelf."
+    }
   }
 }
