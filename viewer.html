@@ -3,262 +3,1177 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Council-debatviewer</title>
+<title>Raadszaal van Achrona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="importmap">{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700;800&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
-    --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
-    --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --koning: #1f7ab8; --mens: #b91c1c;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
-      --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
-      --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --koning: #7cc8ff; --mens: #f87171;
-    }
+    --nacht: #160f1f; --nacht-diep: #0d0813; --nacht-licht: #241933; --lijn: rgba(225, 231, 255, .14);
+    --ijs: #e1e7ff; --ijs-zacht: #b4b8d6; --paars: #a52bd9; --orchidee: #dc56f0; --roze: #e292f4; --gloed: #f48d30;
+    --perkament: #f1e2bd; --perkament-donker: #dcc38e; --inkt: #2b1d10; --inkt-zacht: #6a5436;
+    --ok: #7ee2a8; --fout: #ff8a8a; --let: #f4b860;
+    --archmage: #b89bff; --engineer: #ffb04a; --guardian_keeper: #69ccff; --historian: #e0ae6c;
+    --oracle: #f08ad8; --beast_master: #6be39a; --koning: #9fd8ff; --mens: #ff8a8a;
+    --gotisch: "Grenze Gotisch", "UnifrakturMaguntia", serif;
+    --tekst: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+    --uit: cubic-bezier(.16, 1, .3, 1);
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--tekst); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  header { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--lijn); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
-  header h1 { font-size: 17px; margin: 0; font-weight: 650; }
-  .pil { font-size: 13px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--lijn); background: var(--paneel); }
-  .pil.bezig { border-color: var(--waarschuwing); color: var(--waarschuwing); }
-  .pil.klaar { border-color: var(--ok); color: var(--ok); }
-  .runid { color: var(--zacht); font-size: 12px; font-family: ui-monospace, monospace; word-break: break-all; }
-  main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
-  @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } aside { order: -1; } }
-  .ronde { margin: 18px 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--zacht); }
-  .beurt { background: var(--paneel); border: 1px solid var(--lijn); border-left: 4px solid var(--kleur); border-radius: 10px; padding: 10px 14px; margin: 8px 0; }
-  .beurt .wie { font-weight: 650; color: var(--kleur); font-size: 14px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
-  .beurt .nr { color: var(--zacht); font-weight: 400; font-size: 12px; }
-  .beurt .tekst { margin-top: 4px; overflow-wrap: anywhere; }
-  .klein { background: transparent; border-style: dashed; padding: 6px 12px; font-size: 13px; color: var(--zacht); }
-  .klein code { color: var(--tekst); }
-  .vlag { color: var(--fout); font-weight: 600; font-size: 12px; }
-  .id { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; padding: 0 5px; border-radius: 5px; background: color-mix(in srgb, var(--kleur-id) 16%, transparent); color: var(--kleur-id); border: 1px solid color-mix(in srgb, var(--kleur-id) 40%, transparent); }
-  .id.raar { outline: 2px dotted var(--waarschuwing); }
-  .denkt { border-style: dashed; animation: puls 1.4s ease-in-out infinite; }
-  @keyframes puls { 50% { opacity: .55; } }
-  aside section { background: var(--paneel); border: 1px solid var(--lijn); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
-  aside h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--zacht); margin: 0 0 8px; }
-  .lid { display: grid; grid-template-columns: 12px 1fr auto; gap: 8px; align-items: center; font-size: 14px; padding: 2px 0; }
-  .stip { width: 12px; height: 12px; border-radius: 50%; background: var(--kleur); }
-  .getal { color: var(--zacht); font-size: 12px; font-variant-numeric: tabular-nums; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
-  td { padding: 2px 0; } td:last-child { text-align: right; }
-  .check { font-size: 13px; padding: 2px 0; }
-  .check.ok::before { content: "✓ "; color: var(--ok); }
-  .check.fout::before { content: "✗ "; color: var(--fout); }
-  .check.let::before { content: "! "; color: var(--waarschuwing); }
-  .slot { margin: 6px 0; font-size: 13px; }
-  .slot b { display: block; font-size: 12px; color: var(--zacht); text-transform: uppercase; letter-spacing: .05em; }
-  .leeg { color: var(--zacht); font-style: italic; }
-  ol { padding-left: 18px; margin: 4px 0; font-size: 13px; }
-  .melding { padding: 40px 16px; text-align: center; color: var(--zacht); }
-  /* Raadszaal: renders uit visualisatie/ (Blender, CC0-modellen van KayKit). Ontbreken ze, dan blijft dit leeg. */
-  #zaal { position: relative; max-width: 1400px; margin: 16px auto 0; padding: 0 16px; }
-  #zaal .podium { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: #0d1120 center 40% / cover no-repeat; border: 1px solid var(--lijn); }
-  #zaal .podium::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,20,.92) 8%, rgba(8,10,20,.35) 55%, rgba(8,10,20,.15)); }
-  #zaal .titel { position: absolute; top: 12px; left: 16px; right: 16px; color: #f4ecd8; font-weight: 650; font-size: 15px; text-shadow: 0 1px 3px #000; }
-  #zaal .rij { position: relative; display: flex; justify-content: center; align-items: flex-end; gap: 6px; padding: 54px 8px 10px; flex-wrap: wrap; }
-  .avatar { width: 104px; text-align: center; color: #e8e4da; font-size: 12px; transition: transform .35s ease, filter .35s ease; filter: saturate(.75) brightness(.85); }
-  .avatar img { width: 104px; height: 104px; object-fit: contain; display: block; }
-  .avatar.spreekt { transform: translateY(-8px) scale(1.18); filter: none; }
-  .avatar.spreekt img { filter: drop-shadow(0 0 10px var(--kleur)) drop-shadow(0 0 3px var(--kleur)); }
-  .avatar.spreekt span { color: var(--kleur); font-weight: 700; }
-  .avatar.koning img { width: 120px; height: 120px; }
-  .mini { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; background: color-mix(in srgb, var(--kleur) 22%, transparent); border: 1.5px solid var(--kleur); align-self: center; }
-  @media (max-width: 700px) { .avatar, .avatar img { width: 72px; height: auto; } .avatar.koning img { width: 84px; } }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--nacht-diep); color: var(--ijs); font: 500 16px/1.45 var(--tekst); caret-color: var(--orchidee); }
+  ::selection { background: var(--paars); color: #fff; }
+  * { scrollbar-width: thin; scrollbar-color: rgba(165, 43, 217, .55) transparent; }
+  button, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--ijs); outline-offset: 3px; border-radius: 6px; }
+  svg.i { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .gotisch { font-family: var(--gotisch); font-weight: 700; letter-spacing: .01em; }
+  .schaduw { text-shadow: 0 4px 14px rgba(13, 8, 19, .85), 0 1px 3px rgba(13, 8, 19, .7); }
+  .id { display: inline-block; font: 600 .8em/1.45 ui-monospace, "Cascadia Mono", Consolas, monospace; padding: 0 .35em; border-radius: 4px; white-space: nowrap;
+        color: color-mix(in srgb, var(--kleur-id) 58%, #1d130a); background: color-mix(in srgb, var(--kleur-id) 20%, #fff6e0); border: 1px solid color-mix(in srgb, var(--kleur-id) 45%, transparent); }
+  .id.raar { outline: 2px dotted var(--let); }
+
+  /* ---------- knoppen ---------- */
+  .knop-paars { display: inline-flex; align-items: center; gap: .55em; border: 0; border-radius: 12px; padding: .8em 1.6em; font: 700 1.25rem var(--gotisch); letter-spacing: .02em; color: #fff;
+                background: linear-gradient(#dc56f0 30%, #a52bd9 90%); box-shadow: 0 2px 0 rgba(255,255,255,.35) inset, 0 8px 18px rgba(8, 4, 12, .55);
+                transition: transform .25s var(--uit), box-shadow .25s var(--uit), filter .25s; }
+  .knop-paars:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 2px 0 rgba(255,255,255,.35) inset, 0 12px 24px rgba(8, 4, 12, .6); }
+  .knop-paars:active { transform: translateY(1px); }
+  .knop-stil { display: inline-flex; align-items: center; gap: .45em; border: 1px solid var(--lijn); border-radius: 10px; padding: .45em .9em; background: rgba(36, 25, 51, .8); color: var(--ijs); font-weight: 600; transition: border-color .2s, background .2s; }
+  .knop-stil:hover { border-color: rgba(225, 231, 255, .4); background: var(--nacht-licht); }
+
+  /* ---------- intro: het begint met de raadszaal ---------- */
+  #intro { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; text-align: center; overflow: hidden; transition: opacity 1.2s var(--uit), visibility 0s 1.2s; }
+  #intro .zaal { position: absolute; inset: -3%; background: #0d0813 url("beelden/raadszaal.png") center / cover; filter: blur(2px) saturate(1.05); transform: scale(1.08); transition: transform 1.6s var(--uit), filter 1.6s var(--uit); }
+  #intro .sluier { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 48%, rgba(22, 15, 31, .45), rgba(22, 15, 31, .75) 72%), linear-gradient(0deg, var(--nacht) 4%, transparent 40%); }
+  #intro .inhoud { position: relative; padding: 24px; max-width: 980px; }
+  #intro h1 { margin: 0; font: 800 clamp(3rem, 8.4vw, 6rem)/.95 var(--gotisch); color: var(--ijs); }
+  #intro p { margin: 1.1rem auto 2rem; max-width: 34em; font-size: clamp(1.05rem, 1.7vw, 1.3rem); color: var(--ijs-zacht); }
+  #intro .toetsen { margin-top: 1.4rem; font-size: .92rem; color: var(--ijs-zacht); }
+  #intro kbd { font: 600 .85em var(--tekst); border: 1px solid var(--lijn); border-radius: 5px; padding: 0 .4em; color: var(--ijs); box-shadow: 0 2px 0 rgba(13, 8, 19, .9); }
+  #intro.weg { opacity: 0; visibility: hidden; }
+  #intro.weg .zaal { transform: scale(1); filter: blur(0); }
+  #intro .inhoud > * { opacity: 0; transform: translateY(14px); animation: op .9s var(--uit) forwards; }
+  #intro .inhoud > :nth-child(2) { animation-delay: .25s; } #intro .inhoud > :nth-child(3) { animation-delay: .5s; } #intro .inhoud > :nth-child(4) { animation-delay: .7s; }
+  @keyframes op { to { opacity: 1; transform: none; } }
+
+  /* ---------- spel ---------- */
+  #spel { height: 100%; display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); background: var(--nacht); }
+  .balk { display: flex; align-items: center; gap: 18px; padding: 10px 20px; border-bottom: 1px solid var(--lijn); background: linear-gradient(var(--nacht), rgba(22, 15, 31, .96)); }
+  .balk h1 { margin: 0; font: 800 1.75rem/1 var(--gotisch); color: var(--ijs); white-space: nowrap; }
+  #status { display: inline-flex; align-items: center; gap: .45em; font-weight: 700; font-size: .95rem; color: var(--ijs-zacht); white-space: nowrap; }
+  #status .stip { width: .6em; height: .6em; border-radius: 50%; background: var(--ijs-zacht); }
+  #status.live { color: var(--gloed); } #status.live .stip { background: var(--gloed); box-shadow: 0 0 0 0 rgba(244, 141, 48, .7); animation: live 1.8s ease-out infinite; }
+  #status.klaar { color: var(--ok); } #status.klaar .stip { background: var(--ok); }
+  @keyframes live { 70% { box-shadow: 0 0 0 9px rgba(244, 141, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 141, 48, 0); } }
+  #kaarten { display: flex; gap: 8px; margin-left: auto; min-width: 0; overflow-x: auto; padding: 4px 2px 2px; scrollbar-width: none; }
+  .kaart { position: relative; flex: none; width: 58px; padding: 0 0 3px; border: 1px solid var(--lijn); border-radius: 10px; background: linear-gradient(var(--nacht-licht), var(--nacht)); overflow: hidden;
+           transition: transform .35s var(--uit), border-color .35s, box-shadow .35s; }
+  .kaart img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 12%; }
+  .kaart span { display: block; font-size: .75rem; font-weight: 700; color: var(--ijs-zacht); text-align: center; }
+  .kaart::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; border-radius: 2px; background: var(--kleur); opacity: .55; }
+  .kaart.actief { transform: translateY(-3px); border-color: color-mix(in srgb, var(--kleur) 70%, white); box-shadow: 0 8px 20px rgba(13, 8, 19, .7), 0 0 18px color-mix(in srgb, var(--kleur) 40%, transparent); }
+  .kaart.actief span { color: var(--ijs); } .kaart.actief::after { opacity: 1; }
+
+  #podium-wrap { position: relative; display: grid; place-items: center; overflow: hidden; min-width: 0; padding: 14px 20px;
+                 background: radial-gradient(60% 70% at 0% 50%, rgba(165, 43, 217, .22), transparent 70%), radial-gradient(55% 70% at 100% 55%, rgba(53, 39, 167, .3), transparent 72%), var(--nacht); }
+  #podium-wrap::before { content: ""; position: absolute; inset: -20%; pointer-events: none; opacity: .5; filter: url(#rook); animation: drijf 38s linear infinite alternate;
+                         background: radial-gradient(30% 40% at 12% 70%, rgba(220, 86, 240, .25), transparent 70%), radial-gradient(28% 36% at 90% 25%, rgba(226, 146, 244, .18), transparent 70%); }
+  @keyframes drijf { to { transform: translate(4%, -3%) rotate(3deg); } }
+  #podium { position: relative; width: min(100%, calc((100vh - 172px) * 16 / 9)); aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; container-type: inline-size;
+            box-shadow: 0 0 0 1px rgba(225, 231, 255, .12), 0 30px 80px rgba(5, 2, 10, .85); }
+  #zaal3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #laden { position: absolute; inset: 0; display: grid; place-items: center; background: #0d0813 url("beelden/raadszaal.png") center / cover; transition: opacity 1.2s var(--uit); }
+  #laden.weg { opacity: 0; pointer-events: none; }
+  #podium::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(13, 8, 19, .55)); }
+
+  /* ---------- spreekrol: perkament bij de spreker ---------- */
+  #ballon { position: absolute; z-index: 3; display: flex; flex-direction: column; opacity: 0; transform: translateY(12px) scale(.98); transform-origin: var(--staart, 40px) 100%;
+            transition: opacity .45s var(--uit), transform .45s var(--uit); color: var(--inkt); font-size: clamp(16px, 1.45cqw, 20px); line-height: 1.45;
+            background-color: var(--perkament); background-image: linear-gradient(175deg, #fbf1d6, var(--perkament) 45%, var(--perkament-donker)); border-radius: 6px 6px 10px 10px;
+            box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 -6px 14px rgba(120, 80, 30, .18) inset, 0 14px 30px rgba(8, 4, 12, .6), 0 2px 6px rgba(8, 4, 12, .5); }
+  #ballon.zichtbaar { opacity: 1; transform: none; }
+  #ballon::after { content: ""; position: absolute; bottom: -11px; left: var(--staart, 40px); width: 22px; height: 22px; background: var(--perkament-donker); transform: rotate(45deg); border-radius: 0 0 4px 0; box-shadow: 4px 4px 8px rgba(8, 4, 12, .35); }
+  #ballon.zij { transform-origin: 0 var(--staart-y, 60px); }
+  #ballon.zij::after { bottom: auto; top: var(--staart-y, 60px); left: -10px; background: #f2e3bf; box-shadow: -3px 3px 6px rgba(8, 4, 12, .25); }
+  .kop { display: flex; align-items: center; gap: .7em; padding: .7em 1em .45em; }
+  .zegel { position: relative; width: 2.9em; height: 2.9em; flex: none; border-radius: 50%; padding: 3px; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--kleur) 75%, white), color-mix(in srgb, var(--kleur) 75%, #3a1d08)); box-shadow: 0 2px 4px rgba(43, 29, 16, .45); }
+  .zegel img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 12%; background: #fff3d6; display: block; }
+  .kop b { display: block; font: 700 1.32em/1 var(--gotisch); color: color-mix(in srgb, var(--kleur) 45%, #2b1d10); }
+  .kop small { display: block; margin-top: .2em; font-weight: 600; font-size: .86em; color: var(--inkt-zacht); }
+  .kop small .naar { color: color-mix(in srgb, var(--naar) 50%, #2b1d10); font-weight: 700; }
+  .bron { display: inline-flex; align-items: center; gap: .35em; margin: 0 1.1em .4em; font-size: .82em; font-weight: 700; color: var(--inkt-zacht); }
+  .tekst { padding: .1em 1.1em 1.2em; overflow-y: auto; -webkit-mask-image: linear-gradient(transparent, #000 .9em, #000 calc(100% - 1.1em), transparent); mask-image: linear-gradient(transparent, #000 .9em, #000 calc(100% - 1.1em), transparent); white-space: pre-wrap; overflow-wrap: anywhere; border-top: 1px solid rgba(106, 84, 54, .25); padding-top: .55em; }
+  .tekst .reden { display: block; margin-top: .6em; font-style: italic; color: var(--inkt-zacht); }
+  .cursor::after { content: ""; display: inline-block; width: .5em; height: 1em; margin-left: 2px; vertical-align: -.12em; background: var(--inkt-zacht); animation: knip .9s steps(1) infinite; }
+  @keyframes knip { 50% { opacity: 0; } }
+  #ballon .tekst::-webkit-scrollbar { width: 6px; } #ballon .tekst::-webkit-scrollbar-thumb { background: rgba(106, 84, 54, .4); border-radius: 3px; }
+
+  /* ---------- finale ---------- */
+  #confetti { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .snipper { position: absolute; top: -3%; width: .85%; aspect-ratio: .55; border-radius: 1px; animation: val linear forwards; }
+  @keyframes val { to { transform: translateY(62cqw) rotate(640deg); opacity: .9; } }
+  /* het Verdict als perkamentrol rechts: links blijft het feest zichtbaar */
+  #rol { position: absolute; z-index: 4; right: 3%; top: 5%; bottom: 5%; width: min(44%, 600px); display: flex; flex-direction: column; color: var(--inkt);
+         transform: translateX(118%); visibility: hidden; transition: transform 1.2s var(--uit), visibility 0s 1.2s; font-size: clamp(12px, 1.05cqw, 14.5px); }
+  #rol.open { transform: none; visibility: visible; transition: transform 1.2s var(--uit) 2.4s, visibility 0s 2.4s; }
+  #rol .vel { flex: 1; }
+  #rol .stok { height: 16px; margin: 0 -14px; border-radius: 8px; background: linear-gradient(#c99a52, #8a5a22 55%, #5e3a12); box-shadow: 0 4px 10px rgba(8, 4, 12, .5); position: relative; z-index: 1; }
+  #rol .vel { overflow-y: auto; padding: 1.1em 2em 1.3em; background-color: var(--perkament); background-image: linear-gradient(90deg, #e4cd96, var(--perkament) 8%, #f7ebcc 50%, var(--perkament) 92%, #e4cd96); box-shadow: 0 18px 40px rgba(8, 4, 12, .6); }
+  #rol h2 { margin: 0 0 .5em; text-align: center; font: 800 2.3em/1 var(--gotisch); color: #4a2a0c; }
+  #rol .samenvatting { margin: 0 auto 1em; max-width: 64ch; text-align: center; font-size: 1.05em; }
+  .deel { display: grid; grid-template-columns: 8.5em 1fr; gap: .2em 1.1em; padding: .75em 0; border-top: 1px solid rgba(106, 84, 54, .3); }
+  .deel h3 { margin: 0; font: 700 1.3em/1.1 var(--gotisch); color: #4a2a0c; }
+  .zeker { display: flex; align-items: center; gap: .6em; margin-top: .45em; font-size: .85em; font-weight: 700; color: var(--inkt-zacht); }
+  .zeker .balk2 { flex: 0 0 9em; height: 6px; border-radius: 3px; background: rgba(106, 84, 54, .22); overflow: hidden; }
+  .zeker .balk2 i { display: block; height: 100%; background: linear-gradient(90deg, #a52bd9, #dc56f0); border-radius: 3px; }
+  #rol ol { margin: 0; padding-left: 1.2em; } #rol li + li { margin-top: .25em; }
+  #rol .acties { display: flex; justify-content: center; gap: 10px; padding-top: 1em; }
+  #rol .knop-paars { font-size: 1.05rem; padding: .55em 1.2em; }
+
+  /* ---------- HUD ---------- */
+  .hud { display: grid; grid-template-columns: minmax(10em, auto) auto 1fr auto auto; align-items: center; gap: 18px; padding: 10px 20px 12px; border-top: 1px solid var(--lijn); background: linear-gradient(rgba(22, 15, 31, .96), var(--nacht-diep)); }
+  .teller b { display: block; font: 800 1.5rem/1 var(--gotisch); color: var(--ijs); }
+  .teller small { display: block; margin-top: 2px; font-size: .9rem; color: var(--ijs-zacht); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 16em; }
+  .bediening { display: flex; align-items: center; gap: 8px; }
+  .rond { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--lijn); background: var(--nacht-licht); color: var(--ijs); transition: border-color .2s, transform .2s var(--uit); }
+  .rond:hover { border-color: rgba(225, 231, 255, .45); transform: translateY(-1px); }
+  .rond.groot { width: 54px; height: 54px; border: 0; background: linear-gradient(#dc56f0 30%, #a52bd9 90%); color: #fff; box-shadow: 0 2px 0 rgba(255,255,255,.3) inset, 0 6px 14px rgba(8, 4, 12, .55); }
+  .rond.groot svg.i { width: 1.4em; height: 1.4em; }
+  #tijdlijn { display: flex; gap: 4px; align-items: center; height: 30px; min-width: 0; }
+  .pip { flex: 1; height: 6px; padding: 0; border: 0; border-radius: 3px; background: color-mix(in srgb, var(--kleur) 25%, #2c2140); transition: height .25s var(--uit), background .25s; }
+  .pip.koning { flex: .5; }
+  .pip.gezien { background: color-mix(in srgb, var(--kleur) 65%, #2c2140); }
+  .pip.nu { height: 16px; background: var(--kleur); box-shadow: 0 0 12px color-mix(in srgb, var(--kleur) 70%, transparent); }
+  .pip:hover { height: 12px; }
+  select { appearance: none; border: 1px solid var(--lijn); border-radius: 10px; padding: .45em 1.9em .45em .8em; font-weight: 700;
+           background: var(--nacht-licht) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e1e7ff' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right .5em center / 1em no-repeat; }
+
+  /* ---------- logboek ---------- */
+  #logboek { position: fixed; top: 0; right: 0; z-index: 40; height: 100%; width: min(580px, 100%); display: flex; flex-direction: column; background: var(--nacht); border-left: 1px solid var(--lijn);
+             transform: translateX(102%); transition: transform .5s var(--uit); box-shadow: -24px 0 60px rgba(5, 2, 10, .7); }
+  #logboek.open { transform: none; }
+  #logboek header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--lijn); }
+  #logboek h2 { flex: 1; margin: 0; font: 800 1.7rem/1 var(--gotisch); color: var(--ijs); }
+  #runid { font: 500 .75rem ui-monospace, Consolas, monospace; color: var(--ijs-zacht); }
+  #logboek .lijst { overflow-y: auto; padding: 4px 20px 28px; }
+  #logboek h3 { margin: 22px 0 8px; font: 700 1.3rem/1 var(--gotisch); color: var(--ijs); }
+  .regel { padding: 8px 12px; margin: 6px 0; border-radius: 8px; background: var(--nacht-licht); font-size: .95rem; overflow-wrap: anywhere; }
+  .regel.zacht { background: transparent; border: 1px dashed var(--lijn); color: var(--ijs-zacht); font-size: .9rem; }
+  .regel .wie { font-weight: 700; color: var(--kleur); }
+  .regel .id { color: color-mix(in srgb, var(--kleur-id) 70%, white); background: color-mix(in srgb, var(--kleur-id) 18%, transparent); }
+  .check { font-size: .95rem; padding: 2px 0; display: flex; gap: .5em; align-items: baseline; } .check::before { font-weight: 800; }
+  .check.ok::before { content: "✓"; color: var(--ok); } .check.fout::before { content: "✗"; color: var(--fout); } .check.let::before { content: "!"; color: var(--let); }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; font-variant-numeric: tabular-nums; } td { padding: 3px 0; } td:last-child { text-align: right; }
+  .leeg { color: var(--ijs-zacht); font-style: italic; }
+  #melding { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 24px; text-align: center; font: 700 1.6rem var(--gotisch); color: var(--ijs); pointer-events: none; }
+  #melding:empty { display: none; }
+  #melding span { padding: .6em 1.2em; border-radius: 12px; background: rgba(13, 8, 19, .8); }
+
+  @media (max-width: 860px) {
+    .balk { gap: 10px; padding: 8px 12px; } .balk h1 { font-size: 1.25rem; } .kaart { width: 40px; } .kaart span { display: none; }
+    .hud { grid-template-columns: 1fr auto; gap: 10px; padding: 8px 12px; } .teller, #snelheid { display: none; } #tijdlijn { grid-column: 1 / -1; order: 3; }
+    #podium-wrap { padding: 8px; } #podium { width: 100%; }
+    #ballon { left: 2% !important; right: 2% !important; width: auto !important; top: auto !important; bottom: 2% !important; max-height: 58% !important; } #ballon::after { display: none; }
+    #rol { width: 94%; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<header>
-  <h1>Council of Achrona: debatviewer</h1>
-  <span id="status" class="pil">wachten op trace.json…</span>
-  <span id="runid" class="runid"></span>
-</header>
-<div id="zaal" hidden><div class="podium"><div class="titel"></div><div class="rij"></div></div></div>
-<main>
-  <div id="debat"><p class="melding">Nog geen <code>trace.json</code>. Start je Council met <code>uv run council</code>; het debat verschijnt hier live.</p></div>
-  <aside>
-    <section><h2>Raadsleden</h2><div id="leden"></div></section>
-    <section><h2>Spelregels</h2><div id="checks"></div></section>
-    <section><h2>Verbruik</h2><div id="verbruik"></div></section>
-    <section><h2>Council Verdict</h2><div id="verdict"><span class="leeg">nog geen verdict.json</span></div></section>
-  </aside>
-</main>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rook"><feTurbulence type="fractalNoise" baseFrequency=".008" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="120"/></filter>
+    <filter id="papierruis"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .12  0 0 0 .09 0"/></filter>
+  </defs>
+  <symbol id="i-speel" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pauze" viewBox="0 0 24 24"><path d="M8.5 5.5v13M15.5 5.5v13" stroke-width="3"/></symbol>
+  <symbol id="i-vorige" viewBox="0 0 24 24"><path d="M6 5v14M18 6 9 12l9 6z"/></symbol>
+  <symbol id="i-volgende" viewBox="0 0 24 24"><path d="M18 5v14M6 6l9 6-9 6z"/></symbol>
+  <symbol id="i-rol" viewBox="0 0 24 24"><path d="M7 4h11a2 2 0 0 1 2 2v1H9"/><path d="M7 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7"/><path d="M9 11h7M9 15h5"/></symbol>
+  <symbol id="i-sluit" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-opnieuw" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6"/><path d="M4 4v4.6h4.6"/></symbol>
+  <symbol id="i-bron" viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h5"/></symbol>
+</svg>
+
+<div id="intro">
+  <div class="zaal" aria-hidden="true"></div>
+  <div class="sluier" aria-hidden="true"></div>
+  <div class="inhoud">
+    <h1 class="schaduw">De Council van Achrona</h1>
+    <p>De Desync heeft het rijk versnipperd. De Vorstkoning roept zijn zes Raadsleden bijeen om de oorzaak te vinden.</p>
+    <button class="knop-paars" id="start"><svg class="i"><use href="#i-speel"/></svg>Open de zitting</button>
+    <div class="toetsen"><kbd>Spatie</kbd> pauze · <kbd>←</kbd> <kbd>→</kbd> vorige en volgende · <kbd>L</kbd> logboek</div>
+  </div>
+</div>
+
+<div id="spel">
+  <div class="balk">
+    <h1 class="schaduw">Raadszaal van Achrona</h1>
+    <span id="status"><span class="stip"></span><span>wacht op de Council</span></span>
+    <div id="kaarten" aria-label="De Raad"></div>
+  </div>
+
+  <div id="podium-wrap">
+    <div id="podium">
+      <canvas id="zaal3d" aria-label="De raadszaal in 3D: zes Raadsleden aan tafel, de Vorstkoning aan het hoofd"></canvas>
+      <div id="laden" aria-hidden="true"></div>
+      <div id="ballon" role="status" aria-live="polite"></div>
+      <div id="confetti"></div>
+      <section id="rol" aria-label="Het Verdict"><div class="stok"></div><div class="vel"></div><div class="stok"></div></section>
+      <div id="melding"></div>
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="teller" id="teller"><b>Zitting</b><small>nog niet geopend</small></div>
+    <div class="bediening">
+      <button class="rond" id="vorige" aria-label="Vorige beurt"><svg class="i"><use href="#i-vorige"/></svg></button>
+      <button class="rond groot" id="speel" aria-label="Pauzeren"><svg class="i"><use href="#i-pauze"/></svg></button>
+      <button class="rond" id="volgende" aria-label="Volgende beurt"><svg class="i"><use href="#i-volgende"/></svg></button>
+    </div>
+    <div id="tijdlijn" aria-label="Verloop van de zitting"></div>
+    <select id="snelheid" aria-label="Afspeelsnelheid"><option value="0.6">0,6×</option><option value="1" selected>1×</option><option value="1.6">1,6×</option><option value="2.5">2,5×</option></select>
+    <button class="knop-stil" id="open-logboek"><svg class="i"><use href="#i-rol"/></svg>Logboek</button>
+  </div>
+</div>
+
+<aside id="logboek" aria-label="Logboek van de run">
+  <header><h2 class="schaduw">Logboek</h2><span id="runid"></span><button class="rond" id="sluit-logboek" aria-label="Logboek sluiten"><svg class="i"><use href="#i-sluit"/></svg></button></header>
+  <div class="lijst">
+    <h3>De Raad</h3><div id="leden"></div>
+    <h3>Spelregels</h3><div id="checks"></div>
+    <h3>Verbruik</h3><div id="verbruik"></div>
+    <h3>Het hele debat</h3><div id="debat"></div>
+  </div>
+</aside>
+
 <script>
-const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
-  oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens" };
+const NAMEN = { koning: "Vorstkoning", archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper",
+  historian: "Historian", oracle: "Oracle", beast_master: "Beast Master", mens: "Mens" };
+const ROLLEN = ["archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master"];
 const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
-const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
-let vorige = "";
-
+const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-‐-―−])(\d{3})\b/g;
+const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const kleur = rol => `var(--${NAMEN[rol] ? rol : "koning"})`;
-const AVATAR = rol => `beelden/avatar_${rol}.png`;
-const mini = rol => NAMEN[rol] && rol !== "mens" ? `<img class="mini" src="${AVATAR(rol)}" alt="" onerror="this.remove()">` : "";
-let zaalBeeld = null;
-
-// De raadszaal bovenaan: wie aan het woord is, licht op. Na het Verdict wordt het feest.
-function zaal(trace, verdict) {
-  const blok = document.getElementById("zaal");
-  const bezig = trace.status === "bezig";
-  const klaar = !bezig && verdict && verdict.run_id === trace.run_id;
-  const berichten = (trace.beurten || []).filter(b => b.soort === "bericht");
-  const spreker = bezig ? trace.aan_het_woord : (berichten.at(-1)?.spreker ?? null);
-  const beeld = klaar ? "beelden/feest.png" : "beelden/raadszaal.png";
-  const podium = blok.querySelector(".podium");
-  if (zaalBeeld !== beeld) {
-    const test = new Image();
-    test.onload = () => { podium.style.backgroundImage = `url(${beeld})`; blok.hidden = false; };
-    test.src = beeld;
-    zaalBeeld = beeld;
-  }
-  blok.querySelector(".titel").textContent = klaar
-    ? "Het Verdict is geveld: feest in de raadszaal!"
-    : bezig && spreker ? `${NAMEN[spreker] || spreker} is aan het woord` : "De raadszaal van Achrona";
-  const rollen = ["koning", ...(trace.raadsleden || [])];
-  const midden = Math.floor(rollen.length / 2);  // de Koning in het midden van de rij
-  const rij = [...rollen.slice(1, midden + 1), "koning", ...rollen.slice(midden + 1)];
-  blok.querySelector(".rij").innerHTML = rij.map(r =>
-    `<div class="avatar${r === "koning" ? " koning" : ""}${r === spreker || (klaar && r === "koning") ? " spreekt" : ""}" style="--kleur:${kleur(r)}">
-       <img src="${AVATAR(r)}" alt="${esc(NAMEN[r] || r)}" onerror="this.style.visibility='hidden'"><span>${esc(r === "koning" ? "Vorstkoning" : NAMEN[r] || r)}</span></div>`).join("");
-}
+const avatar = rol => `beelden/avatar_${rol}.png`;
+const icoon = naam => `<svg class="i"><use href="#i-${naam}"/></svg>`;
+const params = new URLSearchParams(location.search);
+const rustig = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function opmaak(tekst) {
   return esc(tekst)
     .replace(/^#{1,4}\s*(.+)$/gm, "<strong>$1</strong>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(ID_RE, (m, p, streep, n) => {
-      const raar = streep !== "-";
-      return `<span class="id${raar ? " raar" : ""}" style="--kleur-id:${kleur(PREFIX[p])}" title="${raar ? "Geen gewoon koppelteken: dit ID faalt op het schema" : NAMEN[PREFIX[p]]}">${p}-${n}</span>`;
-    })
-    .replace(/\n/g, "<br>");
+    .replace(ID_RE, (m, p, streep, n) =>
+      `<span class="id${streep !== "-" ? " raar" : ""}" style="--kleur-id:${kleur(PREFIX[p])}" title="${NAMEN[PREFIX[p]]}">${p}-${n}</span>`);
 }
 
-function ids(tekst) {
-  return [...String(tekst ?? "").matchAll(ID_RE)].map(m => ({ id: `${m[1]}-${m[3]}`, raar: m[2] !== "-" }));
+// ------------------------------------------------------------ toestand
+const S = { trace: null, verdict: null, pos: { zaal: {}, feest: {} }, stappen: [], i: -1, spelen: true, snelheid: 1,
+            gestart: false, typTimer: null, volgTimer: null, sleutel: "" };
+
+async function haal(pad, json = false) {
+  try { const r = await fetch(pad, { cache: "no-store" }); return r.ok ? (json ? r.json() : r.text()) : null; } catch { return null; }
 }
 
-function render(trace, verdict) {
-  zaal(trace, verdict);
-  const status = document.getElementById("status");
-  const bezig = trace.status === "bezig";
-  status.className = "pil " + (bezig ? "bezig" : "klaar");
-  status.textContent = bezig ? `bezig${trace.aan_het_woord ? " · " + (NAMEN[trace.aan_het_woord] || trace.aan_het_woord) + " is aan het woord" : ""}` : "klaar";
-  document.getElementById("runid").textContent = trace.run_id || "";
-
-  // Debat per ronde
-  const beurten = trace.beurten || [];
-  let html = "", ronde = null;
-  const telling = {}, padfouten = [], koningTools = [], vreemdeIds = [], zonderRoutering = [];
-  let toegewezen = null, raadslidBeurten = 0;
-  for (const b of beurten) {
-    if (b.ronde !== ronde) {
-      ronde = b.ronde;
-      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" && b.soort === "bericht" ? "Koning" : "Ronde " + ronde}</div>`;
+// De zitting als reeks stappen: de Koning geeft het woord, het Raadslid antwoordt, ... en tot slot het Verdict.
+function bouwStappen(trace, verdict) {
+  const stappen = [];
+  let bronnen = {};
+  for (const b of trace.beurten || []) {
+    if (b.soort === "routering") {
+      stappen.push(b.aan ? { soort: "koning", rol: "koning", naar: b.aan, tekst: b.vraag, reden: b.reden }
+                         : { soort: "stop", rol: "koning", tekst: b.reden });
+    } else if ((b.soort === "toolcall" || b.soort === "bestand") && b.ronde > 0) {
+      bronnen[b.spreker] = (bronnen[b.spreker] || 0) + 1;
+    } else if (b.soort === "bericht" && ROLLEN.includes(b.spreker)) {
+      stappen.push({ soort: "bericht", rol: b.spreker, tekst: b.tekst, bronnen: bronnen[b.spreker] || 0, controle: b.controle?.oordeel });
+      bronnen = {};
+    } else if (b.soort === "bericht" && b.spreker === "koning") {
+      stappen.push({ soort: "samenvatting", rol: "koning", tekst: b.tekst });
     }
-    const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
+  }
+  if (trace.status === "bezig" && trace.aan_het_woord) stappen.push({ soort: "denkt", rol: trace.aan_het_woord });
+  if (trace.status !== "bezig" && verdict && verdict.run_id === trace.run_id) stappen.push({ soort: "verdict", rol: "koning" });
+  return stappen;
+}
+
+// ------------------------------------------------------------ weergave
+const plek = (rol, scene) => S.pos[scene]?.[rol] || { x: .5, y: .35, midden_y: .45 };
+
+function toon(i, typen = true) {
+  clearTimeout(S.typTimer); clearTimeout(S.volgTimer);
+  if (!S.stappen.length) return;
+  S.i = Math.max(0, Math.min(i, S.stappen.length - 1));
+  const st = S.stappen[S.i], feest = st.soort === "verdict";
+  $("podium").classList.toggle("feest", feest);
+  $("rol").classList.toggle("open", feest);
+  if (feest) finale(); else $("confetti").innerHTML = "";
+  window.raad3d?.regie(st);
+  ballon(st, kop(st.rol), typen && !feest);
+  kaarten(st.rol);
+  tijdlijn();
+  teller(st);
+}
+
+function ballon(st, p, typen) {
+  const b = $("ballon");
+  b.classList.remove("zichtbaar");
+  if (st.soort === "verdict") return;
+  plaats(b, st, p);
+  let sub = "", tekst = st.tekst || "", extra = "";
+  if (st.soort === "koning") { sub = `geeft het woord aan <span class="naar" style="--naar:${kleur(st.naar)}">${esc(NAMEN[st.naar] || st.naar)}</span>`; extra = st.reden ? `<span class="reden">Waarom: ${opmaak(st.reden)}</span>` : ""; }
+  if (st.soort === "stop") sub = "sluit het debat";
+  if (st.soort === "samenvatting") sub = "vat het debat samen";
+  if (st.soort === "bericht") sub = st.controle === "gecorrigeerd" ? "spreekt · gecontroleerd tegen de bron" : "spreekt";
+  if (st.soort === "denkt") { sub = "zoekt in de eigen Kennisbron"; tekst = "…"; }
+  const bron = st.soort === "bericht" && st.bronnen ? `<span class="bron">${icoon("bron")}las ${st.bronnen}× in de eigen Kennisbron</span>` : "";
+  b.innerHTML = `<div class="kop"><span class="zegel"><img src="${avatar(st.rol)}" alt=""></span><div><b>${esc(NAMEN[st.rol] || st.rol)}</b><small>${sub}</small></div></div>${bron}<div class="tekst"></div>`;
+  void b.offsetWidth;  // layout eerst, dan pas zichtbaar: zo start de overgang altijd
+  b.classList.add("zichtbaar");
+  const vak = b.querySelector(".tekst");
+  const klaar = () => { vak.classList.remove("cursor"); vak.innerHTML = opmaak(tekst) + extra; plan(); };
+  if (!typen || rustig) return klaar();
+  let n = 0;
+  vak.classList.add("cursor");
+  const stap = () => {
+    n = Math.min(tekst.length, n + Math.ceil(3 * S.snelheid));
+    vak.textContent = tekst.slice(0, n);
+    if (vak.scrollHeight - vak.scrollTop - vak.clientHeight > 4) vak.scrollTo({ top: vak.scrollHeight, behavior: "smooth" });
+    if (n < tekst.length) S.typTimer = setTimeout(stap, 16); else klaar();
+  };
+  stap();
+}
+
+// Het perkament boven het hoofd van de spreker, met de punt naar hem toe; de Koning krijgt het naast zich.
+function plaats(b, st, p, alleenPositie = false) {
+  const W = $("podium").clientWidth, H = $("podium").clientHeight;
+  const bw = Math.min(W * 0.4, 560), x = p.x * W, y = p.y * H;
+  // In de 3D-zaal staat de spreker in close-up links in beeld: het perkament komt rechts naast zijn hoofd.
+  const zij = st.rol === "koning" || !!window.raad3d;
+  if (!alleenPositie) {
+    b.style.setProperty("--kleur", kleur(st.rol));
+    b.style.width = bw + "px"; b.style.right = ""; b.style.bottom = ""; b.style.top = "";
+  }
+  b.classList.toggle("zij", zij);
+  if (zij) {
+    b.style.left = Math.min(x + W * 0.07, W - bw - W * 0.02) + "px";
+    b.style.top = (H * 0.05) + "px";
+    b.style.maxHeight = (H * 0.58) + "px";
+    b.style.setProperty("--staart-y", Math.max(24, y - H * 0.05 - 10) + "px");
+    return;
+  }
+  const links = Math.min(Math.max(x - bw * (p.x < .5 ? 0.72 : 0.28), W * 0.02), W - bw - W * 0.02);
+  b.style.left = links + "px";
+  b.style.bottom = (H - y + H * 0.035) + "px";
+  b.style.maxHeight = Math.max(H * 0.26, y - H * 0.07) + "px";
+  b.style.setProperty("--staart", Math.min(Math.max(x - links - 11, 18), bw - 40) + "px");
+}
+// Waar het hoofd van een figuur nu op het scherm staat: live uit de 3D-zaal, anders uit de render.
+const kop = rol => window.raad3d?.kop(rol) || plek(rol, "zaal");
+// Elk beeld van de 3D-zaal: het perkament volgt het hoofd van de spreker.
+window.volgBallon = () => {
+  const st = S.stappen[S.i], b = $("ballon");
+  if (st && st.soort !== "verdict" && b.classList.contains("zichtbaar")) plaats(b, st, kop(st.rol), true);
+};
+addEventListener("resize", () => window.volgBallon());
+document.addEventListener("raad3d-klaar", () => { $("laden").classList.add("weg"); const st = S.stappen[S.i]; if (st) window.raad3d.regie(st); });
+
+function plan() {  // na het lezen naar de volgende stap
+  clearTimeout(S.volgTimer);
+  const st = S.stappen[S.i];
+  if (!S.spelen || !st || st.soort === "denkt" || st.soort === "verdict" || S.i >= S.stappen.length - 1) return;
+  S.volgTimer = setTimeout(() => toon(S.i + 1), Math.min(16000, 2400 + (st.tekst || "").length * 22) / S.snelheid);
+}
+
+function kaarten(actief) {
+  const telling = {};
+  for (const s of S.stappen) if (s.soort === "bericht") telling[s.rol] = (telling[s.rol] || 0) + 1;
+  const rollen = [...(S.trace?.raadsleden || ROLLEN)];
+  const rij = [...rollen.slice(0, 3), "koning", ...rollen.slice(3)];
+  $("kaarten").innerHTML = rij.map(r => `<button class="kaart${r === actief ? " actief" : ""}" style="--kleur:${kleur(r)}" data-rol="${r}" aria-label="${esc(NAMEN[r])}${r === "koning" ? "" : ", " + (telling[r] || 0) + " beurten"}"><img src="${avatar(r)}" alt=""><span>${r === "koning" ? "Koning" : (telling[r] || 0) + "×"}</span></button>`).join("");
+}
+
+function tijdlijn() {
+  $("tijdlijn").innerHTML = S.stappen.map((s, n) =>
+    `<button class="pip${s.rol === "koning" ? " koning" : ""}${n < S.i ? " gezien" : ""}${n === S.i ? " nu" : ""}" style="--kleur:${kleur(s.rol)}" data-i="${n}" aria-label="Stap ${n + 1}: ${esc(NAMEN[s.rol] || s.rol)}"></button>`).join("");
+}
+
+function teller(st) {
+  const gesproken = S.stappen.slice(0, S.i + 1).filter(s => s.soort === "bericht").length;
+  const wat = { koning: `De Koning kiest ${NAMEN[st.naar] || ""}`, stop: "De Koning sluit het debat", bericht: `${NAMEN[st.rol]} spreekt`,
+                samenvatting: "De Koning vat samen", denkt: `${NAMEN[st.rol] || "De Raad"} denkt na`, verdict: "Het Verdict" }[st.soort];
+  $("teller").innerHTML = `<b>Beurt ${gesproken} van ${BEURTENBUDGET}</b><small>${esc(wat)}</small>`;
+}
+
+// ------------------------------------------------------------ finale: feest en Verdict
+function finale() {
+  const v = S.verdict, o = v.oorzaak || {};
+  const deel = (naam, d) => {
+    const z = Math.round((d?.zekerheid ?? 0) * 100);
+    return `<div class="deel"><h3>${naam}</h3><div>${d?.bewering ? opmaak(d.bewering) + " " + (d.bewijs || []).map(i => opmaak(i)).join(" ") : '<span class="leeg">nog onbekend</span>'}
+      ${d?.bewering ? `<div class="zeker"><span class="balk2"><i style="width:${z}%"></i></span>zekerheid ${z}%${d.bronnen ? " · " + d.bronnen.map(r => NAMEN[r] || r).join(", ") : ""}</div>` : ""}</div></div>`;
+  };
+  const p = v.voorspelling;
+  $("rol").querySelector(".vel").innerHTML = `<h2 class="gotisch">Het Verdict</h2><p class="samenvatting">${opmaak(v.samenvatting)}</p>
+      ${deel("Ingreep", o.ingreep)}${deel("Mechanisme", o.mechanisme)}${deel("Verloop", o.verloop)}
+      ${p ? `<div class="deel"><h3>Voorspelling</h3><div><b>Dag ${p.dag}.</b> ${opmaak(p.bewering)}</div></div>` : ""}
+      <div class="deel"><h3>Herstel</h3><ol>${(v.acties || []).map(a => `<li>${opmaak(a.actie)}</li>`).join("")}</ol></div>
+      <div class="deel"><h3>Risico's</h3><ol>${(v.risicos || []).map(r => `<li>${opmaak(r.risico)}</li>`).join("")}</ol></div>
+      <div class="acties"><button class="knop-paars" id="opnieuw">${icoon("opnieuw")}Zitting opnieuw</button></div>`;
+  $("opnieuw").onclick = () => { S.spelen = true; zetSpeel(); toon(0); };
+  if (!rustig && !$("confetti").childElementCount) {
+    const kleuren = ["#dc56f0", "#a52bd9", "#e292f4", "#f48d30", "#e1e7ff", "#ffd27a"];
+    $("confetti").innerHTML = Array.from({ length: 110 }, () =>
+      `<i class="snipper" style="left:${(Math.random() * 100).toFixed(1)}%;background:${kleuren[Math.floor(Math.random() * kleuren.length)]};animation-duration:${(3.2 + Math.random() * 3).toFixed(2)}s;animation-delay:${(Math.random() * 2.4).toFixed(2)}s"></i>`).join("");
+  }
+}
+
+// ------------------------------------------------------------ logboek: alle details van de run
+function logboek(trace) {
+  $("runid").textContent = trace.run_id || "";
+  const telling = {}, padfouten = [], koningTools = [], zonderRoutering = [];
+  let toegewezen = null, raadslid = 0, html = "";
+  for (const b of trace.beurten || []) {
+    const t = telling[b.spreker] ??= { berichten: 0, tools: 0 };
     const stijl = `style="--kleur:${kleur(b.spreker)}"`;
     if (b.soort === "routering") {
       toegewezen = b.aan;
-      const wie = `<span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span>`;
-      const open = (b.open_vragen || []).length ? `<br>Open vragen: ${b.open_vragen.map(v => opmaak(v)).join(" · ")}` : "";
-      html += b.aan
-        ? `<div class="beurt klein" ${stijl}>${wie} → <b style="color:${kleur(b.aan)}">${esc(NAMEN[b.aan] || b.aan)}</b>: ${opmaak(b.vraag)}<br>Waarom: ${opmaak(b.reden)}${open}</div>`
-        : `<div class="beurt klein" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
+      html += `<div class="regel zacht" ${stijl}><span class="wie">Koning</span> ${b.aan ? "geeft het woord aan <b>" + esc(NAMEN[b.aan]) + "</b>: " + opmaak(b.vraag) : "sluit het debat"}<br>Waarom: ${opmaak(b.reden)}</div>`;
       continue;
-    }
-    if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens"].includes(b.spreker)) {
-      raadslidBeurten++;
-      if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
-      toegewezen = null;
     }
     if (b.soort === "bericht") {
       t.berichten++;
-      for (const x of ids(b.tekst)) { t.ids.add(x.id); if (x.raar) vreemdeIds.push(x.id); }
-      html += `<div class="beurt" ${stijl}><div class="wie">${mini(b.spreker)}${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
+      if (ROLLEN.includes(b.spreker)) { raadslid++; if (toegewezen !== b.spreker) zonderRoutering.push(b.nr); toegewezen = null; }
+      html += `<div class="regel" ${stijl}><span class="wie">${esc(NAMEN[b.spreker] || b.spreker)}</span><br>${opmaak(b.tekst).replace(/\n/g, "<br>")}</div>`;
     } else {
       t.tools++;
-      let vlag = "";
-      if (b.soort === "toolcall") {
-        if (b.spreker === "koning") { koningTools.push(b.nr); vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`; }
-        else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) { padfouten.push(b.nr); vlag = ` <span class="vlag">pad van een andere Rol</span>`; }
-      }
-      if (b.soort === "bestand" && b.bestand && !b.bestand.startsWith(b.spreker + "/")) { padfouten.push(b.nr); vlag = ` <span class="vlag">bestand van een andere Rol</span>`; }
-      const wat = b.soort === "toolcall"
-        ? `🔎 <code>${esc(b.tool)}(${esc(Object.entries(b.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", "))})</code>`
-        : `📄 <code>${esc(b.bestand)}</code> in de prompt`;
-      html += `<div class="beurt klein" ${stijl}><span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span> · ${wat}${vlag}</div>`;
+      if (b.spreker === "koning") koningTools.push(b.nr);
+      else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) padfouten.push(b.nr);
+      html += `<div class="regel zacht" ${stijl}><span class="wie">${esc(NAMEN[b.spreker] || b.spreker)}</span> · ${b.soort === "toolcall" ? esc(b.tool) : esc(b.bestand)}</div>`;
     }
   }
-  if (bezig && trace.aan_het_woord) {
-    html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${mini(trace.aan_het_woord)}${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
-  }
-  for (const g of trace.geschillen || []) {
-    html += `<div class="ronde">Geschil</div><div class="beurt" style="--kleur:var(--koning)"><div class="wie">${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
-  }
-  const debat = document.getElementById("debat");
-  const onderaan = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
-  debat.innerHTML = html || '<p class="melding">De run is gestart; de eerste beurt komt eraan.</p>';
-  if (bezig && onderaan) window.scrollTo(0, document.body.scrollHeight);
-
-  // Raadsleden
-  document.getElementById("leden").innerHTML = [...(trace.raadsleden || []), "koning"].map(r => {
-    const t = telling[r] || { berichten: 0, tools: 0, ids: new Set() };
-    return `<div class="lid" style="--kleur:${kleur(r)}"><span class="stip"></span><span>${esc(NAMEN[r] || r)}</span><span class="getal">${t.berichten} ber · ${t.tools} bron · ${t.ids.size} ID's</span></div>`;
+  $("debat").innerHTML = html;
+  $("leden").innerHTML = [...(trace.raadsleden || []), "koning"].map(r => {
+    const t = telling[r] || { berichten: 0, tools: 0 };
+    return `<div class="regel zacht" style="--kleur:${kleur(r)}"><span class="wie">${esc(NAMEN[r] || r)}</span> · ${t.berichten} berichten · ${t.tools}× in de bron</div>`;
   }).join("");
-
-  // Spelregels
-  const zonderBron = (trace.raadsleden || []).filter(r => !(telling[r]?.tools));
   const checks = [
     [padfouten.length ? "fout" : "ok", padfouten.length ? `Kennisbron van een andere Rol gelezen (beurt ${padfouten.join(", ")})` : "Elk Raadslid las alleen de eigen Kennisbron"],
-    [koningTools.length ? "fout" : "ok", koningTools.length ? `Koning las een Kennisbron (beurt ${koningTools.join(", ")})` : "Koning las geen Kennisbron"],
-    [zonderBron.length ? "let" : "ok", zonderBron.length ? `Zonder bron: ${zonderBron.map(r => NAMEN[r] || r).join(", ")}` : "Elk Raadslid raadpleegde een bron"],
-    [vreemdeIds.length ? "let" : "ok", vreemdeIds.length ? `ID's met een vreemd koppelteken: ${[...new Set(vreemdeIds)].join(", ")}` : "ID's in de juiste vorm"],
+    [koningTools.length ? "fout" : "ok", koningTools.length ? `De Koning las een Kennisbron (beurt ${koningTools.join(", ")})` : "De Koning las geen Kennisbron"],
     [(trace.raadsleden || []).length >= 3 ? "ok" : "let", `${(trace.raadsleden || []).length} Rollen (minimum 3)`],
-    [raadslidBeurten > BEURTENBUDGET ? "fout" : "ok", `${raadslidBeurten} van ${BEURTENBUDGET} Raadslid-beurten (Beurtenbudget)`],
-    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Raadslid-beurt zonder Routering ervoor (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een Routering"],
+    [raadslid > BEURTENBUDGET ? "fout" : "ok", `${raadslid} van ${BEURTENBUDGET} Raadslid-beurten`],
+    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Beurt zonder routering (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een routering"],
   ];
-  document.getElementById("checks").innerHTML = checks.map(([k, t]) => `<div class="check ${k}">${esc(t)}</div>`).join("");
-
-  // Verbruik
+  $("checks").innerHTML = checks.map(([k, t]) => `<div class="check ${k}">${esc(t)}</div>`).join("");
   const v = trace.verbruik || {};
-  document.getElementById("verbruik").innerHTML = Object.keys(v).length
-    ? `<table>${Object.entries(v).map(([m, x]) => `<tr><td>${esc(m)} · ${x.beurten ?? x.calls} beurten</td><td>${(x.invoer || 0).toLocaleString("nl-BE")} in · ${(x.uitvoer || 0).toLocaleString("nl-BE")} uit</td></tr>`).join("")}</table>`
+  $("verbruik").innerHTML = Object.keys(v).length
+    ? `<table>${Object.entries(v).map(([m, x]) => `<tr><td>${esc(m)} · ${x.beurten ?? 0} calls</td><td>${(x.invoer || 0).toLocaleString("nl-BE")} in · ${(x.uitvoer || 0).toLocaleString("nl-BE")} uit</td></tr>`).join("")}</table>`
     : '<span class="leeg">nog geen calls</span>';
-
-  // Verdict
-  const vd = document.getElementById("verdict");
-  if (!verdict || verdict.run_id !== trace.run_id) {
-    vd.innerHTML = `<span class="leeg">${verdict ? "verdict.json hoort bij een andere run" : bezig ? "komt na de Koning" : "geen verdict.json"}</span>`;
-  } else {
-    const slot = (naam, s) => `<div class="slot"><b>${naam}</b>${s?.bewering ? opmaak(s.bewering) + " " + (s.bewijs || []).map(i => opmaak(i)).join(" ") : '<span class="leeg">onbekend (null)</span>'}</div>`;
-    const o = verdict.oorzaak || {};
-    vd.innerHTML = `<div class="slot"><b>Samenvatting</b>${verdict.samenvatting === "TODO" ? '<span class="leeg">TODO</span>' : opmaak(verdict.samenvatting)}</div>`
-      + slot("Ingreep", o.ingreep) + slot("Mechanisme", o.mechanisme) + slot("Verloop", o.verloop)
-      + `<div class="slot"><b>Herstelplan</b><ol>${(verdict.acties || []).map(a => `<li>${opmaak(a.actie)}</li>`).join("")}</ol></div>`
-      + `<div class="slot"><b>Risico's</b><ol>${(verdict.risicos || []).map(r => `<li>${opmaak(r.risico)}</li>`).join("")}</ol></div>`;
-  }
 }
 
-async function haal(pad) {
-  try { const r = await fetch(pad, { cache: "no-store" }); return r.ok ? await r.text() : null; } catch { return null; }
-}
+// ------------------------------------------------------------ bediening
+function zetSpeel() { $("speel").innerHTML = icoon(S.spelen ? "pauze" : "speel"); $("speel").setAttribute("aria-label", S.spelen ? "Pauzeren" : "Afspelen"); }
+$("speel").onclick = () => { S.spelen = !S.spelen; zetSpeel(); S.spelen ? plan() : clearTimeout(S.volgTimer); };
+$("vorige").onclick = () => toon(S.i - 1, false);
+$("volgende").onclick = () => toon(S.i + 1);
+$("snelheid").onchange = e => { S.snelheid = +e.target.value; plan(); };
+$("tijdlijn").onclick = e => { const n = e.target.closest(".pip")?.dataset.i; if (n !== undefined) toon(+n, false); };
+$("kaarten").onclick = e => {
+  const rol = e.target.closest(".kaart")?.dataset.rol; if (!rol) return;
+  const na = S.stappen.findIndex((s, k) => k > S.i && s.rol === rol && s.soort !== "koning");
+  const m = na >= 0 ? na : S.stappen.findIndex(s => s.rol === rol && s.soort !== "koning");
+  if (m >= 0) toon(m, false);
+};
+$("open-logboek").onclick = () => $("logboek").classList.toggle("open");
+$("sluit-logboek").onclick = () => $("logboek").classList.remove("open");
+addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT") return;
+  if (!S.gestart && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); return start(); }
+  if (e.key === " ") { e.preventDefault(); $("speel").click(); }
+  if (e.key === "ArrowRight") $("volgende").click();
+  if (e.key === "ArrowLeft") $("vorige").click();
+  if (e.key.toLowerCase() === "l") $("open-logboek").click();
+  if (e.key === "Escape") $("logboek").classList.remove("open");
+});
 
+function start() {
+  if (S.gestart) return;
+  S.gestart = true;
+  $("intro").classList.add("weg");
+  $("podium").classList.add("gestart");
+  if (S.stappen.length) toon(params.has("stap") ? +params.get("stap") : 0);
+}
+$("start").onclick = start;
+
+// ------------------------------------------------------------ live bijwerken
 async function lus() {
   const [t, v] = await Promise.all([haal("trace.json"), haal("verdict.json")]);
-  if (t && t + (v || "") !== vorige) {
-    vorige = t + (v || "");
-    try { render(JSON.parse(t), v ? JSON.parse(v) : null); } catch { /* bestand half geschreven: volgende ronde opnieuw */ }
+  if (t && t + (v || "") !== S.sleutel) {
+    S.sleutel = t + (v || "");
+    try {
+      S.trace = JSON.parse(t); S.verdict = v ? JSON.parse(v) : null;
+      const opLaatste = S.i >= S.stappen.length - 1;
+      S.stappen = bouwStappen(S.trace, S.verdict);
+      const bezig = S.trace.status === "bezig";
+      $("status").className = bezig ? "live" : "klaar";
+      $("status").lastElementChild.textContent = bezig ? "Live" : "Zitting afgelopen";
+      $("melding").innerHTML = "";
+      logboek(S.trace);
+      if (S.gestart) {
+        if (S.i < 0) toon(0);
+        else if (bezig && opLaatste) toon(S.stappen.length - 1);  // live: volg de nieuwste beurt
+        else { tijdlijn(); kaarten(S.stappen[S.i]?.rol); }
+      }
+    } catch { /* bestand half geschreven: volgende ronde opnieuw */ }
+  } else if (!t) {
+    $("melding").innerHTML = "<span>De Council is nog niet bijeen. Start een run met uv run council.</span>";
   }
   setTimeout(lus, 1500);
 }
-lus();
+
+(async () => {
+  const [pz, pf] = await Promise.all([haal("beelden/posities_zaal.json", true), haal("beelden/posities_feest.json", true)]);
+  S.pos = { zaal: pz || {}, feest: pf || pz || {} };
+  if (params.get("pauze") === "1") { S.spelen = false; zetSpeel(); }
+  await lus();
+  if (params.get("intro") === "0") start();
+})();
+</script>
+<script type="module">
+// De raadszaal in 3D (three.js). Zaal: visualisatie/web/zaal.glb uit Blender; figuren: KayKit Adventurers (CC0) met
+// hun eigen animaties. De zitting (de script hierboven) roept window.raad3d.regie(stap) aan bij elke stap.
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { clone as kloon } from "three/addons/utils/SkeletonUtils.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
+
+const canvas = document.getElementById("zaal3d");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.9;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#140c1c");
+scene.fog = new THREE.FogExp2("#1b0f22", 0.012);
+const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.1, 200);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+// Wie spreekt, krijgt een gele gloedrand: zo ziet de jury van achteraan meteen wie aan het woord is.
+const rand = new OutlinePass(new THREE.Vector2(1, 1), scene, camera);
+rand.visibleEdgeColor.set("#ffd23c"); rand.hiddenEdgeColor.set("#7a5a10");
+rand.edgeStrength = 0; rand.edgeGlow = 1.2; rand.edgeThickness = 2.2; rand.pulsePeriod = 0;
+composer.addPass(rand);
+const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.38, 0.32, 0.9);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---------------------------------------------------------------- licht: oranje vlammen, paars maanlicht
+scene.add(new THREE.HemisphereLight("#8a5a6e", "#3a1a08", 0.5));
+const maan = new THREE.DirectionalLight("#9a84ff", 0.9); maan.position.set(0, 8, -20); scene.add(maan);
+const vul = new THREE.DirectionalLight("#ffa45c", 0.8); vul.position.set(0, 7, 10); scene.add(vul);
+const koningsSpot = new THREE.SpotLight("#bfe3ff", 6, 16, 0.3, 0.6, 1.4);
+koningsSpot.position.set(0, 9, -2); scene.add(koningsSpot); scene.add(koningsSpot.target);
+
+function vlamTextuur() {
+  const c = document.createElement("canvas"); c.width = c.height = 64;
+  const g = c.getContext("2d"), r = g.createRadialGradient(32, 38, 0, 32, 34, 30);
+  r.addColorStop(0, "rgba(255,244,210,1)"); r.addColorStop(.22, "rgba(255,176,64,.95)");
+  r.addColorStop(.55, "rgba(255,96,18,.38)"); r.addColorStop(1, "rgba(255,60,0,0)");
+  g.fillStyle = r; g.fillRect(0, 0, 64, 64);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const VLAMTEX = vlamTextuur();
+const vlammen = [], flakkerLichten = [];
+function vlam(pos, grootte, groep) {
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: VLAMTEX, color: "#ff9a3c", blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .85 }));
+  s.position.fromArray(pos); s.position.y += grootte * 0.15; s.scale.setScalar(grootte);
+  s.userData = { basis: grootte, fase: Math.random() * 100, groep };
+  scene.add(s); vlammen.push(s); return s;
+}
+function oranjeLicht(pos, sterkte, bereik, groep) {
+  const l = new THREE.PointLight("#ff6a18", sterkte, bereik, 2);
+  l.position.fromArray(pos); l.position.y += 0.25;
+  l.userData = { basis: sterkte, fase: Math.random() * 100, groep };
+  scene.add(l); flakkerLichten.push(l); return l;
+}
+
+// ---------------------------------------------------------------- laden
+const loader = new GLTFLoader();
+const sd = await (await fetch("3d/scene.json")).json();
+const modelNamen = [...new Set(Object.values(sd.rollen).map(r => r.model))];
+const [zaalGltf, etenGltf, ...modelGltfs] = await Promise.all([loader.loadAsync("3d/zaal.glb"), loader.loadAsync("3d/eten.glb"),
+  ...modelNamen.map(m => loader.loadAsync(`3d/figuren/${m}.glb`))]);
+const modellen = Object.fromEntries(modelNamen.map((m, i) => [m, modelGltfs[i]]));
+
+scene.add(zaalGltf.scene);
+const groepen = Object.fromEntries(["hal", "debat", "feest", "troon", "attributen"].map(n => [n, zaalGltf.scene.getObjectByName(n)]));
+groepen.feest.visible = false;
+groepen.attributen.visible = false;
+zaalGltf.scene.traverse(o => {
+  if (!o.isMesh) return;
+  const m = o.material;
+  m.metalness = Math.min(m.metalness ?? 0, 0.15); m.roughness = Math.max(m.roughness ?? 1, 0.6);
+  if (m.emissive) { m.emissive.setRGB(0, 0, 0); m.emissiveMap = null; m.emissiveIntensity = 0; }  // vlammen doen de sprites
+});
+// Echt eten (KayKit Restaurant Bits, CC0): ham, steak, kaas, tomaat, wortel en brood, elk ~0.24 m.
+const ETEN = ["eten_ham_cooked", "eten_steak", "eten_cheese", "eten_tomato", "eten_carrot", "eten_bun"]
+  .map(n => etenGltf.scene.getObjectByName(n)).filter(Boolean);
+for (const e of ETEN) e.traverse(o => { if (o.isMesh) o.material.roughness = Math.max(o.material.roughness ?? 1, .55); });
+function nieuwHapje() { const c = kies(ETEN).clone(true); c.position.set(0, 0, 0); c.scale.multiplyScalar(1.7); return c; }
+
+for (const f of sd.vlammen) {
+  const fakkel = f.soort === "torch_mounted";
+  vlam(f.pos, fakkel ? 0.5 : f.soort === "shelf_small_candles" ? 0.32 : 0.2, f.groep);
+}
+for (const p of sd.fakkels) oranjeLicht(p, 9, 9, "hal");
+for (const f of sd.vlammen) {  // kaarsen aan de pilaren en de grote kaarsen op tafel krijgen echt licht
+  if (f.soort === "candle_lit") oranjeLicht(f.pos, f.groep === "hal" ? 1.6 : 1.3, f.groep === "hal" ? 4 : 3.5, f.groep);
+}
+function zetGroep(feest) {
+  groepen.debat.visible = !feest; groepen.feest.visible = feest;
+  for (const v of vlammen) v.visible = v.userData.groep === "hal" || v.userData.groep === "troon" || v.userData.groep === (feest ? "feest" : "debat");
+  for (const l of flakkerLichten) l.visible = l.userData.groep === "hal" || l.userData.groep === (feest ? "feest" : "debat");
+}
+zetGroep(false);
+
+// ---------------------------------------------------------------- figuren
+const ATTR = new Set(["1H_Sword", "1H_Sword_Offhand", "2H_Sword", "Badge_Shield", "Rectangle_Shield", "Round_Shield", "Spike_Shield",
+  "1H_Axe", "1H_Axe_Offhand", "2H_Axe", "Barbarian_Round_Shield", "Mug", "1H_Wand", "2H_Staff", "Spellbook", "Spellbook_open",
+  "1H_Crossbow", "2H_Crossbow", "Knife", "Knife_Offhand", "Throwable", "Icosphere"]);
+const basis = n => n.replace(/[._]\d+$/, "");
+const wacht = ms => new Promise(r => setTimeout(r, ms));
+const kies = lijst => lijst[Math.floor(Math.random() * lijst.length)];
+
+class Figuur {
+  constructor(rol, info) {
+    const g = modellen[info.model];
+    this.rol = rol; this.info = info;
+    this.obj = kloon(g.scene);
+    this.mixer = new THREE.AnimationMixer(this.obj);
+    this.clips = Object.fromEntries(g.animations.map(c => [c.name, c]));
+    this.attr = {};
+    this.obj.traverse(o => {
+      const b = basis(o.name);
+      if (ATTR.has(b)) { (this.attr[b] ||= []).push(o); o.visible = info.tonen.includes(b); }
+      if (info.verbergen.includes(b)) o.visible = false;
+      if (o.isMesh) {
+        o.frustumCulled = false;
+        o.material = o.material.clone();  // eigen materiaal: alleen de spreker gloeit
+        if (o.material.emissive) (this.mats ||= []).push(o.material);
+      }
+    });
+    this.gloed = 0;
+    this.hand = this.obj.getObjectByName("handslotr") || this.obj.getObjectByName("handslot.r");
+    this.hoofd = this.obj.getObjectByName("head");
+    this.huidig = null; this.bezig = false; this.zit = false; this.praat = false; this.token = 0;
+    this.hoofdBasis = new THREE.Quaternion(); this.knik = false; this.fase = Math.random() * 10;
+    scene.add(this.obj);
+  }
+  // Wapens en schilden alleen als het figuur staat: zittend steken ze door de tafel.
+  wapens(aan) {
+    for (const b of this.info.tonen) if (ATTR.has(b)) this.toonAttr(b, aan);
+    if (this.bol) this.bol.visible = aan;
+  }
+  // Zachte gele gloed op het hele figuur (0..1).
+  zetGloed(g) {
+    if (Math.abs(g - this.gloed) < .002) return;
+    this.gloed = g;
+    for (const m of this.mats || []) { m.emissive.setRGB(1, .72, .18); m.emissiveIntensity = g * .32; }
+  }
+  // Waar de camera naar kijkt: het gezicht van een staand figuur, los van het gewiebel van de animatie.
+  gezicht(v = new THREE.Vector3()) {
+    return v.copy(this.obj.position).add(new THREE.Vector3(0, GEZICHT * this.obj.scale.y, 0));
+  }
+  richting(v = new THREE.Vector3()) { return v.set(Math.sin(this.obj.rotation.y), 0, Math.cos(this.obj.rotation.y)); }
+  plaats(p, schaal = 1) { this.obj.position.fromArray(p.pos); this.obj.rotation.set(0, p.rotY, 0); this.obj.scale.setScalar(schaal); }
+  toonAttr(naam, aan) { for (const o of this.attr[naam] || []) o.visible = aan; }
+  speel(naam, { eenmaal = false, fade = 0.3, snelheid = 1 } = {}) {
+    const clip = this.clips[naam];
+    if (!clip) return Promise.resolve();
+    const a = this.mixer.clipAction(clip);
+    a.reset(); a.setEffectiveTimeScale(snelheid); a.setEffectiveWeight(1);
+    a.setLoop(eenmaal ? THREE.LoopOnce : THREE.LoopRepeat, Infinity); a.clampWhenFinished = eenmaal;
+    if (this.huidig && this.huidig !== a) a.crossFadeFrom(this.huidig, fade, false);
+    a.play(); this.huidig = a;
+    if (!eenmaal) { a.time = Math.random() * clip.duration * 0.6; return Promise.resolve(); }
+    return new Promise(r => {
+      const klaar = e => { if (e.action === a) { this.mixer.removeEventListener("finished", klaar); r(); } };
+      this.mixer.addEventListener("finished", klaar);
+      setTimeout(r, clip.duration * 1000 / snelheid + 400);  // vangnet
+    });
+  }
+  kopWereld(v = new THREE.Vector3(), hoogte = 0.95) {
+    this.hoofd.getWorldPosition(v);
+    v.y += hoogte * this.obj.scale.y;
+    return v;
+  }
+}
+
+const figuren = {};
+for (const [rol, info] of Object.entries(sd.rollen)) figuren[rol] = new Figuur(rol, info);
+const raad = Object.keys(sd.zetels);
+const koning = figuren.koning;
+
+// IJskroon voor de Vorstkoning, op zijn hoofdbot
+{
+  const ijs = new THREE.MeshStandardMaterial({ color: "#9fd8ff", emissive: "#3f9dff", emissiveIntensity: 1.4, roughness: .15, metalness: .1, transparent: true, opacity: .92 });
+  const goud = new THREE.MeshStandardMaterial({ color: "#ffc35a", metalness: .9, roughness: .3 });
+  const kroon = new THREE.Group(); const r = .3;
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(r, r * .13, 10, 28), goud); ring.rotation.x = Math.PI / 2; kroon.add(ring);
+  for (let i = 0; i < 7; i++) {
+    const a = i / 7 * Math.PI * 2, h = r * (i === 0 ? 1.6 : i % 2 ? 1.0 : 1.3);
+    const k = new THREE.Mesh(new THREE.ConeGeometry(r * .22, h, 6), ijs);
+    k.position.set(Math.sin(a) * r, h / 2, Math.cos(a) * r); kroon.add(k);
+  }
+  koning.kroon = kroon;
+}
+// Gloeiende zienersbol voor de Oracle
+{
+  const o = figuren.oracle;
+  const bol = new THREE.Mesh(new THREE.SphereGeometry(.13, 24, 16), new THREE.MeshStandardMaterial({ color: "#d79bff", emissive: "#b44dff", emissiveIntensity: 2.2 }));
+  bol.position.set(0, .12, 0); o.hand.add(bol);
+  const l = new THREE.PointLight("#c46bff", 0.9, 3, 2); bol.add(l);
+  o.bol = bol;
+}
+
+// Op elk bord voor een Raadslid ligt eten; wie eet, pakt het van zijn eigen bord.
+function vulBord(f) {
+  if (f.bord) scene.remove(f.bord);
+  const z = sd.zetels[f.rol], h = nieuwHapje();
+  h.position.set(Math.sign(z.pos[0]) * 0.55, 0, z.pos[2]); h.rotation.y = Math.random() * Math.PI * 2;
+  scene.add(h); h.updateMatrixWorld(true);
+  const doos = new THREE.Box3().setFromObject(h);
+  h.position.y = sd.tafelhoogte + 0.05 - doos.min.y;
+  h.userData.vol = h.scale.x; f.bord = h;
+}
+function opTafel(h, x, z) {
+  h.position.set(x, 0, z); h.rotation.y = Math.random() * Math.PI * 2;
+  scene.add(h); h.updateMatrixWorld(true);
+  h.position.y = sd.tafelhoogte + 0.05 - new THREE.Box3().setFromObject(h).min.y;
+  return h;
+}
+const tafelEten = [];
+for (const z of [-2.65, -5.35]) for (const [dx, dz] of [[-.25, -.3], [.25, 0], [-.2, .35]]) tafelEten.push(opTafel(nieuwHapje(), dx, z + dz));
+function debatOpstelling() {
+  for (const h of tafelEten) h.visible = true;
+  zetGroep(false);
+  for (const rol of raad) {
+    const f = figuren[rol];
+    f.token++; f.praat = false; f.bezig = false; f.zit = true;
+    f.plaats(sd.zetels[rol]); f.toonAttr("Mug", false); f.wapens(false); if (f.rek) f.rek.visible = true;
+    for (const h of [...f.hand.children]) if (h.userData.hapje) f.hand.remove(h);
+    if (!f.bord) vulBord(f);
+    f.bord.visible = true;
+    f.speel("Sit_Chair_Idle", { fade: 0 });
+  }
+  koning.plaats(sd.koning, sd.koning.schaal); koning.speel("Idle", { fade: 0 });
+}
+debatOpstelling();
+koning.mixer.update(0); koning.obj.updateMatrixWorld(true);
+// Hoogte van het gezicht van een staand figuur (gemeten aan de Koning in Idle), voor de camera en de volgspot.
+const GEZICHT = (() => { const v = new THREE.Vector3(); koning.hoofd.getWorldPosition(v); return v.y / sd.koning.schaal + 0.45; })();
+{  // kroon op de kruin: bovenkant van het figuur boven het hoofdbot
+  const doos = new THREE.Box3().setFromObject(koning.obj, true);
+  const hoofdW = new THREE.Vector3(); koning.hoofd.getWorldPosition(hoofdW);
+  koning.kroon.position.set(hoofdW.x, doos.max.y - 0.12, hoofdW.z);
+  koning.kroon.scale.setScalar(sd.koning.schaal * 0.95);
+  scene.add(koning.kroon); koning.hoofd.attach(koning.kroon);
+}
+koningsSpot.target.position.fromArray(sd.koning.pos);
+
+// ---------------------------------------------------------------- gedrag
+const GEBAREN = {
+  koning: ["Interact", "Idle"], archmage: ["Spellcasting", "Idle", "Interact"], engineer: ["Interact", "Idle", "1H_Ranged_Aiming"],
+  guardian_keeper: ["Interact", "Blocking", "Idle"], historian: ["Interact", "Idle", "Use_Item"], oracle: ["Spellcast_Raise", "Idle", "Interact"],
+  beast_master: ["Interact", "2H_Melee_Idle", "Idle"],
+};
+let modus = "debat", spreker = null;
+
+async function spreek(f) {
+  const t = ++f.token; f.bezig = true; f.praat = true;
+  if (f.zit) { await f.speel("Sit_Chair_StandUp", { eenmaal: true, fade: .2 }); f.zit = false; }
+  let k = 0;
+  while (f.praat && f.token === t && modus === "debat") {
+    const g = GEBAREN[f.rol][k++ % GEBAREN[f.rol].length];
+    if (g === "Idle" || g === "2H_Melee_Idle") { f.speel(g); await wacht(1600 + Math.random() * 900); }
+    else await f.speel(g, { eenmaal: true });
+  }
+}
+async function zitWeer(f) {
+  const t = ++f.token; f.praat = false;
+  if (modus !== "debat" || f === koning) return;
+  if (!f.zit) { f.wapens(false); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 }); f.zit = true; }
+  if (f.token === t) { f.speel("Sit_Chair_Idle"); f.bezig = false; }
+}
+
+// Even eten pakken van tafel, drinken, juichen of schrikken: de zaal leeft ook als iemand anders spreekt.
+const duur = (f, n) => (f.clips[n]?.duration || 1) * 1000;
+function inHand(f, h) {
+  const ws = new THREE.Vector3(); f.hand.getWorldScale(ws);
+  const grootte = h.scale.x;  // wereldgrootte zoals op het bord
+  h.position.set(0, .06 / ws.x, 0); h.rotation.set(Math.PI / 2, 0, 0); h.scale.setScalar(grootte / ws.x);
+  h.userData.hapje = true; f.hand.add(h);
+}
+async function eet(f) {
+  const t = f.token, grijpClip = modus === "debat" ? "Interact" : "PickUp";
+  // Grijpen: Interact reikt naar voren, naar het bord; halverwege ligt het eten in de hand.
+  const grijp = f.speel(grijpClip, { eenmaal: true });
+  await wacht(duur(f, grijpClip) * .45);
+  if (f.token !== t) return;
+  const vanBord = modus === "debat" && f.bord?.visible;
+  const h = vanBord ? f.bord.clone(true) : nieuwHapje();
+  if (vanBord) f.bord.visible = false;
+  inHand(f, h);
+  await grijp;
+  if (f.token !== t) { f.hand.remove(h); return; }
+  // Naar de mond en happen: twee happen, elk zichtbaar kleiner, met kruimels.
+  const mond = f.speel("Use_Item", { eenmaal: true });
+  await wacht(duur(f, "Use_Item") * .42);
+  if (f.token === t) { h.scale.multiplyScalar(.78); kruimels(f); }
+  await wacht(duur(f, "Use_Item") * .3);
+  if (f.token === t) { h.scale.multiplyScalar(.78); kruimels(f); }
+  await mond;
+  f.hand.remove(h);
+  if (vanBord) {  // terug op het bord, aangebeten; na een paar happen komt er een nieuwe gang
+    f.bord.scale.multiplyScalar(.7);
+    if (f.bord.scale.x < f.bord.userData.vol * .35) vulBord(f);
+    f.bord.visible = modus === "debat";
+  }
+}
+async function tussendoortje(f) {
+  if (f.bezig || f === koning) return;
+  const t = ++f.token; f.bezig = true;
+  const zat = f.zit;
+  if (zat) { await f.speel("Sit_Chair_StandUp", { eenmaal: true, fade: .2 }); f.zit = false; }
+  const keuze = kies(f.rol === "beast_master" ? ["drink", "drink", "juich", "schrik"]
+                   : f.rol === "archmage" ? ["vonken", "eet", "eet"] : ["eet", "eet", "eet", "juich", "schrik", "opzij"]);
+  if (keuze === "eet") await eet(f);
+  else if (keuze === "drink") {
+    f.toonAttr("2H_Axe", false); f.toonAttr("Mug", true);
+    await f.speel("Use_Item", { eenmaal: true });
+    f.toonAttr("Mug", modus === "feest");
+  } else if (keuze === "juich") await f.speel("Cheer", { eenmaal: true });
+  else if (keuze === "schrik") await f.speel("Hit_A", { eenmaal: true });
+  else if (keuze === "opzij") await f.speel(kies(["Dodge_Left", "Dodge_Right"]), { eenmaal: true });
+  else if (keuze === "vonken") { vonken(f); await f.speel("Spellcast_Shoot", { eenmaal: true }); }
+  if (f.token !== t) return;
+  if (modus === "debat" && zat) { await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 }); f.zit = true; if (f.token === t) f.speel("Sit_Chair_Idle"); }
+  else f.speel("Idle");
+  f.bezig = false;
+}
+setInterval(() => {
+  if (modus !== "debat" || document.hidden) return;
+  const vrij = raad.map(r => figuren[r]).filter(f => !f.bezig && f.rol !== spreker);
+  if (vrij.length && Math.random() < .85) tussendoortje(kies(vrij));
+}, 3000);
+
+// Feest na het Verdict: iedereen staat rond de feesttafel en viert.
+const FEEST = {
+  archmage: ["Cheer", "vonken", "eet", "Jump_Full_Short"], engineer: ["Cheer", "eet", "1H_Ranged_Shoot", "Dodge_Left"],
+  guardian_keeper: ["Cheer", "Block_Attack", "eet", "Jump_Full_Short"], historian: ["Cheer", "eet", "Interact", "Use_Item"],
+  oracle: ["Cheer", "Spellcast_Raise", "eet", "Dodge_Right"], beast_master: ["Cheer", "drink", "2H_Melee_Attack_Spinning", "drink"],
+};
+async function feestLus(f, t) {
+  await wacht(Math.random() * 1500);
+  while (modus === "feest" && f.token === t) {
+    const k = kies(FEEST[f.rol]);
+    if (k === "eet") { f.wapens(false); await eet(f); if (f.token === t) f.wapens(true); }
+    else if (k === "drink") await f.speel("Use_Item", { eenmaal: true });
+    else if (k === "vonken") { vonken(f); await f.speel("Spellcast_Shoot", { eenmaal: true }); }
+    else await f.speel(k, { eenmaal: true });
+    if (f.token !== t) return;
+    f.speel("Idle"); await wacht(600 + Math.random() * 1800);
+  }
+}
+function feestOpstelling() {
+  zetGroep(true);
+  for (const h of tafelEten) h.visible = false;
+  for (const rol of raad) {
+    const f = figuren[rol]; const t = ++f.token;
+    f.praat = false; f.zit = false; f.bezig = true;
+    f.plaats(sd.feest[rol]);
+    if (f.bord) f.bord.visible = false;
+    if (f.rek) f.rek.visible = false;
+    f.wapens(true);
+    if (rol === "beast_master") { f.toonAttr("2H_Axe", false); f.toonAttr("Mug", true); }
+    f.speel("Idle", { fade: 0 }); feestLus(f, t);
+  }
+  koning.speel("Cheer");
+}
+
+// ---------------------------------------------------------------- binnenkomst en wapens
+const lopers = new Set();
+function loop(f, x, z, snelheid = 2.4) {
+  f.speel("Walking_A", { fade: .2 });
+  return new Promise(klaar => { f.loopt = { doel: new THREE.Vector3(x, 0, z), snelheid, klaar }; lopers.add(f); });
+}
+function stapLopers(dt) {
+  for (const f of lopers) {
+    const l = f.loopt, d = l.doel.clone().sub(f.obj.position); d.y = 0;
+    const afst = d.length();
+    if (afst < .05) { lopers.delete(f); f.loopt = null; l.klaar(); continue; }
+    const wil = Math.atan2(d.x, d.z);
+    let dr = wil - f.obj.rotation.y; dr = Math.atan2(Math.sin(dr), Math.cos(dr));
+    f.obj.rotation.y += dr * Math.min(1, dt * 10);
+    f.obj.position.addScaledVector(d.normalize(), Math.min(afst, l.snelheid * dt));
+  }
+}
+const draaiNaar = (f, y) => new Promise(klaar => {
+  const van = f.obj.rotation.y; let dr = y - van; dr = Math.atan2(Math.sin(dr), Math.cos(dr));
+  let t = 0; const stap = () => { t = Math.min(1, t + .08); f.obj.rotation.y = van + dr * t; t < 1 ? requestAnimationFrame(stap) : klaar(); }; stap();
+});
+// Het wapen staat rechtop naast de stoel, tegen de muurkant van de zaal.
+function rekPlek(f) { const z = sd.zetels[f.rol]; return [Math.sign(z.pos[0]) * 2.75, z.pos[2] + .7]; }
+function zetWapenNeer(f) {
+  if (f.rek) { f.rek.visible = true; return; }
+  const groep = new THREE.Group(); let i = 0;
+  for (const b of f.info.tonen) for (const o of f.attr[b] || []) {
+    const c = o.clone(true); c.visible = true; c.position.set(0, 0, 0); c.quaternion.identity();
+    const ws = new THREE.Vector3(); o.getWorldScale(ws); c.scale.copy(ws);
+    const doos = new THREE.Box3().setFromObject(c), maat = doos.getSize(new THREE.Vector3());
+    if (maat.x >= maat.y && maat.x >= maat.z) c.rotation.z = Math.PI / 2; else if (maat.z >= maat.y) c.rotation.x = Math.PI / 2;
+    const houder = new THREE.Group(); houder.add(c); houder.position.x = i++ * .45; houder.rotation.z = .12;
+    groep.add(houder); groep.updateMatrixWorld(true);
+    const d2 = new THREE.Box3().setFromObject(houder); houder.position.y -= d2.min.y;
+  }
+  const [x, z] = rekPlek(f); groep.position.set(x, 0, z); scene.add(groep); f.rek = groep;
+}
+async function komBinnen(f, vertraging) {
+  const t = ++f.token; f.bezig = true; f.zit = false;
+  f.obj.position.set(0, 0, 6.0); f.obj.rotation.set(0, Math.PI, 0); f.wapens(true);
+  f.obj.visible = false; await wacht(vertraging); f.obj.visible = true;
+  const [rx, rz] = rekPlek(f);
+  await loop(f, Math.sign(rx) * .9, 2.2); await loop(f, rx * .82, rz + .5);
+  await draaiNaar(f, Math.sign(rx) > 0 ? Math.PI / 2 : -Math.PI / 2);
+  await f.speel("Interact", { eenmaal: true });
+  f.wapens(false); zetWapenNeer(f);
+  const z = sd.zetels[f.rol];
+  await loop(f, z.pos[0], z.pos[2] + .9); await loop(f, z.pos[0], z.pos[2]);
+  await draaiNaar(f, z.rotY);
+  if (f.token !== t) return;
+  f.plaats(z); await f.speel("Sit_Chair_Down", { eenmaal: true, fade: .25 });
+  f.zit = true; f.speel("Sit_Chair_Idle"); f.bezig = false;
+}
+async function binnenkomst() {
+  modus = "binnen"; spreker = null;
+  koning.speel("Idle");
+  await Promise.all(raad.map((rol, i) => komBinnen(figuren[rol], i * 900)));
+  modus = "debat";
+  if (wachtende) { const st = wachtende; wachtende = null; window.raad3d.regie(st); }
+}
+let wachtende = null;
+// Klaar: iedereen staat op, pakt zijn wapen bij de muur en dan pas wordt het Verdict verklaard.
+async function pakWapens() {
+  modus = "wapens"; spreker = null;
+  await Promise.all(raad.map(async (rol, i) => {
+    const f = figuren[rol]; f.token++; f.praat = false; f.bezig = true;
+    for (const h of [...f.hand.children]) if (h.userData.hapje) f.hand.remove(h);
+    await wacht(i * 150);
+    if (f.zit) { await f.speel("Sit_Chair_StandUp", { eenmaal: true, fade: .2 }); f.zit = false; }
+    const [rx, rz] = rekPlek(f);
+    await loop(f, rx * .82, rz + .5);
+    await draaiNaar(f, Math.sign(rx) > 0 ? Math.PI / 2 : -Math.PI / 2);
+    await f.speel("PickUp", { eenmaal: true });
+    if (f.rek) f.rek.visible = false; f.wapens(true);
+    await f.speel("Cheer", { eenmaal: true });
+  }));
+}
+
+// Kruimels bij een hap
+const KRUIMEL = new THREE.BoxGeometry(.035, .035, .035);
+function kruimels(f, kleur = "#e0b070") {
+  const bron = new THREE.Vector3(); f.hand.getWorldPosition(bron);
+  for (let i = 0; i < 9; i++) {
+    const s = new THREE.Mesh(KRUIMEL, new THREE.MeshStandardMaterial({ color: kleur, roughness: .9, transparent: true }));
+    s.position.copy(bron); s.scale.setScalar(.6 + Math.random() * .8);
+    s.userData = { v: new THREE.Vector3((Math.random() - .5) * 1.2, .4 + Math.random() * .9, (Math.random() - .5) * 1.2), leven: .9, kruimel: true };
+    scene.add(s); vonkLijst.push(s);
+  }
+}
+
+// Vonken van de Archmage
+const VONKTEX = VLAMTEX, vonkLijst = [];
+function vonken(f) {
+  const bron = new THREE.Vector3(); f.hand.getWorldPosition(bron);
+  for (let i = 0; i < 26; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: VONKTEX, color: kies(["#dc56f0", "#e292f4", "#9fd8ff", "#ffb15a"]), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+    s.position.copy(bron); s.scale.setScalar(.22);
+    s.userData = { v: new THREE.Vector3((Math.random() - .5) * 2.4, 2 + Math.random() * 2.6, (Math.random() - .5) * 2.4), leven: 1.4 };
+    scene.add(s); vonkLijst.push(s);
+  }
+}
+
+// ---------------------------------------------------------------- camera: close-up van wie spreekt
+// Geen zijaanzicht: de camera staat aan de overkant van de tafel, schuin voor de spreker, op ooghoogte.
+// De spreker staat links in beeld, zijn perkament rechts ernaast. Overgangen zijn kritisch gedempt
+// (smoothDamp, zoals in yomotsu/camera-controls), dus zonder harde sprongen of doorschieten.
+const BASIS_POS = new THREE.Vector3().fromArray(sd.camera.pos), BASIS_DOEL = new THREE.Vector3().fromArray(sd.camera.doel);
+const camDoel = BASIS_DOEL.clone(), wilPos = BASIS_POS.clone(), wilDoel = BASIS_DOEL.clone();
+const camV = new THREE.Vector3(), doelV = new THREE.Vector3(), OMHOOG = new THREE.Vector3(0, 1, 0);
+camera.position.copy(BASIS_POS);
+let BASIS_FOV = 40;
+const ZOOM = .7;  // lens bij een close-up, tegenover de brede zaalshot
+const SNAP = new URLSearchParams(location.search).get("cam") === "snap";
+function shot(f, pos, doel) {
+  const gz = f.gezicht(), s = f.obj.scale.y;
+  // Ver weg met een smalle lens (tele): het figuur vult het beeld zonder dat tafelgenoten of kaarsen ervoor komen.
+  if (f === koning) pos.set(0, gz.y + 3.2, gz.z + 9.5);  // recht van voren, over de hoofden van de raad
+  else pos.set(-gz.x * .25, gz.y + 3.0, gz.z + 4.6);  // hoog en schuin vanaf de zaalkant: over hoofden en kaarsen heen
+  const vooruit = gz.clone().sub(pos), d = vooruit.length();
+  const rechts = vooruit.normalize().cross(OMHOOG).normalize();
+  // De spreker op een derde van de beeldbreedte; het perkament vult de andere twee derde.
+  const halfBreed = Math.tan(THREE.MathUtils.degToRad(BASIS_FOV * ZOOM) / 2) * camera.aspect;
+  doel.copy(gz).addScaledVector(rechts, d * halfBreed * .34).addScaledVector(OMHOOG, -d * .04);
+}
+function veer(huidig, doel, snelheid, tijd, dt) {  // smoothDamp: kritisch gedempt
+  const w = 2 / tijd, x = w * dt, e = 1 / (1 + x + .48 * x * x + .235 * x * x * x);
+  const delta = huidig.clone().sub(doel), hulp = snelheid.clone().addScaledVector(delta, w).multiplyScalar(dt);
+  snelheid.addScaledVector(hulp, -w).multiplyScalar(e);
+  huidig.copy(doel).add(delta.add(hulp).multiplyScalar(e));
+}
+// Wie tussen de camera en de spreker staat of zit, wordt doorzichtig (zoals in games): niets komt in de weg.
+function maakVrij(dt) {
+  const f = modus === "debat" && spreker && figuren[spreker];
+  const a = camera.position, b = f ? f.gezicht() : null, ab = b ? b.clone().sub(a) : null;
+  for (const g of Object.values(figuren)) {
+    let weg = false;
+    if (f && g !== f) {
+      const m = g.obj.position.clone(); m.y += 1.3 * g.obj.scale.y;
+      const t = THREE.MathUtils.clamp(m.clone().sub(a).dot(ab) / ab.lengthSq(), 0, 1);
+      weg = t > .02 && t < .97 && a.clone().addScaledVector(ab, t).distanceTo(m) < 1.15;
+    }
+    const doel = weg ? .18 : 1;
+    g.dekking = (g.dekking ?? 1) + (doel - (g.dekking ?? 1)) * (1 - Math.exp(-dt * 8));
+    const doorzichtig = g.dekking < .99;
+    for (const m of g.mats || []) { m.transparent = doorzichtig; m.opacity = g.dekking; m.depthWrite = !doorzichtig; }
+  }
+}
+function richtCamera(dt, tijd) {
+  if (modus === "feest") {
+    wilDoel.copy(BASIS_DOEL).lerp(new THREE.Vector3(0, 1.4, -5), .5);
+    wilPos.copy(BASIS_POS).add(new THREE.Vector3(Math.sin(tijd * .15) * 1.2, .4, .6));
+  } else if (spreker && figuren[spreker]) {
+    shot(figuren[spreker], wilPos, wilDoel);
+    wilPos.x += Math.sin(tijd * .4) * .05; wilPos.y += Math.sin(tijd * .55) * .03;  // een klein beetje adem
+  } else {
+    wilDoel.copy(BASIS_DOEL);
+    wilPos.copy(BASIS_POS).add(new THREE.Vector3(Math.sin(tijd * .12) * .6, 0, 0));
+  }
+  if (SNAP) { camera.position.copy(wilPos); camDoel.copy(wilDoel); }  // ?cam=snap: voor screenshots zonder overgang
+  else { veer(camera.position, wilPos, camV, .55, dt); veer(camDoel, wilDoel, doelV, .45, dt); }
+  const wilFov = BASIS_FOV * (modus === "debat" && spreker ? ZOOM : 1);
+  if (Math.abs(camera.fov - wilFov) > .01) { camera.fov = SNAP ? wilFov : camera.fov + (wilFov - camera.fov) * (1 - Math.exp(-dt * 3.2)); camera.updateProjectionMatrix(); }
+  camera.lookAt(camDoel);
+}
+
+// Focus op wie spreekt: gele spot van boven, gele gloedrand en een zachte gloed op het figuur.
+const sprekerSpot = new THREE.SpotLight("#ffd36a", 0, 10, .34, .6, 1.2);
+scene.add(sprekerSpot); scene.add(sprekerSpot.target);
+function richtFocus(dt, t) {
+  const f = modus === "debat" && spreker && figuren[spreker];
+  const k = 1 - Math.exp(-dt * 5);
+  if (f) {
+    const gz = f.gezicht();
+    sprekerSpot.position.copy(gz).addScaledVector(f.richting(), 1.4).add(new THREE.Vector3(0, 2.6 * f.obj.scale.y, .3));
+    sprekerSpot.target.position.copy(gz).add(new THREE.Vector3(0, -.6 * f.obj.scale.y, 0));
+    if (rand.selectedObjects[0] !== f.obj) { rand.selectedObjects = [f.obj]; rand.edgeStrength = 0; }
+  }
+  sprekerSpot.intensity += ((f ? 24 : 0) - sprekerSpot.intensity) * k;
+  rand.edgeStrength += ((f ? 4.2 + Math.sin(t * 3) * .8 : 0) - rand.edgeStrength) * k;
+  if (!f && rand.edgeStrength < .05) rand.selectedObjects = [];
+  for (const g of Object.values(figuren)) g.zetGloed(g.gloed + (((g === f) ? .75 + Math.sin(t * 3) * .25 : 0) - g.gloed) * k);
+}
+
+// Wie praat, knikt en kijkt rond: een kleine draai van het hoofdbot bovenop de animatie (additief).
+const KNIK = new THREE.Quaternion(), KNIK_E = new THREE.Euler();
+function hoofdenVoor() { for (const f of Object.values(figuren)) if (f.knik) f.hoofd.quaternion.copy(f.hoofdBasis); }
+function hoofdenNa(t) {
+  for (const f of Object.values(figuren)) {
+    f.knik = f.praat && !f.zit && modus === "debat";
+    if (!f.knik) continue;
+    f.hoofdBasis.copy(f.hoofd.quaternion);
+    const p = f.fase;
+    KNIK_E.set(Math.sin(t * 6.2 + p) * .07 + Math.sin(t * 2.3 + p) * .04, Math.sin(t * 1.4 + p) * .16, Math.sin(t * 3.1 + p) * .05);
+    f.hoofd.quaternion.multiply(KNIK.setFromEuler(KNIK_E));
+  }
+}
+
+// Overgang naar het feest: de zaal wordt even donker, dan gaan de lichten aan op het feest.
+let belichting = .9;
+function dip(wissel) { belichting = .02; setTimeout(() => { wissel(); belichting = .9; }, 650); }
+
+// ---------------------------------------------------------------- formaat en lus
+function formaat() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false); composer.setSize(w, h); bloom.setSize(w, h); rand.setSize(w, h);
+  camera.aspect = w / h;
+  const hfov = 2 * Math.atan(sd.camera.sensor_mm / 2 / sd.camera.lens_mm);
+  camera.fov = BASIS_FOV = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(hfov / 2) / Math.min(camera.aspect, 16 / 9)));
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(formaat).observe(canvas); formaat();
+
+const klok = new THREE.Clock(), tmp = new THREE.Vector3();
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(klok.getDelta(), .05), t = klok.elapsedTime;
+  stapLopers(dt);
+  hoofdenVoor();
+  for (const f of Object.values(figuren)) f.mixer.update(dt);
+  hoofdenNa(t);
+  renderer.toneMappingExposure += (belichting - renderer.toneMappingExposure) * (1 - Math.exp(-dt * (belichting < .5 ? 7 : 3)));
+  for (const v of vlammen) { const u = v.userData; const k = 1 + Math.sin(t * 9 + u.fase) * .06 + Math.sin(t * 23 + u.fase * 2) * .05; v.scale.set(u.basis * k, u.basis * (k + .08), 1); }
+  for (const l of flakkerLichten) { const u = l.userData; l.intensity = u.basis * (0.86 + Math.sin(t * 7 + u.fase) * .08 + Math.sin(t * 17 + u.fase * 1.7) * .06); }
+  for (let i = vonkLijst.length - 1; i >= 0; i--) {
+    const s = vonkLijst[i], u = s.userData; u.leven -= dt; u.v.y -= 3.2 * dt;
+    s.position.addScaledVector(u.v, dt); s.material.opacity = Math.max(0, u.leven / (u.kruimel ? .9 : 1.4));
+    if (u.leven <= 0) { scene.remove(s); s.material.dispose(); vonkLijst.splice(i, 1); }
+  }
+  richtCamera(dt, t); richtFocus(dt, t); maakVrij(dt);
+  composer.render();
+  window.volgBallon?.();
+});
+
+// ---------------------------------------------------------------- koppeling met de zitting
+window.raad3d = {
+  kop(rol) {
+    const f = figuren[rol]; if (!f) return null;
+    f.kopWereld(tmp, .5).project(camera);
+    return { x: (tmp.x + 1) / 2, y: (1 - tmp.y) / 2 };
+  },
+  regie(st) {
+    if (modus === "binnen") { wachtende = st; return; }
+    if (st.soort === "verdict") {
+      if (modus === "debat") pakWapens().then(() => { if (modus === "wapens") { modus = "feest"; dip(feestOpstelling); } });
+      return;
+    }
+    if (modus === "feest" || modus === "wapens") { modus = "debat"; debatOpstelling(); }
+    const nieuw = st.rol;
+    if (spreker && spreker !== nieuw && figuren[spreker] && spreker !== "koning") zitWeer(figuren[spreker]);
+    spreker = nieuw;
+    const f = figuren[nieuw]; if (!f) return;
+    if (f === koning) { koning.token++; (st.soort === "stop" || st.soort === "samenvatting" ? koning.speel("Cheer", { eenmaal: true }) : koning.speel("Interact", { eenmaal: true })).then(() => koning.speel("Idle")); return; }
+    if (!f.praat) spreek(f);
+    if (/TEGENSPRAAK/i.test(st.tekst || "")) {  // wie wordt tegengesproken, schrikt even
+      const ander = raad.map(r => figuren[r]).find(x => x !== f && !x.bezig && (st.tekst || "").toLowerCase().includes(x.rol.replace("_", " ")));
+      if (ander) tussendoortje(ander);
+    }
+  },
+};
+// Binnenkomst bij het begin van de zitting (niet als je via ?stap= naar een beurt springt).
+if (!new URLSearchParams(location.search).has("stap")) binnenkomst();
+document.dispatchEvent(new Event("raad3d-klaar"));
 </script>
 </body>
 </html>

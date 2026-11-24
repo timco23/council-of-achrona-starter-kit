@@ -1,4 +1,4 @@
-"""Debatviewer: toont trace.json en verdict.json live in je browser.
+"""Debatviewer: toont trace.json en verdict.json live in je browser, als zitting in de raadszaal.
 
 Start met `uv run viewer` (leest de root van deze repo) of `uv run viewer <map-of-trace.json>`.
 Poort via VIEWER_PORT (standaard 8100).
@@ -25,10 +25,18 @@ def main():
                 return self.stuur(ROOT / "viewer.html", "text/html; charset=utf-8")
             if pad in ("/trace.json", "/verdict.json"):
                 return self.stuur(map_ / pad[1:], "application/json; charset=utf-8")
-            # Renders uit visualisatie/renders (avatars, raadszaal, feest); alleen .png met een eenvoudige naam.
+            # Renders uit visualisatie/renders (avatars, raadszaal, feest, schermposities van de figuren);
+            # alleen .png en .json met een eenvoudige naam.
             naam = pad.removeprefix("/beelden/")
-            if pad.startswith("/beelden/") and naam.endswith(".png") and naam.replace("_", "").replace(".", "").isalnum():
-                return self.stuur(ROOT / "visualisatie" / "renders" / naam, "image/png", cache=True)
+            soort = {"png": "image/png", "json": "application/json; charset=utf-8"}.get(naam.rsplit(".", 1)[-1])
+            if pad.startswith("/beelden/") and soort and naam.count(".") == 1 and naam.replace("_", "").replace(".", "").isalnum():
+                return self.stuur(ROOT / "visualisatie" / "renders" / naam, soort, cache=soort == "image/png")
+            # De 3D-zaal (three.js): visualisatie/web/zaal.glb, scene.json en figuren/<model>.glb.
+            if pad.startswith("/3d/"):
+                delen = pad.removeprefix("/3d/").split("/")
+                soort = {"glb": "model/gltf-binary", "json": "application/json; charset=utf-8"}.get(delen[-1].rsplit(".", 1)[-1])
+                if soort and len(delen) <= 2 and all(d and d.replace("_", "").replace(".", "").isalnum() and d.count(".") <= 1 for d in delen):
+                    return self.stuur(ROOT / "visualisatie" / "web" / Path(*delen), soort, cache=soort == "model/gltf-binary")
             self.send_error(404)
 
         def stuur(self, bestand, soort, cache=False):

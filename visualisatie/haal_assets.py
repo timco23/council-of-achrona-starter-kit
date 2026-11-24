@@ -14,6 +14,10 @@ PACKS = {
     "KayKit-Dungeon-Remastered-1.0": ["/LICENSE.txt",
                                       "/addons/kaykit_dungeon_remastered/Assets/gltf/",
                                       "/addons/kaykit_dungeon_remastered/Assets/texture/"],
+    # Echt eten voor de 3D-viewer (bouw_eten.py): ham, steak, kaas, tomaat, wortel, brood.
+    "KayKit-Restaurant-Bits-1.0": ["/LICENSE.txt", "/addons/kaykit_restaurant_bits/Assets/gltf/restaurantbits_texture.png",
+                                   *(f"/addons/kaykit_restaurant_bits/Assets/gltf/food_ingredient_{n}.{x}"
+                                     for n in ("ham_cooked", "steak", "cheese", "tomato", "carrot", "bun") for x in ("gltf", "bin"))],
 }
 
 
