@@ -174,16 +174,21 @@ plus een veilig, geordend herstelplan, risico's en een voorspelling wanneer het 
 Er zijn maximaal 10 Raadslid-beurten. Elke beurt telt: laat niemand herhalen wat al gezegd is.
 
 Werkwijze:
-1. Zolang niet elke Rol gesproken heeft, geef je het woord aan een Rol die nog niet sprak. Stel een gerichte vraag die aansluit bij wat al gezegd is: vraag naar concrete afwijkingen met dag, tijd en record-ID, naar veranderingen of nieuwe installaties, en naar wie daarvoor toestemming gaf.
+1. Openingsronde: zolang niet elke Rol gesproken heeft, geef je het woord aan een Rol die nog niet sprak. Elke Rol heeft een stuk bewijs dat niemand anders heeft, en je weet vooraf niet welk. Haal daarom in die ene openingsbeurt ALLES op wat die Rol weet, zodat je haar later alleen nog hoeft te vragen om te toetsen. De openingsvraag dekt altijd deze drie delen, aangepast aan de Rol en aan wat al gezegd is:
+   a. haar eigen afwijkingen met dag, tijd en record-ID, als volledige reeks: ook de momenten waarop alles normaal was;
+   b. veranderingen, nieuwe installaties en afspraken in haar bron, en wie daarvoor toestemming gaf of vroeg, ook als dat haar zelf betreft;
+   c. de regels, voorschriften of specificaties van haar eigen systeem: hoe het werkt, en hoe je het veilig herstelt of bijstelt.
+   Vraag in de opening eerst naar haar eigen gegevens, niet om de beweringen van anderen te bevestigen.
 2. Daarna toets je, en altijd eerst het ZWAKSTE onderdeel van de stand (ingreep, mechanisme, verloop, herstel). Besteed hoogstens één toetsbeurt aan een detail van een onderdeel dat al sterk is (bv. wie precies toestemming gaf) zolang een ander onderdeel nog zwak is. Een theorie van één Rol is pas sterk als gegevens van een andere Rol ze steunen.
 3. Mechanisme: vraag de Rol die verantwoordelijk is voor een getroffen systeem hoe dat systeem volgens zijn eigen regels, voorschriften of specificatie werkt, en of de ingreep daarmee precies dat symptoom kan verklaren, ook het ritme in de tijd.
 4. Verloop: zoek het patroon in de tijd. Op welke dagen en uren gebeurt het, met welke regelmaat, en wat veranderde er vlak vóór de eerste keer? Vraag Rollen met metingen op vaste momenten of hun metingen het ritme volgen, en of de dagen tussenin normaal zijn.
    Een vaste regelmaat vraagt om een verklaring. Een bekend patroon: twee dingen die elk in hun eigen, net iets verschillend tempo lopen, lopen langzaam uit de pas en vallen na een vaste periode weer op dezelfde manier samen, zoals twee klokken die niet even snel lopen. Toets zo'n verklaring: vraag de Rol die tempo's, instellingen of afstellingen kent of iets in een ander tempo loopt dan wat er al was, en vraag de Rol met de regels van het getroffen systeem wat er gebeurt als verkeer niet op de verwachte tik binnenkomt. Toets ook of het ritme vóór de ingreep al bestond.
 5. Herstel: vraag de Rol die de ingreep uitvoerde welke instellingen er zijn om ze veilig bij te sturen of terug te draaien. Vraag ook of er voorschriften zijn over hoe je herstelt zonder schade, en of een voorgestelde oplossing (bv. iets abrupt uitzetten) zelf schade kan doen.
 6. Jij bent degene die de stukken verbindt: elk Raadslid ziet alleen zijn eigen bron. Combineer feiten van verschillende Rollen zelf tot een concrete hypothese (bv. "als X sinds dag N in een ander tempo loopt dan Y, dan ...") en leg die hypothese voor aan de Rol wiens gegevens ze kunnen toetsen. Vraag niet alleen "weet je iets over X?".
-7. Elke Rol spreekt hoogstens 3 keer. Laat een Rol niet twee keer na elkaar spreken, tenzij alleen zij het antwoord kan geven.
-8. Een regel [CONTROLE: ...] na een bericht noemt ID's die niet in de Kennisbron van dat Raadslid staan. Vertrouw die niet; laat ze zo nodig corrigeren.
-9. Stoppen is een bewuste beslissing van jou. Stel jezelf vóór elke keuze de vraag: zou nog een beurt een onderdeel van het Verdict veranderen? Zo niet, stop dan (rol null) en zeg in de reden welke onderdelen sterk staan en waarom een extra beurt niets meer toevoegt. Gebruik beurten niet omdat ze er zijn: zelf stoppen vóór het budget op is, is beter dan doorgaan met herhalingen. Vanaf 8 gebruikte beurten stop je, tenzij één concrete open vraag een onderdeel nog van zwak naar sterk kan brengen. Stop nooit voordat iedere Rol één keer gesproken heeft.
+7. Vraag wie toestemming gaf hoogstens één keer per Rol (dat zit al in de opening). Weet een Rol het niet, vraag het dan niet opnieuw, maar toets het met de gegevens van een andere Rol.
+8. Elke Rol spreekt hoogstens 3 keer en nooit twee keer na elkaar. Verdeel de beurten: een Rol die pas één keer sprak, heeft vaak nog gegevens die niemand opvroeg.
+9. Een regel [CONTROLE: ...] na een bericht noemt ID's die niet in de Kennisbron van dat Raadslid staan. Vertrouw die niet; laat ze zo nodig corrigeren.
+10. Stoppen is een bewuste beslissing van jou. Stel jezelf vóór elke keuze de vraag: zou nog een beurt een onderdeel van het Verdict veranderen? Zo niet, stop dan (rol null) en zeg in de reden welke onderdelen sterk staan en waarom een extra beurt niets meer toevoegt. Gebruik beurten niet omdat ze er zijn: zelf stoppen vóór het budget op is, is beter dan doorgaan met herhalingen. Vanaf 8 gebruikte beurten stop je, tenzij één concrete open vraag een onderdeel nog van zwak naar sterk kan brengen. Stop nooit voordat iedere Rol één keer gesproken heeft.
 
 Antwoord ALLEEN met één JSON-object:
 {"rol": "<rol-sleutel uit de lijst, of null om te stoppen>",
@@ -191,6 +196,11 @@ Antwoord ALLEEN met één JSON-object:
  "reden": "<waarom deze Rol nu: concreet, verwijs naar wat er gezegd is of wat ontbreekt>",
  "open_vragen": ["<wat de Council nog niet weet, na deze keuze>"],
  "stand": {"ingreep": "<huidige hypothese of 'onbekend'> [zwak|matig|sterk]", "mechanisme": "... [zwak|matig|sterk]", "verloop": "... [zwak|matig|sterk]", "herstel": "... [zwak|matig|sterk]"}}"""
+
+
+OPENINGSVRAAG = ("Geef je volledige reeks afwijkingen met dag, tijd en record-ID, ook de momenten waarop alles normaal was; "
+                 "welke veranderingen, installaties of afspraken staan in je bron en wie gaf daarvoor toestemming; "
+                 "en welke regels of voorschriften beschrijven hoe jouw systeem werkt en veilig hersteld wordt?")
 
 
 def debat_regels(beurten, leden):
@@ -233,34 +243,50 @@ def kies_volgende(beurten, leden):
             "Debat tot nu toe:\n\n")
     debat = pas_in(debat_regels(beurten, leden), KONING_ROUTERING + vast, context_budget())
     kies_volgende.extra = {}
-    try:
-        keuze, tokens = koning_json(KONING_ROUTERING, vast + debat + "\n\nWie spreekt nu, met welke vraag en waarom?")
-    except Exception as e:  # het debat mag niet stranden op één mislukte call
-        print(f"LET OP: Koning-call mislukt ({e}); noodregel gebruikt.")
-        if nog_niet:
-            return nog_niet[0], "Welke afwijkingen zie je in je gegevens (dag, tijd, record-ID), en wat veranderde er vlak daarvoor?", \
-                f"noodregel: Koning-call mislukt; {per_rol[nog_niet[0]].NAAM} sprak nog niet"
-        return None, None, "noodregel: Koning-call mislukt en iedereen sprak al"
+    laatste = next((b["spreker"] for b in reversed(beurten) if b["soort"] == "bericht" and b["spreker"] in per_rol), None)
 
-    rol = keuze.get("rol")
-    if isinstance(rol, str):
+    def lees_rol(keuze):
+        rol = keuze.get("rol")
+        if not isinstance(rol, str):
+            return None
         sleutel = rol.strip().lower().replace(" ", "_")
         rol = sleutel if sleutel in per_rol else next((l.ROL for l in leden if l.NAAM.lower() == rol.strip().lower()), None)
         if rol is None and keuze.get("rol") not in (None, "null", ""):
             rol = nog_niet[0] if nog_niet else None
             keuze["reden"] = f"{keuze.get('reden', '')} (gekozen Rol '{keuze.get('rol')}' bestaat niet; regel: volgende Rol die nog niet sprak)".strip()
-    else:
-        rol = None
+        return rol
+
+    vraag_aan_koning = vast + debat + "\n\nWie spreekt nu, met welke vraag en waarom?"
+    try:
+        keuze, tokens = koning_json(KONING_ROUTERING, vraag_aan_koning)
+        rol = lees_rol(keuze)
+        # Spelregel van onze Koning: niet twee keer na elkaar dezelfde Rol en hoogstens 3 beurten per Rol.
+        # Bij een overtreding kiest de Koning zelf opnieuw, zodat vraag en reden bij de nieuwe Rol passen.
+        if rol is not None and (rol == laatste or gesproken.get(rol, 0) >= 3):
+            waarom = "sprak net" if rol == laatste else "sprak al 3 keer"
+            keuze2, tokens = koning_json(KONING_ROUTERING, vraag_aan_koning + (
+                f"\n\nJe koos {per_rol[rol].NAAM}, maar die {waarom}. Kies een andere Rol (of stop, als het Verdict al vaststaat), "
+                "met een vraag die bij die Rol past."))
+            rol2 = lees_rol(keuze2)
+            if rol2 != rol:
+                keuze, rol = keuze2, rol2
+    except Exception as e:  # het debat mag niet stranden op één mislukte call
+        print(f"LET OP: Koning-call mislukt ({e}); noodregel gebruikt.")
+        if nog_niet:
+            return nog_niet[0], OPENINGSVRAAG, \
+                f"noodregel: Koning-call mislukt; {per_rol[nog_niet[0]].NAAM} sprak nog niet"
+        return None, None, "noodregel: Koning-call mislukt en iedereen sprak al"
     vraag = (keuze.get("vraag") or "").strip() or None
     reden = (keuze.get("reden") or "").strip() or "geen reden opgegeven"
 
     if rol is None and nog_niet and resterend > 0:  # spelregel van onze Koning: eerst hoort hij iedereen
         rol = nog_niet[0]
-        vraag = vraag or "Welke afwijkingen zie je in je gegevens (dag, tijd, record-ID), en bevestigen of weerleggen ze wat de anderen zeiden?"
+        vraag = vraag or OPENINGSVRAAG
         reden = f"De Koning wilde stoppen ({reden}), maar {per_rol[rol].NAAM} sprak nog niet: eerst hoort hij elke Rol."
-    if rol is not None and gesproken.get(rol, 0) >= 3:  # spelregel van onze Koning: hoogstens 3 beurten per Rol
-        alternatief = min((l.ROL for l in leden if l.ROL != rol), key=lambda r: gesproken.get(r, 0))
-        reden = f"{reden} (maar {per_rol[rol].NAAM} sprak al 3 keer; regel: de vraag gaat naar {per_rol[alternatief].NAAM}, die het minst sprak)"
+    if rol is not None and (gesproken.get(rol, 0) >= 3 or rol == laatste):  # vangnet als de Koning bij zijn keuze bleef
+        waarom = "sprak al 3 keer" if gesproken.get(rol, 0) >= 3 else "sprak net"
+        alternatief = min((l.ROL for l in leden if l.ROL not in (rol, laatste)), key=lambda r: gesproken.get(r, 0))
+        reden = f"{reden} (maar {per_rol[rol].NAAM} {waarom}; regel: de vraag gaat naar {per_rol[alternatief].NAAM}, die het minst sprak)"
         rol = alternatief
     if rol is not None and not vraag:
         vraag = "Wat zeggen jouw gegevens over de open vragen hierboven? Noem dag, tijd en record-ID."
@@ -307,10 +333,16 @@ Regels:
 - Gebruik als bewijs alleen record-ID's die Raadsleden in het debat noemden. ID's in een [CONTROLE]-regel zijn ongeldig.
 - Neem geen theorie over die door gegevens van een andere Rol weerlegd is, ook niet als risico of als "concurrerende hypothese". Leg zulke meningsverschillen vast als geschil, met de uitkomst en het beslissende bewijs.
 - Het mechanisme verklaart hoe de ingreep tot elk symptoom leidt en waarom het in dat ritme gebeurt. Het mag een redenering zijn die feiten van verschillende Rollen combineert (regels, voorschriften of specificaties van hun systemen plus de waargenomen tijden), zolang elke stap een ID uit het debat heeft. Verklaar ook het ritme: als iets sinds de ingreep in een eigen tempo loopt naast wat er al was, lopen die twee langzaam uit de pas en vallen ze na een vaste periode weer op dezelfde manier samen. Steun die redenering op de feiten over tempo, instellingen en de waargenomen dagen. Druk onzekerheid uit met zekerheid, niet door het deel leeg te laten. Alleen als er echt geen dragende feiten zijn, zet je bewering null.
+- Ingreep: wie deed wat, wanneer, en wie gaf er toestemming voor als een Raadslid dat meldde of toegaf.
+- Trekt een Raadslid een eerdere bewering in of geeft het later iets toe, dan geldt de laatste versie. Een bekentenis tegen het eigen Belang weegt zwaarder dan een eerdere ontkenning en hoort met dat ID in het Verdict.
+- Gebruik het hele debat, ook de laatste beurten: daar staan vaak de getoetste antwoorden.
+- Verloop: beschrijf waar het patroon optreedt EN waar niet (de normale momenten ertussen), en steun het op metingen of waarnemingen van minstens twee Rollen die onafhankelijk van elkaar zijn.
+- Alleen wat de oorzaak verklaart, hoort in de oorzaak. Een latere wijziging waarna het patroon onveranderd doorliep, is geen deel van de oorzaak en vraagt geen eigen actie.
 - Noemde een Raadslid een voorgeschreven herstelvolgorde of een instelling om veilig bij te sturen, neem die dan op in het herstelplan.
 - Een deel van de oorzaak dat je niet met bewijs kunt dragen, zet je op bewering null met een lege bewijslijst.
-- zekerheid (0-1) per deel: hoog alleen als gegevens van meerdere Rollen het steunen.
-- Herstelplan: de volgorde is de uitvoeringsvolgorde. Controleer bij elke actie of ze zelf schade kan doen en of er eerst iets anders moet gebeuren; als een Raadslid zo'n voorwaarde noemde, volg die.
+- zekerheid (0-1) per deel, volgens deze maatstaf: 0.8-1.0 = feiten van drie of meer Rollen bevestigen het onafhankelijk; 0.6-0.8 = twee Rollen; 0.4-0.6 = een redenering die feiten van meerdere Rollen correct combineert, maar met een ontbrekende schakel; onder 0.4 = vermoeden.
+- Herstelplan: hoogstens 6 acties en de volgorde is de uitvoeringsvolgorde. Elke actie pakt de ingreep, het mechanisme, een symptoom of een risico aan; administratieve nevenzaken (wie wat tekende, losse controles zonder gevolg voor het herstel) horen er niet in. Controleer bij elke actie of ze zelf schade kan doen en of er eerst iets anders moet gebeuren; als een Raadslid zo'n voorwaarde noemde, volg die.
+- Risico's: alleen risico's van het herstelplan of van niets doen. Twijfel over het bewijs zelf druk je uit in zekerheid, niet als risico.
 - voorspelling: toont het verloop een regelmaat, geef dan de eerstvolgende dag na de laatst gemelde keer, met bewijs. Anders null.
 - Schrijf ID's met een gewoon koppelteken, bv. ABC-123.
 
@@ -324,6 +356,24 @@ Antwoord ALLEEN met één JSON-object:
  "risicos": [{"risico": "...", "mitigatie": "..."}],
  "voorspelling": {"dag": 0, "bewering": "...", "bewijs": [...]} of null,
  "geschillen": [{"onderwerp": "...", "standpunten": {"<rol-sleutel>": "<standpunt>"}, "uitkomst": "<hoe beslecht> of null", "bewijs": [...]}]}"""
+
+
+KONING_REVIEW = """Je bent de Koning van de Council of Achrona en je controleert je eigen concept-Verdict vóór je het uitspreekt.
+Je hebt geen Kennisbron: toets het concept uitsluitend aan het debat.
+
+Loop het concept punt voor punt na en verbeter het:
+1. Wordt elke bewering gedragen door wat Raadsleden in het debat zeiden bij de genoemde ID's? Schrap wat door geen enkel feit gedragen wordt, en schrap ID's die bij iets anders horen.
+   Verzwak GEEN redenering die feiten van meerdere Rollen correct combineert, ook als een schakel niet rechtstreeks gemeten is: houd ze en druk de twijfel uit met zekerheid. Schrap geen bewijs omdat het pas laat in het debat kwam.
+   Trok een Raadslid een bewering in of gaf het later iets toe, dan geldt de laatste versie; een bekentenis hoort in het Verdict.
+2. Staat er een theorie in (ook bij risico's) die een andere Rol in het debat weerlegde? Haal ze eruit en zorg dat ze als geschil vastligt.
+3. Mist er bewijs dat in het debat wel genoemd werd en een deel sterker maakt (vooral metingen van een tweede Rol, en normale momenten tussen de afwijkingen)? Voeg het toe.
+4. Verklaart het mechanisme zowel de symptomen als het ritme? Verbind de feiten uit het debat als dat kan.
+5. Pakt elke actie de oorzaak, een symptoom of een risico aan, in een veilige volgorde? Schrap nevenzaken.
+6. Klopt elke zekerheid met de maatstaf: 0.8-1.0 drie of meer Rollen, 0.6-0.8 twee Rollen, 0.4-0.6 redenering met een ontbrekende schakel, onder 0.4 vermoeden?
+7. Volgt de voorspelling uit het verloop?
+
+Antwoord ALLEEN met één JSON-object:
+{"correcties": ["<wat je veranderde en waarom, kort>"], "verdict": <het volledige verbeterde Verdict, in exact hetzelfde formaat als het concept>}"""
 
 
 def zuiver_bewijs(lijst, toegestaan):
@@ -436,8 +486,10 @@ def instructies(lid, bestanden, mcp):
         "4. Meld veranderingen, toestemmingen en afspraken uit je Kennisbron die met de vraag te maken hebben, ook als ze jou slecht uitkomen.\n"
         "5. Legt de Koning een hypothese voor, zeg dan of je gegevens ermee verenigbaar zijn en waarom, ook als je ze niet sluitend kunt bewijzen. "
         "Noem de regels, voorschriften of specificaties uit je bron die beschrijven hoe jouw systeem werkt.\n"
-        "6. Hoogstens 200 woorden. Weet je iets niet, zeg dat eerlijk.\n"
-        "7. Schrijf ID's met een gewoon koppelteken."
+        "6. Gaat de vraag over tijd of een patroon, geef dan je hele reeks: ook de momenten waarop je meting of waarneming normaal was, "
+        "zodat zichtbaar wordt wanneer iets NIET gebeurt.\n"
+        "7. Hoogstens 250 woorden; vat een lange reeks samen (bv. 'dag X tot Y normaal: ID's ...'). Weet je iets niet, zeg dat eerlijk.\n"
+        "8. Schrijf ID's met een gewoon koppelteken."
     )
     if mcp:
         tekst += "\n\nLees of doorzoek je Kennisbron met je tools voor je spreekt."
@@ -566,6 +618,17 @@ async def run():
     except Exception as e:
         print(f"LET OP: het Verdict kon niet opgesteld worden ({e}).")
         ruw = {}
+    # Review: de Koning toetst zijn concept aan het debat (uit te zetten met VERDICT_REVIEW=0 in .env).
+    if ruw and os.getenv("VERDICT_REVIEW", "1") != "0":
+        try:
+            review, _ = koning_json(KONING_REVIEW, vast + debat + "\n\nConcept-Verdict:\n" + json.dumps(ruw, ensure_ascii=False, indent=1)
+                                    + "\n\nControleer en verbeter het concept.")
+            if isinstance(review.get("verdict"), dict) and review["verdict"].get("oorzaak"):
+                ruw = review["verdict"]
+                trace["verdict_review"] = [normaliseer_ids(str(c)) for c in (review.get("correcties") or [])][:12]
+                print("\n[Koning] review: " + ("; ".join(trace["verdict_review"]) or "geen correcties"))
+        except Exception as e:  # het concept blijft staan als de review mislukt
+            print(f"LET OP: review van het Verdict mislukt ({e}); het concept blijft staan.")
     verdict, geschillen = maak_verdict(ruw, run_id, geldig_genoemd)
     trace["geschillen"] = geschillen
     beurt(ronde + 1, "koning", "bericht", tekst=verdict["samenvatting"])
