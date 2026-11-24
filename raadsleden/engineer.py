@@ -3,3 +3,4 @@
 ROL = "engineer"
 NAAM = "Engineer"
 PERSPECTIEF = "Bouwt en onderhoudt het datanet vanuit de datatoren; zoekt de oorzaak in meetbare logs."
+BELANG = "vooruitgang van het datanet"
