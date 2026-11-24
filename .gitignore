@@ -4,4 +4,6 @@ __pycache__/
 *.egg-info/
 *.log
 *.tmp
+visualisatie/assets/
+.ruff_cache/
 kennisbronnen/*/

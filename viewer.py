@@ -25,16 +25,20 @@ def main():
                 return self.stuur(ROOT / "viewer.html", "text/html; charset=utf-8")
             if pad in ("/trace.json", "/verdict.json"):
                 return self.stuur(map_ / pad[1:], "application/json; charset=utf-8")
+            # Renders uit visualisatie/renders (avatars, raadszaal, feest); alleen .png met een eenvoudige naam.
+            naam = pad.removeprefix("/beelden/")
+            if pad.startswith("/beelden/") and naam.endswith(".png") and naam.replace("_", "").replace(".", "").isalnum():
+                return self.stuur(ROOT / "visualisatie" / "renders" / naam, "image/png", cache=True)
             self.send_error(404)
 
-        def stuur(self, bestand, soort):
+        def stuur(self, bestand, soort, cache=False):
             if not bestand.exists():
                 return self.send_error(404)
             data = bestand.read_bytes()
             self.send_response(200)
             self.send_header("Content-Type", soort)
             self.send_header("Content-Length", str(len(data)))
-            self.send_header("Cache-Control", "no-store")
+            self.send_header("Cache-Control", "max-age=3600" if cache else "no-store")
             self.end_headers()
             self.wfile.write(data)
 

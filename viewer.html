@@ -9,14 +9,14 @@
     --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
     --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
     --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --koning: #475569; --mens: #b91c1c;
+    --oracle: #c0266d; --beast_master: #15803d; --koning: #1f7ab8; --mens: #b91c1c;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
       --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
       --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --koning: #a3b1c6; --mens: #f87171;
+      --oracle: #f472b6; --beast_master: #4ade80; --koning: #7cc8ff; --mens: #f87171;
     }
   }
   * { box-sizing: border-box; }
@@ -57,6 +57,20 @@
   .leeg { color: var(--zacht); font-style: italic; }
   ol { padding-left: 18px; margin: 4px 0; font-size: 13px; }
   .melding { padding: 40px 16px; text-align: center; color: var(--zacht); }
+  /* Raadszaal: renders uit visualisatie/ (Blender, CC0-modellen van KayKit). Ontbreken ze, dan blijft dit leeg. */
+  #zaal { position: relative; max-width: 1400px; margin: 16px auto 0; padding: 0 16px; }
+  #zaal .podium { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: #0d1120 center 40% / cover no-repeat; border: 1px solid var(--lijn); }
+  #zaal .podium::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,20,.92) 8%, rgba(8,10,20,.35) 55%, rgba(8,10,20,.15)); }
+  #zaal .titel { position: absolute; top: 12px; left: 16px; right: 16px; color: #f4ecd8; font-weight: 650; font-size: 15px; text-shadow: 0 1px 3px #000; }
+  #zaal .rij { position: relative; display: flex; justify-content: center; align-items: flex-end; gap: 6px; padding: 54px 8px 10px; flex-wrap: wrap; }
+  .avatar { width: 104px; text-align: center; color: #e8e4da; font-size: 12px; transition: transform .35s ease, filter .35s ease; filter: saturate(.75) brightness(.85); }
+  .avatar img { width: 104px; height: 104px; object-fit: contain; display: block; }
+  .avatar.spreekt { transform: translateY(-8px) scale(1.18); filter: none; }
+  .avatar.spreekt img { filter: drop-shadow(0 0 10px var(--kleur)) drop-shadow(0 0 3px var(--kleur)); }
+  .avatar.spreekt span { color: var(--kleur); font-weight: 700; }
+  .avatar.koning img { width: 120px; height: 120px; }
+  .mini { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; background: color-mix(in srgb, var(--kleur) 22%, transparent); border: 1.5px solid var(--kleur); align-self: center; }
+  @media (max-width: 700px) { .avatar, .avatar img { width: 72px; height: auto; } .avatar.koning img { width: 84px; } }
 </style>
 </head>
 <body>
@@ -65,6 +79,7 @@
   <span id="status" class="pil">wachten op trace.json…</span>
   <span id="runid" class="runid"></span>
 </header>
+<div id="zaal" hidden><div class="podium"><div class="titel"></div><div class="rij"></div></div></div>
 <main>
   <div id="debat"><p class="melding">Nog geen <code>trace.json</code>. Start je Council met <code>uv run council</code>; het debat verschijnt hier live.</p></div>
   <aside>
@@ -84,6 +99,35 @@ let vorige = "";
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const kleur = rol => `var(--${NAMEN[rol] ? rol : "koning"})`;
+const AVATAR = rol => `beelden/avatar_${rol}.png`;
+const mini = rol => NAMEN[rol] && rol !== "mens" ? `<img class="mini" src="${AVATAR(rol)}" alt="" onerror="this.remove()">` : "";
+let zaalBeeld = null;
+
+// De raadszaal bovenaan: wie aan het woord is, licht op. Na het Verdict wordt het feest.
+function zaal(trace, verdict) {
+  const blok = document.getElementById("zaal");
+  const bezig = trace.status === "bezig";
+  const klaar = !bezig && verdict && verdict.run_id === trace.run_id;
+  const berichten = (trace.beurten || []).filter(b => b.soort === "bericht");
+  const spreker = bezig ? trace.aan_het_woord : (berichten.at(-1)?.spreker ?? null);
+  const beeld = klaar ? "beelden/feest.png" : "beelden/raadszaal.png";
+  const podium = blok.querySelector(".podium");
+  if (zaalBeeld !== beeld) {
+    const test = new Image();
+    test.onload = () => { podium.style.backgroundImage = `url(${beeld})`; blok.hidden = false; };
+    test.src = beeld;
+    zaalBeeld = beeld;
+  }
+  blok.querySelector(".titel").textContent = klaar
+    ? "Het Verdict is geveld: feest in de raadszaal!"
+    : bezig && spreker ? `${NAMEN[spreker] || spreker} is aan het woord` : "De raadszaal van Achrona";
+  const rollen = ["koning", ...(trace.raadsleden || [])];
+  const midden = Math.floor(rollen.length / 2);  // de Koning in het midden van de rij
+  const rij = [...rollen.slice(1, midden + 1), "koning", ...rollen.slice(midden + 1)];
+  blok.querySelector(".rij").innerHTML = rij.map(r =>
+    `<div class="avatar${r === "koning" ? " koning" : ""}${r === spreker || (klaar && r === "koning") ? " spreekt" : ""}" style="--kleur:${kleur(r)}">
+       <img src="${AVATAR(r)}" alt="${esc(NAMEN[r] || r)}" onerror="this.style.visibility='hidden'"><span>${esc(r === "koning" ? "Vorstkoning" : NAMEN[r] || r)}</span></div>`).join("");
+}
 
 function opmaak(tekst) {
   return esc(tekst)
@@ -101,6 +145,7 @@ function ids(tekst) {
 }
 
 function render(trace, verdict) {
+  zaal(trace, verdict);
   const status = document.getElementById("status");
   const bezig = trace.status === "bezig";
   status.className = "pil " + (bezig ? "bezig" : "klaar");
@@ -136,7 +181,7 @@ function render(trace, verdict) {
     if (b.soort === "bericht") {
       t.berichten++;
       for (const x of ids(b.tekst)) { t.ids.add(x.id); if (x.raar) vreemdeIds.push(x.id); }
-      html += `<div class="beurt" ${stijl}><div class="wie">${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
+      html += `<div class="beurt" ${stijl}><div class="wie">${mini(b.spreker)}${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
     } else {
       t.tools++;
       let vlag = "";
@@ -152,7 +197,7 @@ function render(trace, verdict) {
     }
   }
   if (bezig && trace.aan_het_woord) {
-    html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
+    html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${mini(trace.aan_het_woord)}${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
   }
   for (const g of trace.geschillen || []) {
     html += `<div class="ronde">Geschil</div><div class="beurt" style="--kleur:var(--koning)"><div class="wie">${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
