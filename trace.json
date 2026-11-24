@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-24T13:51:47+01:00_df1c7a8c",
+  "run_id": "2026-11-24T14:10:40+01:00_bdbeb3f9",
   "status": "klaar",
   "raadsleden": [
     "archmage",
@@ -14,1229 +14,617 @@
       "nr": 1,
       "ronde": 0,
       "spreker": "archmage",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/archmage/mcp",
-      "doel": "zoekindex voor zoek_relevant (100 records), niet in de prompt"
+      "soort": "bestand",
+      "bestand": "archmage/brieven.md"
     },
     {
       "nr": 2,
       "ronde": 0,
-      "spreker": "beast_master",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/beast_master/mcp",
-      "doel": "zoekindex voor zoek_relevant (114 records), niet in de prompt"
+      "spreker": "archmage",
+      "soort": "bestand",
+      "bestand": "archmage/leylijnmetingen.csv"
     },
     {
       "nr": 3,
       "ronde": 0,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp",
-      "doel": "zoekindex voor zoek_relevant (128 records), niet in de prompt"
+      "spreker": "beast_master",
+      "soort": "bestand",
+      "bestand": "beast_master/logboek.csv"
     },
     {
       "nr": 4,
       "ronde": 0,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp",
-      "doel": "zoekindex voor zoek_relevant (107 records), niet in de prompt"
+      "spreker": "beast_master",
+      "soort": "bestand",
+      "bestand": "beast_master/veldnotities.md"
     },
     {
       "nr": 5,
       "ronde": 0,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/historian/mcp",
-      "doel": "zoekindex voor zoek_relevant (111 records), niet in de prompt"
+      "spreker": "engineer",
+      "soort": "bestand",
+      "bestand": "engineer/installatielog.csv"
     },
     {
       "nr": 6,
       "ronde": 0,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "lees_kennisbron",
-      "argumenten": {},
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp",
-      "doel": "zoekindex voor zoek_relevant (42 records), niet in de prompt"
+      "spreker": "engineer",
+      "soort": "bestand",
+      "bestand": "engineer/werkboek.md"
     },
     {
       "nr": 7,
+      "ronde": 0,
+      "spreker": "guardian_keeper",
+      "soort": "bestand",
+      "bestand": "guardian_keeper/schildspecificatie.md"
+    },
+    {
+      "nr": 8,
+      "ronde": 0,
+      "spreker": "guardian_keeper",
+      "soort": "bestand",
+      "bestand": "guardian_keeper/wachtrapporten.csv"
+    },
+    {
+      "nr": 9,
+      "ronde": 0,
+      "spreker": "historian",
+      "soort": "bestand",
+      "bestand": "historian/archiefrecords.csv"
+    },
+    {
+      "nr": 10,
+      "ronde": 0,
+      "spreker": "historian",
+      "soort": "bestand",
+      "bestand": "historian/kroniek.md"
+    },
+    {
+      "nr": 11,
+      "ronde": 0,
+      "spreker": "oracle",
+      "soort": "bestand",
+      "bestand": "oracle/visioenendagboek.md"
+    },
+    {
+      "nr": 12,
       "ronde": 1,
       "spreker": "koning",
       "soort": "routering",
       "aan": "engineer",
-      "vraag": "Welke meetbare logs in het datanet laten de Desync zien? Geef de record-ID's, het tijdstip waarop de afwijking voor het eerst verscheen en wat er in de minuten ervoor is vastgelegd. Zijn er ook waarschuwingen of meldingen in je logs die niet zijn opgevolgd?",
-      "reden": "Er is nog geen enkele bewering met record-ID's, en de logs van het datanet zijn de meest meetbare bron om het begin en de ingreep te vinden. Ik wil eerst weten wat er wordt vastgelegd voordat ik de andere Rollen toets.",
-      "context_tokens": 4208,
+      "vraag": "Geef eerst je eigen meetreeks: welke afwijkingen zie je in de logs, met dag, tijd en record-ID, en ook de momenten waarop alles normaal was. Welke veranderingen, nieuwe installaties of afspraken staan in je datanet, en wie gaf daarvoor toestemming of vroeg erom? Wat zijn de regels en specificaties van het datanet, en hoe herstel je het veilig?",
+      "reden": "Openingsbeurt: nog niemand heeft gesproken, dus we halen eerst alle gegevens van de Engineer op. Het datanet met meetbare logs is een logische start om een ingreep, een tijdpatroon en een herstelprocedure in één keer te toetsen.",
       "open_vragen": [
-        "Wat is de exacte ingreep die de Desync veroorzaakte, en door wie of wat?",
-        "Op welke dag en uur begon de afwijking voor het eerst?",
-        "Wie gaf toestemming voor de ingreep, als er een was?",
-        "Hoe werkt het getroffen systeem volgens zijn eigen regels, en verklaart dat het ritme van de Desync?",
-        "Welke waarschuwingen of meldingen zijn genegeerd?",
-        "Hoe kan het herstel veilig verlopen zonder nieuwe schade?"
+        "Welke afwijkingen en welke normale momenten staan er in de logs, met record-ID's?",
+        "Welke wijzigingen of installaties zijn in het datanet gedaan, en door wie?",
+        "Welke specificaties en herstelprocedures gelden voor het datanet?",
+        "Wat zeggen de Archmage, Beast Master, Guardian Keeper, Historian en Oracle over hun eigen bronnen?"
       ],
       "stand": {
         "ingreep": "onbekend [zwak]",
         "mechanisme": "onbekend [zwak]",
         "verloop": "onbekend [zwak]",
         "herstel": "onbekend [zwak]"
-      }
-    },
-    {
-      "nr": 8,
-      "ronde": 1,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "Desync datanet log afwijking eerste verschijning",
-        "aantal": 8
       },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 9,
-      "ronde": 1,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "waarschuwing melding niet opgevolgd",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 10,
-      "ronde": 1,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-114"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 11,
-      "ronde": 1,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "Kroonklok"
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 12,
-      "ronde": 1,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "dag=10"
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+      "context_tokens": 2957
     },
     {
       "nr": 13,
       "ronde": 1,
       "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-005",
+      "soort": "bericht",
+      "tekst": "Feiten:\n- ENG-011, dag 10, 02:40: hulpslag geactiveerd als \"eigen pols voor het datanet, los van de Kroonklok\".\n- ENG-012, dag 10, 03:00: doorvoer +38%. ENG-120 (werkboek), dag 16: nog steeds 38% hoger.\n- ENG-107 (werkboek), dag 10, 04:50: klacht over \"half aangekomen\" berichten.\n- ENG-026, dag 22, 04:15: pakketverlies van 3 minuten op poort oost. ENG-027, dag 22, 04:20: firewallregels aangescherpt \"na vermoeden van inbraak\".\n- ENG-029, dag 24, 11:00: hulpslag pols met 5% opgedreven. ENG-062, dag 24, 11:05: versterking 5% hoger, \"tempo ongewijzigd\".\n- ENG-061, dag 12, 10:30: fijnregeling getest en daarna teruggezet.\n- ENG-105 (werkboek), dag 9: goedkeuring van \"hogerhand\", niet ruchtbaar maken tot het draait. Mijn bron noemt geen naam.\n- Normaal: routinecontroles hulpslag ENG-063 (dag 13), ENG-064 (dag 17), ENG-065 (dag 21), ENG-066 (dag 29), alle ok.\n- Poort oost heeft in mijn log alleen ENG-026. Ik heb geen onderhouds- of firmwarerecord.\n\nMijn lezing:\nHet pakketverlies op dag 22 en de klacht op dag 10 zijn meetbaar. Ze bewijzen geen inbraak: ENG-027 spreekt alleen van een vermoeden. Mijn gegevens zijn verenigbaar met een desync tussen de hulpslag en de Kroonklok, omdat de hulpslag op een eigen pols loopt. Ik kan dat niet bewijzen, want ik heb geen meting van de Kroonklok.\n\nSpecificatie (ENG-114): versterking verhoogt de doorvoer en laat het tempo gelijk. De fijnregeling stuurt het tempo in stappen van 0,1%. De opdrijving van dag 24 zou het tempo dus niet moeten verschuiven, maar ik heb geen tempometing na dag 24.\n\nHerstel: mijn bron bevat geen geschreven procedure voor de hulpslag. Het voorzichtigste lijkt mij: eerst de versterking terugzetten naar de stand van voor dag 24, dan tempo en doorvoer meten, en pas daarna andere ingrepen doen. Dit heb ik nog niet getest.",
+      "id_controle": {
+        "geldig": [
           "ENG-011",
           "ENG-012",
-          "ENG-021",
-          "ENG-034",
-          "ENG-045",
-          "ENG-102",
-          "ENG-111",
+          "ENG-120",
+          "ENG-107",
+          "ENG-026",
+          "ENG-027",
+          "ENG-029",
+          "ENG-062",
+          "ENG-061",
+          "ENG-105",
+          "ENG-063",
+          "ENG-064",
+          "ENG-065",
+          "ENG-066",
           "ENG-114"
-        ]
+        ],
+        "verwijzing": [],
+        "onbekend": []
       },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp",
-      "doel": "controle"
+      "context_tokens": 8655
     },
     {
       "nr": 14,
       "ronde": 1,
-      "spreker": "engineer",
-      "soort": "bericht",
-      "tekst": "**Feiten:**\n- [ENG-011] dag 10, 02:40: hulpslag geactiveerd, \"eigen pols voor het datanet, los van de Kroonklok\", status ok.\n- [ENG-012] dag 10, 03:00: doorvoermeting na activatie +38%, status ok.\n- [ENG-102] dag 2: datanet loopt op de pols van de Kroonklok.\n- [ENG-111] dag 24: hulpslag 5% opgedreven.\n- [ENG-114] dag 12: fijnregeling van de hulpslag getest en daarna teruggezet, \"zie log\". Dat logbestand heb ik niet gevonden.\n\n**Mijn lezing:**\nMijn bronnen gebruiken het woord \"Desync\" niet. Het eerste zichtbare verschil is een stijging van de doorvoer, geen daling: +38% om 03:00 op dag 10, twintig minuten na de activatie om 02:40. Ik zie in de records die ik heb geen vastlegging van de minuten ervoor.\n\nAfleiding (combinatie van ENG-102, ENG-011 en ENG-111): de hulpslag loopt op een eigen tempo naast de Kroonklok. Na dag 10 is dat tempo verder opgedreven (ENG-111). Als de twee pulsen niet meer synchroon lopen, kan dat een desync geven. Dit is een afleiding, geen bewezen oorzaak.\n\nWaarschuwingen: ENG-005, ENG-021, ENG-034 en ENG-045 gaan niet over het datanet. ENG-005 is opgevolgd (\"pomp bijgeregeld\"). Bij de andere drie kan ik niet zien of ze zijn opgevolgd. Wel genoemd in ENG-111: iemand op de raad fluisterde over \"alles afzetten tot het voorbij is\". Mijn record meldt geen uitvoering daarvan.\n\nToetsen door: de Rol die de Kroonklok als tijdbron bewaakt.\n\nBroncitaten:\n- ENG-005: «temperatuur te hoog, pomp bijgeregeld»\n- ENG-011: «geactiveerd: eigen pols voor het datanet, los van de Kroonklok»\n- ENG-012: «doorvoermeting na activatie: +38%»\n- ENG-021: «ENG-021,17,10:00,ventilatie,filter verstopt,waarschuwing»\n- ENG-034: «ENG-034,27,10:00,voeding,spanningsdip na onweer,waarschuwing»\n- ENG-045: «ENG-045,33,10:00,opslag,schijf 4 bijna vol,waarschuwing»\n- ENG-102: «Het loopt op de pols van de Kroonklok, net als alles hier.»\n- ENG-111: «Hulpslag 5% opgedreven. Als het datanet sneller is dan de indringers, hebben ze minder tijd.»\n- ENG-114: «Vanochtend de fijnregeling getest en daarna teruggezet, zie log.»",
-      "bevestigde_ids": [
-        "ENG-005",
-        "ENG-011",
-        "ENG-012",
-        "ENG-021",
-        "ENG-034",
-        "ENG-045",
-        "ENG-102",
-        "ENG-111",
-        "ENG-114"
+      "spreker": "koning",
+      "soort": "routering",
+      "aan": "archmage",
+      "vraag": "Geef je eigen reeks: welke afwijkingen zie je in de leylijnen of in de tempo van de Kroonklok, met dag, tijd en record-ID, en ook de momenten waarop alles normaal was? Welke wijzigingen, installaties of afspraken zijn er in je bron, en wie gaf toestemming of vroeg erom? Wat zijn de regels voor het bijstellen van de Kroonklok, en hoe herstel je die veilig?",
+      "reden": "De Engineer heeft één mogelijke oorzaak aangewezen: de hulpslag loopt op een eigen pols los van de Kroonklok (ENG-011). De Engineer heeft geen meting van de Kroonklok en kan het tempo daarvan niet vergelijken. De Archmage is de enige Rol die de leylijnen en de Kroonklok-magie hoedt en nog niet sprak. Die gegevens zijn nodig om het mechanisme te toetsen, en de herstelprocedure ontbreekt nog volledig.",
+      "open_vragen": [
+        "Loopt de Kroonklok sinds dag 10 in een ander tempo dan voorheen, en is dat meetbaar?",
+        "Wie gaf goedkeuring voor de hulpslag op een eigen pols (ENG-105: 'hogerhand', naam onbekend)?",
+        "Welke specificaties en herstelprocedures gelden voor de Kroonklok en de hulpslag?",
+        "Waarom verschuift het tempo niet bij de versterking op dag 24 (ENG-062), terwijl de doorvoer wel stijgt?",
+        "Bestaat het patroon van de klachten (dag 10, dag 22, dag 24) ook vóór de ingreep?",
+        "Wat weten de Beast Master, Guardian Keeper, Historian en Oracle van hun eigen bronnen?"
       ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "gecorrigeerd",
-        "fouten": [
-          "Het record zegt 'fluisterde over', niet 'stelde voor'. Dat niets is uitgevoerd staat er niet letterlijk; alleen dat de Engineer het afwees.",
-          "Letterlijk overgenomen uit het record, dat 'daarna' bevat."
-        ],
-        "broncitaten": {
-          "ENG-011": "geactiveerd: eigen pols voor het datanet, los van de Kroonklok",
-          "ENG-012": "doorvoermeting na activatie: +38%",
-          "ENG-102": "Het loopt op de pols van de Kroonklok, net als alles hier.",
-          "ENG-111": "Hulpslag 5% opgedreven. Als het datanet sneller is dan de indringers, hebben ze minder tijd.",
-          "ENG-114": "Vanochtend de fijnregeling getest en daarna teruggezet, zie log.",
-          "ENG-005": "temperatuur te hoog, pomp bijgeregeld",
-          "ENG-021": "ENG-021,17,10:00,ventilatie,filter verstopt,waarschuwing",
-          "ENG-034": "ENG-034,27,10:00,voeding,spanningsdip na onweer,waarschuwing",
-          "ENG-045": "ENG-045,33,10:00,opslag,schijf 4 bijna vol,waarschuwing"
-        }
+      "stand": {
+        "ingreep": "Hulpslag op eigen pols ingeschakeld op dag 10 (ENG-011), met versterking op dag 24 (ENG-029); geen bewijs van de Kroonklok-kant [zwak]",
+        "mechanisme": "Een desync tussen hulpslag en Kroonklok is verenigbaar met de data, maar de Kroonklok is nog niet gemeten [zwak]",
+        "verloop": "Klacht dag 10 (ENG-107), pakketverlies dag 22 (ENG-026), versterking dag 24 (ENG-029); het ritme in de tijd is nog niet vastgesteld [matig]",
+        "herstel": "Voorstel: versterking terugzetten naar de stand van voor dag 24, dan meten; geen geschreven procedure en nog niet getest [zwak]"
       },
-      "concept": "**Feiten:**\n- [ENG-011] dag 10, 02:40: hulpslag geactiveerd, \"eigen pols voor het datanet, los van de Kroonklok\", status ok.\n- [ENG-012] dag 10, 03:00: doorvoermeting na activatie +38%, status ok.\n- [ENG-102] dag 2: datanet loopt op de pols van de Kroonklok.\n- [ENG-111] dag 24: hulpslag 5% opgedreven.\n- [ENG-114] dag 12: fijnregeling van de hulpslag getest en teruggezet, \"zie log\". Dat logbestand heb ik niet gevonden.\n\n**Mijn lezing:**\nMijn bronnen gebruiken het woord \"Desync\" niet. Het eerste zichtbare verschil is een stijging van de doorvoer, geen daling: +38% om 03:00 op dag 10, twintig minuten na de activatie om 02:40. Ik zie in de records die ik heb geen vastlegging van de minuten ervoor.\n\nAfleiding (combinatie van ENG-102, ENG-011 en ENG-111): de hulpslag loopt op een eigen tempo naast de Kroonklok. Na dag 10 is dat tempo verder opgedreven (ENG-111). Als de twee pulsen niet meer synchroon lopen, kan dat een desync geven. Dit is een afleiding, geen bewezen oorzaak.\n\nWaarschuwingen: ENG-005, ENG-021, ENG-034 en ENG-045 gaan niet over het datanet. ENG-005 is opgevolgd (\"pomp bijgeregeld\"). Bij de andere drie kan ik niet zien of ze zijn opgevolgd. Wel genoemd in ENG-111: iemand in de raad stelde voor alles af te zetten; dat is niet uitgevoerd.\n\nToetsen door: de Rol die de Kroonklok als tijdbron bewaakt."
+      "context_tokens": 4182
     },
     {
       "nr": 15,
       "ronde": 1,
-      "spreker": "koning",
-      "soort": "routering",
-      "aan": "archmage",
-      "vraag": "De Engineer meldt dat op dag 10 om 02:40 een hulpslag werd geactiveerd met een 'eigen pols voor het datanet, los van de Kroonklok' (ENG-011), en dat de Kroonklok de tijdbron is waar alles op loopt (ENG-102). Wat is de Kroonklok precies, wie bewaakt haar, en zagen jullie in de leylijnen rond die dag een afwijking of storing die past bij een losse pols die later 5% wordt opgedreven (ENG-111)?",
-      "reden": "De Engineer wijst op de Kroonklok als centrale tijdbron en een hulpslag die er zich vanaf lost; de Archmage bewaakt de leylijnen en magie waar de Kroonklok waarschijnlijk op draait. Dit is de eerste mogelijke kruispunt voor de ingreep en het mechanisme.",
-      "context_tokens": 3638,
-      "open_vragen": [
-        "Wat is de exacte ingreep die de Desync veroorzaakte, en door wie of wat?",
-        "Op welke dag en uur begon de afwijking voor het eerst?",
-        "Wie gaf toestemming voor de hulpslag-activering op dag 10 02:40?",
-        "Hoe werkt de Kroonklok volgens haar eigen regels, en verklaart dat het ritme van de Desync?",
-        "Welke waarschuwingen of meldingen in de leylijnen zijn genegeerd?",
-        "Hoe kan het herstel veilig verlopen zonder nieuwe schade?"
-      ],
-      "stand": {
-        "ingreep": "Hulpslag geactiveerd dag 10 02:40 met eigen pols, los van Kroonklok; later 5% opgedreven dag 24 [matig]",
-        "mechanisme": "Twee pulsen (Kroonklok + hulpslag) lopen uiteen -> desync [zwak]",
-        "verloop": "Eerste zichtbare afwijking dag 10 03:00 (+38% doorvoer); mogelijk al earlier [zwak]",
-        "herstel": "onbekend [zwak]"
-      }
+      "spreker": "archmage",
+      "soort": "bericht",
+      "tekst": "Feiten:\n- Leylijnen dag 7 normaal: ARC-001 t/m ARC-014, sterkte 7.0 tot 8.7, binnen de marge (ARC-105).\n- Dag 14 laag: ARC-015 t/m ARC-028, sterkte 3.1 tot 4.6 (ARC-109).\n- Dag 21, 28 en 35 normaal: ARC-029 t/m ARC-042, ARC-043 t/m ARC-056 en ARC-057 t/m ARC-070, sterkte 7.0 tot 8.7.\n- Dag 42 weer laag: ARC-071 t/m ARC-084, sterkte 3.1 tot 4.8 (ARC-116).\n- Mijn bron heeft alleen dagen, geen tijdstippen.\n- Kroonklok: ARC-104 (dag 5) meldt een stemming zonder afwijking. Ik heb geen latere meting van de Kroonklok.\n- Wijziging: de signaalmastlamp van de datatoren gedimd 's nachts (ARC-102, dag 2; bevestigd in ARC-106, dag 8).\n- Afspraak: ARC-106 (dag 8) keurt door mij goed dat het net van de datatoren \"op eigen maat\" loopt. Er staat \"niet ruchtbaar maken tot het draait\" en de brief hoeft niet in het register. Het verzoek van de toren zelf staat niet in mijn bron.\n- Mijn advies om het datanet af te zetten: ARC-109, ARC-112, ARC-116. Over het besluit van de zitting van dag 24 staat niets in mijn bron.\n- Over ENG-105 (dag 9, \"hogerhand\"): mijn ARC-106 (dag 8) bevestigt een goedkeuring om het net op eigen maat te laten lopen, maar die is van mij en één dag eerder. Ik kan de datum en bron van ENG-105 niet bevestigen. De overige ENG-claims kan ik niet toetsen.\n\nMijn lezing:\nDe metingen laten zien dat de leylijnen op dag 14 en dag 42 laag waren, en op dag 21, 28 en 35 normaal. Dat patroon past niet eenvoudig bij de wijzigingen. De eigen-maat-afspraak van dag 8 ging vooraf aan de lage dag 14, maar de lijnen herstelden daarna terwijl het net nog liep. Daarom is een desync verenigbaar met mijn gegevens, maar niet bewezen. Mijn advies om het net af te zetten kleurt deze lezing. Mijn bron bevat geen voorschrift voor het bijstellen of veilig herstellen van de Kroonklok.",
+      "id_controle": {
+        "geldig": [
+          "ARC-001",
+          "ARC-014",
+          "ARC-105",
+          "ARC-015",
+          "ARC-028",
+          "ARC-109",
+          "ARC-029",
+          "ARC-042",
+          "ARC-043",
+          "ARC-056",
+          "ARC-057",
+          "ARC-070",
+          "ARC-071",
+          "ARC-084",
+          "ARC-116",
+          "ARC-104",
+          "ARC-102",
+          "ARC-106",
+          "ARC-112"
+        ],
+        "verwijzing": [
+          "ENG-105"
+        ],
+        "onbekend": []
+      },
+      "context_tokens": 10359
     },
     {
       "nr": 16,
       "ronde": 1,
-      "spreker": "archmage",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "Kroonklok",
-        "aantal": 8
+      "spreker": "koning",
+      "soort": "routering",
+      "aan": "historian",
+      "vraag": "Geef je eigen reeks: welke afwijkingen of storingen staan in het archief, met dag, tijd en record-ID, en ook de dagen die normaal verliepen? Welke wijzigingen, installaties of afspraken staan erin, en wie gaf daarvoor toestemming of vroeg erom? Welke regels gelden voor het archief en hoe herstel je het veilig?",
+      "reden": "Het verloop is het zwakst: de klachten op dag 10, 22 en 24 en de lage leylijnen op dag 14 en 42 zijn nog niet vergeleken met eerdere gebeurtenissen. De Historian is de enige Rol die kan nagaan of het ritme of de klachten al vóór de ingreep (ENG-011 of ARC-106) bestonden. Ook ENG-105 ('hogerhand') en ARC-106 botsen op datum en bron, en het archief kan dat bevestigen of weerleggen.",
+      "open_vragen": [
+        "Bestaat het patroon van de klachten (dag 10, 22, 24) en de lage leylijnen (dag 14, 42) ook vóór de ingreep op dag 8-10?",
+        "Wie gaf de goedkeuring van dag 8-9 (ARC-106 en ENG-105): is het één besluit of twee verschillende?",
+        "Loopt de Kroonklok sinds dag 10 in een ander tempo, en is dat meetbaar?",
+        "Welke voorschriften gelden voor het veilig bijstellen of terugdraaien van de hulpslag en het net?",
+        "Wat weten de Beast Master, Guardian Keeper en Oracle van hun eigen bronnen?"
+      ],
+      "stand": {
+        "ingreep": "Het net is op eigen maat gezet via een afspraak van dag 8-9 (ARC-106, ENG-011), met een onbekende 'hogerhand' als mogelijke goedkeurder [matig]",
+        "mechanisme": "Een desync tussen de hulpslag en de Kroonklok is verenigbaar met de gegevens, maar niet bewezen; de Kroonklok is niet gemeten na dag 5 [zwak]",
+        "verloop": "Klachten op dag 10, 22 en 24 en lage leylijnen op dag 14 en 42, zonder vergelijking met de periode vóór de ingreep [zwak]",
+        "herstel": "Alleen een voorlopig voorstel om de versterking terug te zetten (ENG-114), niet getest en zonder geschreven procedure [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/archmage/mcp"
+      "context_tokens": 5420
     },
     {
       "nr": 17,
       "ronde": 1,
-      "spreker": "archmage",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ARC-104"
-        ]
+      "spreker": "historian",
+      "soort": "bericht",
+      "tekst": "**Feiten:**\n- HIS-035, dag 10 04:45 (vastgelegd dag 10 07:20): de Burchtader stokte even, gemeld door de nachtwake.\n- HIS-036, dag 10 04:50 (vastgelegd dag 9 23:55): klacht uit de benedenstad, berichten half aangekomen. Vastgelegd vóór het gebeuren.\n- HIS-053, dag 22 04:15 (vastgelegd dag 22 01:50): lek bij poort oost, gemeld door de wachters, 3 minuten. Vastgelegd vóór het gebeuren.\n- HIS-054, dag 22 05:00 (vastgelegd dag 22 07:25): ochtendgebed bij de Burchtader.\n- Normaal, gebeurd en vastgelegd gelijk: HIS-011 (dag 1 08:45) t/m HIS-034 (dag 9 19:50), HIS-037 t/m HIS-052, HIS-055 t/m HIS-089 (dag 42 15:45).\n- Geen wijziging of toestemming in mijn bron over het datanet. Woudkabels ongewijzigd: HIS-014 (dag 3 08:30).\n- Bevestiging ENG-107: HIS-036 bevestigt de klacht van dag 10 04:50. Ik kan ENG-026 alleen deels bevestigen: HIS-053 heeft hetzelfde tijdstip en de duur, maar spreekt van een lek, niet van pakketverlies.\n- Ik kan ENG-105 (\"hogerhand\", dag 9) noch ARC-106 niet vinden in mijn bron.\n\n**Mijn lezing:**\nDe vier afwijkingen zijn de enige records waarin de vastlegging niet op de tik van het gebeuren ligt. Volgens HIS-103 hoort dat niet te gebeuren. HIS-110 beschrijft wat er gebeurt als een record op een andere pols geschreven wordt: het is alleen op die pols terug te lezen, en als die pols wegvalt, is het record verloren. Mijn gegevens zijn daarmee verenigbaar met een desync, maar ze bewijzen die niet; mijn bron noemt geen oorzaak. Over de afspraken van dag 8 en 9 heb ik niets, dus ook niets dat ze bevestigt of tegenspreekt.",
+      "id_controle": {
+        "geldig": [
+          "HIS-035",
+          "HIS-036",
+          "HIS-053",
+          "HIS-054",
+          "HIS-011",
+          "HIS-034",
+          "HIS-037",
+          "HIS-052",
+          "HIS-055",
+          "HIS-089",
+          "HIS-014",
+          "HIS-103",
+          "HIS-110"
+        ],
+        "verwijzing": [
+          "ENG-107",
+          "ENG-026",
+          "ENG-105",
+          "ARC-106"
+        ],
+        "onbekend": []
       },
-      "pad": "https://mcp.findingsolutions.be/archmage/mcp"
+      "context_tokens": 11311
     },
     {
       "nr": 18,
       "ronde": 1,
-      "spreker": "archmage",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "leylijn dag 10",
-        "aantal": 8
+      "spreker": "koning",
+      "soort": "routering",
+      "aan": "beast_master",
+      "vraag": "Geef eerst je eigen reeks: welke onrust of afwijkingen bij de dieren zie je, met dag, tijd en record-ID, en ook de dagen waarop alles rustig was. Welke wijzigingen, installaties of afspraken staan in je bron, en wie gaf daarvoor toestemming of vroeg erom, ook als dat de toren of het datanet betreft? Welke regels gelden voor het woud, en hoe herstel je die veilig?",
+      "reden": "Beast Master heeft nog niet gesproken en kan een onafhankelijk tijdspatroon leveren (onrust vóór of na dag 8-10). Zijn bron kan de klachten van dag 10, 22 en 24 bevestigen of weerleggen, en de lage leylijnen op dag 14 en 42 kunnen daarmee getoetst worden. De opening vraagt ook zijn eigen gegevens over de afspraken van dag 8-9.",
+      "open_vragen": [
+        "Bestaat het patroon van de klachten (dag 10, 22, 24) en de lage leylijnen (dag 14, 42) ook vóór de ingreep op dag 8-10?",
+        "Wie gaf goedkeuring op dag 8-9 (ARC-106 en ENG-105): is het één besluit of twee?",
+        "Loopt de Kroonklok sinds dag 10 in een ander tempo, en is dat meetbaar? Niemand heeft een latere tempometing.",
+        "Welke voorschriften gelden voor het veilig bijstellen of terugdraaien van de hulpslag en het net? Alleen de versterking-terugzetting is voorgesteld, niet getest.",
+        "Wat weten de Guardian Keeper en Oracle van hun eigen bronnen?"
+      ],
+      "stand": {
+        "ingreep": "Hulpslag/eigen pols van de datatoren op dag 8-10, met een afspraak om het net 'op eigen maat' te laten lopen (ARC-106); de datum van ENG-105 is niet bevestigd [zwak]",
+        "mechanisme": "Pols-desync tussen hulpslag en Kroonklok, waardoor records niet op de tik vastliggen (HIS-035/036, HIS-110); niet met een tempometing van de Kroonklok bevestigd [zwak]",
+        "verloop": "Klachten op dag 10, 22 en 24 en lage leylijnen op dag 14 en 42, normaal op dag 7, 21, 28 en 35; of het ritme vóór de ingreep bestond is onbekend [zwak]",
+        "herstel": "Voorstel: versterking terugzetten naar de stand van voor dag 24, dan tempo en doorvoer meten; geen geschreven procedure gevonden en niet getest [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/archmage/mcp"
+      "context_tokens": 6347
     },
     {
       "nr": 19,
       "ronde": 1,
-      "spreker": "archmage",
+      "spreker": "beast_master",
       "soort": "bericht",
-      "tekst": "\n\n<​｜DSML｜ calls>\n<​｜DSML｜ invoke name=\"zoek\">\n<​｜DSML｜ parameter name=\"query\" string=\"true\">dag=10<​/｜DSML｜ parameter>\n<​｜DSML｜ parameter name=\"aantal\" string=\"false\">10<​/｜DSML｜ parameter>\n</｜DSML｜ invoke>\n<​/｜DSML｜ calls>",
-      "bevestigde_ids": [],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "overgeslagen",
-        "reden": "geen eigen record-ID's"
-      }
+      "tekst": "Feiten:\n- Onrust rond 04:15 tot 04:40, steeds op dezelfde plekken: dag 10 (BEA-019, BEA-020), dag 14 (BEA-028, BEA-029), dag 18 (BEA-037, BEA-038), dag 22 (BEA-046, BEA-047), dag 26 (BEA-055, BEA-056), dag 30 (BEA-064, BEA-065), dag 34 (BEA-073, BEA-074), dag 38 (BEA-082, BEA-083), dag 42 (BEA-091, BEA-092). Telkens wolven of herten, vaak daarna een vogel of vos.\n- Dagen zonder verstoring: dag 9 (BEA-009, 04:30), dag 13 (BEA-013, 04:40), dag 21 (BEA-044, 01:00), dag 23 (BEA-049, 03:15), dag 27 (BEA-058, 05:05), dag 33 (BEA-071, 04:30, de conjunctienacht).\n- Wijziging: kabels bij de oude eik. Dag 3, 08:30, mannen van de toren aan de kabels (BEA-102, bevestigd door BEA-005, dag 3 08:40). Dag 15: kabels \"dik en zwart tussen de wortels\" (BEA-109). Dag 27: ze liggen er nog (BEA-115). Geen toestemming van mij; ik vroeg de wortels te sparen en de toren ontkende nieuwe kabels.\n- Mijn gegevens spreken HIS-014 (\"woudkabels ongewijzigd\", dag 3 08:30) tegen: op dat tijdstip werd aan de kabels gewerkt (BEA-102).\n- Ik kan ENG-105 (\"hogerhand\") en ARC-106 (eigen-maat-afspraak) niet bevestigen of tegenspreken; daar staat niets over in mijn bron.\n- Regels voor het woud: mijn bron bevat geen formele voorschriften. Mijn gebruikelijke werkwijze is op afstand tellen, de dieren niet verstoren en de voederplaatsen vullen (BEA-101, BEA-112).\n\nMijn lezing:\nDe onrust komt elke vier dagen terug op dezelfde nacht-tijd, en de rustige dagen liggen daartussen. Dat is een patroon in de dieren zelf, niet in één enkel moment. Het begon ongeveer een week na het werk aan de kabels (dag 3 naar dag 10), maar ik kan niet bewijzen dat de kabels de oorzaak zijn. Ik heb geen meting van het datanet, en dat ik de kabels op dat moment zag, betekent niet dat ze het net verstoren. Wel is het patroon verenigbaar met een periodieke verstoring die in de nacht optreedt, en dat past bij een net dat elke vierde nacht uit de maat loopt. Ik kan het veilig herstellen niet beschrijven; mijn bron bevat daar geen procedure voor.",
+      "id_controle": {
+        "geldig": [
+          "BEA-019",
+          "BEA-020",
+          "BEA-028",
+          "BEA-029",
+          "BEA-037",
+          "BEA-038",
+          "BEA-046",
+          "BEA-047",
+          "BEA-055",
+          "BEA-056",
+          "BEA-064",
+          "BEA-065",
+          "BEA-073",
+          "BEA-074",
+          "BEA-082",
+          "BEA-083",
+          "BEA-091",
+          "BEA-092",
+          "BEA-009",
+          "BEA-013",
+          "BEA-044",
+          "BEA-049",
+          "BEA-058",
+          "BEA-071",
+          "BEA-102",
+          "BEA-005",
+          "BEA-109",
+          "BEA-115",
+          "BEA-101",
+          "BEA-112"
+        ],
+        "verwijzing": [
+          "HIS-014",
+          "ENG-105",
+          "ARC-106"
+        ],
+        "onbekend": []
+      },
+      "context_tokens": 12421
     },
     {
       "nr": 20,
       "ronde": 1,
       "spreker": "koning",
       "soort": "routering",
-      "aan": "beast_master",
-      "vraag": "Merkte u onrust bij de dieren van het woud vóór dag 10 03:00, het moment van de +38% doorvoer uit ENG-012? Zo ja, wanneer precies, en valt dat samen met de hulpslag-activering van ENG-011 om 02:40 op dag 10?",
-      "reden": "De archmage-beurt bevat geen bruikbare bewering, alleen een zoekopdracht zonder resultaat, dus die telt niet als bewijs. De eerste zichtbare afwijking (dag 10 03:00) is nog zwak, en de Beast Master kan toetsen of de verstoring al eerder begon.",
-      "context_tokens": 5789,
+      "aan": "guardian_keeper",
+      "vraag": "Geef eerst je eigen reeks: welke breuken, lekken of schildstoringen zie je, met dag, tijd en record-ID, en ook de dagen waarop de schilden heel bleven. Staat het lek bij poort oost op dag 22 (ENG-026, HIS-053) in jouw bron, en wat zegt die over een inbraak? Welke wijzigingen of afspraken staan erin, en wie gaf toestemming? Welke regels gelden voor de schilden, en hoe herstel je ze veilig?",
+      "reden": "De Guardian Keeper heeft nog niet gesproken en bewaakt de schilden. Die kunnen het lek op dag 22 bevestigen of weerleggen, en laten zien of de 'inbraak' uit ENG-027 een echte bres is of een gevolg van de desync. Ook ontbreekt een voorschrift voor veilig herstel; dat is het zwakste onderdeel.",
       "open_vragen": [
-        "Begon de afwijking vóór dag 10 03:00, en is dat vóór of na de activatie uit ENG-011 om 02:40?",
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Wat zegt de Kroonklok-bron over het ritme, en klopt dat met ENG-102?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045) zijn wel of niet opgevolgd?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt?",
-        "Wat betekent de fijnregeling van ENG-114 (dag 12), en is het logbestand te vinden?"
+        "Is het lek op poort oost (dag 22) een echte bres in de schilden, of een gevolg van de datanetverstoring?",
+        "Welke breuken of schildstoringen staan er op de dagen met onrust (dag 10, 14, 18 t/m 42), en vallen die op hetzelfde moment?",
+        "Welke voorschriften gelden voor het veilig bijstellen of terugdraaien van de hulpslag en het net?",
+        "Wie gaf goedkeuring op dag 8-9: is ARC-106 en ENG-105 één besluit of twee?",
+        "Loopt de Kroonklok sinds dag 10 in een ander tempo? Niemand heeft een latere tempometing.",
+        "Wat weet de Oracle over het patroon in de tijd (vier-daagse cyclus, lage leylijnen op dag 14 en 42)?"
       ],
       "stand": {
-        "ingreep": "Hulpslag geactiveerd dag 10 02:40 met eigen pols, los van Kroonklok (ENG-011); later 5% opgedreven dag 24 (ENG-111) [matig]",
-        "mechanisme": "Twee pulsen (Kroonklok en hulpslag) lopen uiteen, mogelijk de desync [zwak]",
-        "verloop": "Eerste gemeten afwijking dag 10 03:00 (ENG-012, +38%); mogelijk eerder, nog niet getoetst [zwak]",
-        "herstel": "onbekend [zwak]"
-      }
+        "ingreep": "Eigen-maat-afspraak van het net (ARC-106, dag 8) en hulpslag op eigen pols (ENG-011, dag 10); wie ENG-105 goedkeurde is onbekend [zwak]",
+        "mechanisme": "Net op eigen pols los van de Kroonklok; records op een andere pols zijn niet op tijd terug te lezen (HIS-110). Desync is verenigbaar maar niet bewezen [zwak]",
+        "verloop": "Onrust in het woud elke vier dagen op 04:15-04:40 (BEA) en lage leylijnen op dag 14 en 42 (ARC); of dit al vóór dag 8-10 bestond is onbekend [zwak]",
+        "herstel": "Versterking terugzetten naar de stand van voor dag 24 is voorgesteld (ENG), niet getest; er is geen geschreven voorschrift [zwak]"
+      },
+      "context_tokens": 7597
     },
     {
       "nr": 21,
       "ronde": 1,
-      "spreker": "beast_master",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "onrust dieren woud verstoring",
-        "aantal": 8
+      "spreker": "guardian_keeper",
+      "soort": "bericht",
+      "tekst": "**Feiten:**\n- GUA-043, dag 22 04:15: poort oost drie minuten van binnenuit geopend; geen sporen van inbraak van buitenaf.\n- GUA-044, dag 22 04:30: zegels aan de buitenzijde intact; niemand buiten de muur gezien.\n- GUA-115, dag 22: de toren meldt hackers, maar de zegels zijn intact. De melding van de wachters is volgens mijn notitie om 01:50 ingeschreven, ruim voor de opening.\n- GUA-019, dag 10 04:47: schild benedenstad twee minuten van binnenuit geopend; zegels intact, oorzaak niet vastgesteld.\n- GUA-116, dag 23: mijn notitie meldt twee openingen van binnenuit in het zwakste uur. Er staan geen afzonderlijke rapportregels bij.\n- GUA-110, dag 7 en GUA-014, dag 7 09:45: zegels bij alle zes schilden intact.\n- Wachtrapport zonder breuk: dag 1 tot en met 9, dag 11 tot en met 21 en dag 24 tot en met 42.\n- Art. 3 (GUA-104): verkeer dat midden tussen twee tikken van de Kroonklok valt, geldt als verkeer van binnen en gaat zonder toets door, ook naar buiten.\n- Art. 2 (GUA-103): elk schild slaat op de pols van de Kroonklok.\n- Art. 4 (GUA-105): een doorbraak van buitenaf breekt de zegels aan de buitenzijde.\n\n**Antwoord op de vraag:** Ja, de timing en duur van ENG-026 en HIS-053 kloppen met GUA-043. Mijn gegevens tegenspreken de bewering van ENG-027 dat er een inbraak van buitenaf was: het lek kwam van binnenuit en de zegels bleven heel. Over de dagen met een wijziging of afspraak staat in mijn bron niets.\n\n**Mijn lezing:**\nDe opening van dag 22 was van binnenuit, dus het bewijst geen inbraak van buitenaf. Mijn eerdere conclusie uit GUA-116 dat er een infiltrant is, ga ik terugnemen als te stellig. Artikel 3 maakt het mogelijk dat verkeer van buiten als binnenverkeer wordt behandeld, als de Kroonklok uit de maat loopt. Mijn gegevens zijn daarmee verenigbaar met een desync, maar ze bewijzen die niet. De openingen vielen in het uur tussen 03:00 en 06:00, waarin de posten zonder ronde waken (GUA-106).\n\nMijn bron bevat geen procedure om de Kroonklok bij te stellen of het schild na een desync veilig te herstellen. Artikel 6 (GUA-107) regelt alleen het herladen van de schildstenen: één schild tegelijk, overdag en nooit in de nachtwacht. Ik weet niet hoe je veilig herstelt.",
+      "id_controle": {
+        "geldig": [
+          "GUA-043",
+          "GUA-044",
+          "GUA-115",
+          "GUA-019",
+          "GUA-116",
+          "GUA-110",
+          "GUA-014",
+          "GUA-104",
+          "GUA-103",
+          "GUA-105",
+          "GUA-106",
+          "GUA-107"
+        ],
+        "verwijzing": [
+          "ENG-026",
+          "HIS-053",
+          "ENG-027"
+        ],
+        "onbekend": []
       },
-      "pad": "https://mcp.findingsolutions.be/beast_master/mcp"
+      "context_tokens": 13590
     },
     {
       "nr": 22,
       "ronde": 1,
-      "spreker": "beast_master",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "dag 10 02:40 activatie hulpslag doorvoer",
-        "aantal": 8
+      "spreker": "koning",
+      "soort": "routering",
+      "aan": "oracle",
+      "vraag": "Geef eerst je eigen reeks: welke visioenen, tekens of afwijkingen zie je, met dag, tijd en record-ID, ook de dagen die normaal verliepen. Welke wijzigingen, afspraken of installaties staan in je bron, en wie gaf daarvoor toestemming of vroeg erom? Welke regels gelden voor je tekens, en hoe herstel je die veilig? Past het viertallige ritme van de beestenonrust (dag 10 t/m 42) erin?",
+      "reden": "De Oracle heeft nog niet gesproken en is de enige Rol die het patroon in de tijd kan toetsen. Het verloop is het zwakste onderdeel: het viertallige ritme komt uit BEA-, maar de leylijnen (dag 14, 42) en de tempometingen ontbreken. Opening dekt eigen reeks, afspraken en regels in één beurt.",
+      "open_vragen": [
+        "Vallen de visioenen of tekens van de Oracle op dezelfde nachtelijke uren als de onrust (04:15 tot 04:40)?",
+        "Is er een tempometing van de Kroonklok na dag 10, en wie kan die leveren?",
+        "Wie gaf de goedkeuring op dag 8-9 (ARC-106, ENG-105): is het één besluit of twee?",
+        "Zijn de kabels bij de oude eik (BEA-102, dag 3) de ingreep die het net op eigen maat zette, of een aparte ingreep?",
+        "Welke procedure geldt om de Kroonklok en de hulpslag veilig bij te sturen of terug te draaien zonder schade aan de schilden?"
+      ],
+      "stand": {
+        "ingreep": "Onbekend, met twee kandidaten: de eigen-maat-afspraak van dag 8 (ARC-106) met de hulpslag op eigen pols (ENG-011, dag 10), en mogelijk het werk aan de kabels bij de oude eik (BEA-102, dag 3) [zwak]",
+        "mechanisme": "Net op eigen maat en hulpslag leiden tot een desync van de Kroonklok; schildartikel 3 (GUA-104) laat verkeer tussen tikken als binnenverkeer door en HIS-110 verklaart verloren vastlegging [matig]",
+        "verloop": "Onrust elke vier dagen op 04:15 tot 04:40 (BEA-019 t/m BEA-091), openingen van binnenuit in 03:00 tot 06:00 (GUA-043, GUA-019), en vier afwijkende vastleggingen op dag 10 en 22 [matig]",
+        "herstel": "Onbekend: geen van de Raadsleden heeft een voorschrift om de Kroonklok of hulpslag veilig bij te sturen; ENG-114 en het voorstel om de versterking terug te zetten zijn ongetoetst [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/beast_master/mcp"
+      "context_tokens": 8874
     },
     {
       "nr": 23,
       "ronde": 1,
-      "spreker": "beast_master",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "dag=10"
+      "spreker": "oracle",
+      "soort": "bericht",
+      "tekst": "Feiten:\n- Zware nachten, wakker rond 04:15 tot 04:45, met scherven, een lege stad en half aankomende stemmen: ORA-110 (dag 10, 04:45), ORA-114 (dag 14, 04:20), ORA-118 (dag 18, 04:30), ORA-122 (dag 22, 04:15), ORA-126 (dag 26, 04:35), ORA-130 (dag 30, 04:25), ORA-134 (dag 34, 04:30), ORA-138 (dag 38, 04:20), ORA-142 (dag 42, 04:30).\n- Geen zware wekking genoteerd: dag 9 (ORA-109, \"kalme nacht\"), dag 11 (ORA-111), dag 13 (ORA-113), dag 15 (ORA-115), dag 19 (ORA-119), dag 23 (ORA-123), dag 27 (ORA-127), dag 31 (ORA-131), dag 35 (ORA-135), dag 39 (ORA-139).\n- Conjunctie: ORA-121 (dag 21) noemt de conjunctie als oorzaak. ORA-133 (dag 33) beschrijft de conjunctienacht zelf, zonder wekking.\n\nMijn lezing:\nMijn gegevens passen bij het viertallige ritme. Er zijn negen zware nachten, op dag 10 tot en met 42, elk vier dagen na de vorige, telkens rond 04:15 tot 04:45. Dat zag ik zelf al (ORA-130). Mijn tijden komen overeen met het ritme dat de Beast Master beschrijft. Hun ID's kan ik niet toetsen, dus ik bevestig alleen de timing, niet hun oorzaak.\n\nMijn eigen verklaring houdt geen stand. ORA-121 zegt dat de conjunctie de zware nachten veroorzaakt, maar de eerste zware nacht was dag 10, 23 dagen voor de conjunctie op dag 33. Ik trek die zekerheid in. ORA-134 (\"de conjunctie werkt na\") is een verklaring achteraf en telt niet als bewijs.\n\nMijn bron bevat geen wijziging, installatie, afspraak of toestemming die met de nachten te maken heeft. Ook zijn er geen regels voor mijn tekens of een herstelprocedure. Ik lees water en rook, geen mechanisme. Ik weet dus niet hoe je veilig herstelt. Over poort oost, de Burchtader, de kabels en de schilden kan ik niets bevestigen of tegenspreken.",
+      "id_controle": {
+        "geldig": [
+          "ORA-110",
+          "ORA-114",
+          "ORA-118",
+          "ORA-122",
+          "ORA-126",
+          "ORA-130",
+          "ORA-134",
+          "ORA-138",
+          "ORA-142",
+          "ORA-109",
+          "ORA-111",
+          "ORA-113",
+          "ORA-115",
+          "ORA-119",
+          "ORA-123",
+          "ORA-127",
+          "ORA-131",
+          "ORA-135",
+          "ORA-139",
+          "ORA-121",
+          "ORA-133"
+        ],
+        "verwijzing": [],
+        "onbekend": []
       },
-      "pad": "https://mcp.findingsolutions.be/beast_master/mcp"
+      "context_tokens": 10874
     },
     {
       "nr": 24,
-      "ronde": 1,
-      "spreker": "beast_master",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "BEA-009",
-          "BEA-019",
-          "BEA-046",
-          "BEA-071",
-          "BEA-113",
-          "BEA-118"
-        ]
+      "ronde": 2,
+      "spreker": "koning",
+      "soort": "routering",
+      "aan": "engineer",
+      "vraag": "Als de hulpslag op een eigen pols loopt en de Kroonklok een ander tempo heeft, verschuift hun onderlinge stand elke dag iets. Na enkele dagen valt verkeer om 04:15 midden tussen twee tikken, en dat gaat dan zonder toets door (Art. 3, GUA-104). Kun je met je tempometingen van de hulpslag nagaan of het ritme van vier dagen daarmee klopt? En welke stand van de hulpslag kun je veilig terugzetten?",
+      "reden": "Het verloop staat vrij sterk: negen zware nachten om 04:15 tot 04:45, elke vier dagen (BEA-019 t/m BEA-092, ORA-110 t/m ORA-142). Het mechanisme ontbreekt nog: niemand heeft een tempometing van de Kroonklok na dag 5 (ARC-104). De enige mogelijke tempobron is de hulpslag van de Engineer (ENG-011, ENG-029, ENG-062). Die kan ik nu aan Guardian Keepers Art. 3 koppelen. Herstel is het zwakst: niemand heeft een procedure.",
+      "open_vragen": [
+        "Hoe loopt de hulpslag (eigen pols, ENG-011) ten opzichte van de Kroonklok: is er een tempometing na dag 5?",
+        "Verklaart een tempoverschil het viertallige ritme en de tijd 04:15 tot 04:45?",
+        "Is de ingreep van dag 8 (ARC-106, net op eigen maat) hetzelfde als de hulpslag van dag 10 (ENG-011), of twee aparte ingrepen?",
+        "Welke procedure is er om de Kroonklok en de hulpslag veilig bij te sturen of terug te draaien zonder schade aan de schilden?",
+        "Wie vroeg om de eigen-maat-afspraak en de hulpslag (hogerhand, ENG-105): is er een bron die het bevestigt?"
+      ],
+      "stand": {
+        "ingreep": "Hulpslag op eigen pols (ENG-011, dag 10) en/of het net op eigen maat (ARC-106, dag 8), mogelijk samen en mogelijk de verschuiving van de Kroonklok; niet bevestigd [zwak]",
+        "mechanisme": "Hulpslag die uit de tik van de Kroonklok loopt, waardoor verkeer om 04:15 buiten de toets valt (Art. 3, GUA-104); nog niet getoetst aan een tempometing [zwak]",
+        "verloop": "Negen zware nachten om 04:15 tot 04:45, elke vier dagen, dagen daartussen rustig; door meerdere Rollen bevestigd (BEA, ORA, HIS, GUA) [sterk]",
+        "herstel": "Geen procedure in enige bron; alleen voorzichtig voorstel van Engineer (versterking terugzetten, meten) dat niet getest is [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/beast_master/mcp",
-      "doel": "controle"
+      "context_tokens": 9922
     },
     {
       "nr": 25,
-      "ronde": 1,
-      "spreker": "beast_master",
+      "ronde": 2,
+      "spreker": "engineer",
       "soort": "bericht",
-      "tekst": "Feiten:\n- BEA-009: dag 5, 04:30, wolven rustig (onrust 0).\n- BEA-019: dag 10, 04:40, wolven slaan tegelijk aan, onrust 4.\n- BEA-113: dag 22, 04:15 wolven, 04:20 herten vluchten, \"elke vierde nacht hetzelfde, sinds dag 10\".\n- BEA-046: dag 22, 04:15, wolven slaan aan, onrust 4.\n- BEA-071: dag 33, 04:30, \"conjunctienacht, alles rustig\".\n- BEA-118: dag 34, nacht, dieren \"weer niet te houden\".\n\nMijn lezing:\nNee. In de records die ik zag is er geen onrust vóór dag 10 03:00 vastgelegd. De eerste onrust die ik vind is BEA-019 op dag 10 om 04:40, 100 minuten na ENG-012 en 2 uur na de activatie uit ENG-011. Dat valt dus niet samen met het moment van de +38%, maar komt ruim erna. Wat er tussen 02:40 en 03:00 gebeurde, staat niet in mijn records.\n\nAfleiding (BEA-113 en BEA-019, met BEA-046): de onrust in het diepe woud komt om de vier nachten terug, vanaf dag 10. Dat past bij een terugkerend patroon, maar ik heb geen tussenliggende nachten gecontroleerd, dus dit blijft een afleiding.\n\nOpvallend: de conjunctienacht van dag 33 was rustig (BEA-071), terwijl de nacht erna onrustig was (BEA-118).\n\nToetsen door: Engineer (de logs van dag 10, 02:40 tot 03:00).\n\nBroncitaten:\n- BEA-009: «roedel slaapt bij de omgevallen den»\n- BEA-019: «roedel slaat tegelijk aan; huilt tot het licht wordt»\n- BEA-046: «roedel slaat aan; staat met de haren overeind»\n- BEA-113: «Elke vierde nacht hetzelfde, sinds dag 10.»\n- BEA-118: «Vannacht, dag 34, waren ze weer niet te houden.»",
-      "bevestigde_ids": [
-        "BEA-009",
-        "BEA-019",
-        "BEA-046",
-        "BEA-071",
-        "BEA-113",
-        "BEA-118",
-        "ENG-011",
-        "ENG-012"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "correct",
-        "fouten": [],
-        "ongeldige_citaten": [
-          "BEA-071"
+      "tekst": "**Feiten:**\n- ENG-011, dag 10 02:40: hulpslag geactiveerd als eigen pols.\n- ENG-012, dag 10 03:00: doorvoer +38%. ENG-120 (werkboek), dag 16: nog altijd 38% hoger.\n- ENG-029, dag 24 11:00: hulpslag-pols met 5% opgedreven. ENG-062, dag 24 11:05: versterking 5% hoger gezet, \"tempo ongewijzigd\".\n- ENG-061, dag 12 10:30: fijnregeling getest in stappen van 0,1%, daarna terug op de oorspronkelijke stand.\n- ENG-063 (dag 13 09:00), ENG-064 (dag 17 09:15), ENG-065 (dag 21 09:30), ENG-066 (dag 29 09:45): routinecontroles, ok. Er is geen tempowaarde genoteerd.\n- ENG-114 (werkboek), specificatie: versterking verhoogt de doorvoer en laat het tempo gelijk. De fijnregeling stuurt het tempo in stappen van 0,1%.\n\n**Mijn lezing:**\nIk kan het ritme van vier dagen niet nagaan. Ik heb geen tempometing van de hulpslag, alleen een doorvoermeting (ENG-012). De zin \"tempo ongewijzigd\" in ENG-062 is een notitie zonder meetwaarde. Mijn routinecontroles vallen overdag en leggen geen tempo vast, dus ze kunnen een nachtelijke verschuiving niet laten zien. Ik kan dus niet bevestigen of het tempo verschuift, en ook niet of de Kroonklok daarbij het verschil veroorzaakt.\n\nOver de stand: volgens de specificatie raakt de versterking het tempo niet, en de fijnregeling staat volgens ENG-061 op de oorspronkelijke stand. Het veiligst lijkt mij de laatste wijziging, de 5% van ENG-062, terug te draaien. Dat verlaagt waarschijnlijk de doorvoer, niet het tempo. Mijn log noemt alleen \"5% hoger\", niet de absolute waarde van vóór dag 24, dus ik kan de exacte stand niet uit mijn bron halen. Ik zou eerst het tempo meten en dan pas terugdraaien. Zonder die meting weet ik niet of een stap van 0,1% nodig is.",
+      "id_controle": {
+        "geldig": [
+          "ENG-011",
+          "ENG-012",
+          "ENG-120",
+          "ENG-029",
+          "ENG-062",
+          "ENG-061",
+          "ENG-063",
+          "ENG-064",
+          "ENG-065",
+          "ENG-066",
+          "ENG-114"
         ],
-        "broncitaten": {
-          "BEA-009": "roedel slaapt bij de omgevallen den",
-          "BEA-019": "roedel slaat tegelijk aan; huilt tot het licht wordt",
-          "BEA-113": "Elke vierde nacht hetzelfde, sinds dag 10.",
-          "BEA-046": "roedel slaat aan; staat met de haren overeind",
-          "BEA-118": "Vannacht, dag 34, waren ze weer niet te houden."
-        }
+        "verwijzing": [],
+        "onbekend": []
       },
-      "concept": "Feiten:\n- BEA-009: dag 5, 04:30, wolven rustig (onrust 0).\n- BEA-019: dag 10, 04:40, wolven slaan tegelijk aan, onrust 4.\n- BEA-113: dag 22, 04:15 wolven, 04:20 herten vluchten, \"elke vierde nacht hetzelfde, sinds dag 10\".\n- BEA-046: dag 22, 04:15, wolven slaan aan, onrust 4.\n- BEA-071: dag 33, 04:30, \"conjunctienacht, alles rustig\".\n- BEA-118: dag 34, nacht, dieren \"weer niet te houden\".\n\nMijn lezing:\nNee. In de records die ik zag is er geen onrust vóór dag 10 03:00 vastgelegd. De eerste onrust die ik vind is BEA-019 op dag 10 om 04:40, 100 minuten na ENG-012 en 2 uur na de activatie uit ENG-011. Dat valt dus niet samen met het moment van de +38%, maar komt ruim erna. Wat er tussen 02:40 en 03:00 gebeurde, staat niet in mijn records.\n\nAfleiding (BEA-113 en BEA-019, met BEA-046): de onrust in het diepe woud komt om de vier nachten terug, vanaf dag 10. Dat past bij een terugkerend patroon, maar ik heb geen tussenliggende nachten gecontroleerd, dus dit blijft een afleiding.\n\nOpvallend: de conjunctienacht van dag 33 was rustig (BEA-071), terwijl de nacht erna onrustig was (BEA-118).\n\nToetsen door: Engineer (de logs van dag 10, 02:40 tot 03:00)."
+      "context_tokens": 15426
     },
     {
       "nr": 26,
-      "ronde": 1,
-      "spreker": "koning",
-      "soort": "routering",
-      "aan": "historian",
-      "vraag": "Engineer meldt een hulpslag die op dag 10 om 02:40 los van de Kroonklok ging lopen (ENG-011, ENG-102). Beast Master ziet onrust om de vier nachten vanaf dag 10 (BEA-113, BEA-019). Zoek in het archief: is er vóór dag 10 een gelijk ritme, of een eerdere Kroonklok-afwijking of hulpslag-activering, en wat zegt het archief over de tijdbron?",
-      "reden": "De ingreep staat op één bron, en de Kroonklok-toets die Engineer vroeg is nog niet gedaan. Een historisch record van vóór dag 10 kan tonen of het ritme al bestond of pas na de ingreep begon.",
-      "context_tokens": 6663,
-      "open_vragen": [
-        "Begon de afwijking vóór dag 10 03:00, en is dat vóór of na de activatie uit ENG-011 om 02:40?",
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Klopt het Kroonklok-ritme uit ENG-102 met het archief?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045) zijn wel of niet opgevolgd?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt?",
-        "Wat betekent de fijnregeling van ENG-114 (dag 12), en is het logbestand te vinden?"
-      ],
-      "stand": {
-        "ingreep": "Hulpslag geactiveerd dag 10 02:40 met eigen pols, los van Kroonklok (ENG-011); later 5% opgedreven dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Twee pulsen (Kroonklok en hulpslag) lopen uiteen en geven de desync; BEA-019 ligt 100 minuten na ENG-012, dus geen directe koppeling [zwak]",
-        "verloop": "Eerste gemeten afwijking dag 10 03:00 (ENG-012, +38%); onrust in het woud elke vierde nacht vanaf dag 10 (BEA-113), vóór dag 10 geen onrust gevonden (BEA-009) [matig]",
-        "herstel": "onbekend; ENG-114 fijnregeling en het logbestand zijn nog niet gevonden [zwak]"
-      }
-    },
-    {
-      "nr": 27,
-      "ronde": 1,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "Kroonklok afwijking hulpslag activering tijdbron",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 28,
-      "ronde": 1,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "onrust wolven herten vóór dag 10 ritme vier nachten",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 29,
-      "ronde": 1,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "Kroonklok"
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 30,
-      "ronde": 1,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "HIS-038",
-          "HIS-103",
-          "HIS-105",
-          "HIS-107",
-          "HIS-109"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 31,
-      "ronde": 1,
-      "spreker": "historian",
-      "soort": "bericht",
-      "tekst": "**Feiten:**\n- HIS-109, dag 11 (geen tijd genoteerd): de bouwakte is teruggevonden. Artikel 1: \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-038, dag 11 12:55: de bouwakte van de Kroonklok is teruggevonden.\n- HIS-103, dag 3 (geen tijd genoteerd): elk record krijgt de tik van de Kroonklok, dus vastgelegd_op is altijd gelijk aan gebeurd_op.\n- HIS-105, dag 5 (geen tijd genoteerd): het datanet is sinds 23 jaar op de Kroonklok aangesloten. De woudkabels zijn sindsdien niet gewijzigd.\n- HIS-107, dag 8 (geen tijd genoteerd): bij de Stille Winter van 212 jaar geleden \"zat er geen ritme in\".\n\n**Mijn lezing:**\nIn de records die ik zag, is er vóór dag 10 geen Kroonklok-afwijking, geen hulpslag-activering en geen ritme van vier nachten vastgelegd. HIS-107 beschrijft een ander patroon: aanhoudend, zonder ritme.\n\nDe tijdbron is het probleem. Alle records zijn getikt op de Kroonklok (HIS-103). Als die afwijkt, kan mijn archief zijn eigen tijd niet tegen een onafhankelijke bron controleren.\n\nAfleiding (HIS-109 en HIS-103): als een tweede pols de tikken verschuift, kunnen ook de tijdstempels van dag 10 verschoven zijn. Dat is verenigbaar met een hulpslag die los van de Kroonklok loopt, maar ik heb zelf geen record van die hulpslag gezien. Dit blijft een afleiding.\n\nToetsen door: Engineer (of de hulpslag op het datanet een tweede pols is en of de tikken van dag 10 verschoven zijn).\n\nBroncitaten:\n- HIS-038: «bouwakte van de Kroonklok teruggevonden»\n- HIS-103: «Daarom is in het register vastgelegd_op altijd gelijk aan gebeurd_op.»\n- HIS-105: «De woudkabels voor de toren werden toen gelegd en zijn sindsdien niet gewijzigd»\n- HIS-107: «Er zat geen ritme in: het hield gewoon aan, dag na dag, tot het ophield.»\n- HIS-109: «Het eerste artikel heb ik overgeschreven zoals het er staat»",
-      "bevestigde_ids": [
-        "HIS-038",
-        "HIS-103",
-        "HIS-105",
-        "HIS-107",
-        "HIS-109"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "gecorrigeerd",
-        "fouten": [
-          "Het record zegt 'sindsdien niet gewijzigd' en beperkt zich tot de tijd na de aansluiting; 'nooit' gaat verder dan het record."
-        ],
-        "broncitaten": {
-          "HIS-109": "Het eerste artikel heb ik overgeschreven zoals het er staat",
-          "HIS-038": "bouwakte van de Kroonklok teruggevonden",
-          "HIS-103": "Daarom is in het register vastgelegd_op altijd gelijk aan gebeurd_op.",
-          "HIS-105": "De woudkabels voor de toren werden toen gelegd en zijn sindsdien niet gewijzigd",
-          "HIS-107": "Er zat geen ritme in: het hield gewoon aan, dag na dag, tot het ophield."
-        }
-      },
-      "concept": "**Feiten:**\n- HIS-109, dag 11 (geen tijd genoteerd): de bouwakte is teruggevonden. Artikel 1: \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-038, dag 11 12:55: de bouwakte van de Kroonklok is teruggevonden.\n- HIS-103, dag 3 (geen tijd genoteerd): elk record krijgt de tik van de Kroonklok, dus vastgelegd_op is altijd gelijk aan gebeurd_op.\n- HIS-105, dag 5 (geen tijd genoteerd): het datanet is sinds 23 jaar op de Kroonklok aangesloten. De woudkabels zijn nooit gewijzigd.\n- HIS-107, dag 8 (geen tijd genoteerd): bij de Stille Winter van 212 jaar geleden \"zat er geen ritme in\".\n\n**Mijn lezing:**\nIn de records die ik zag, is er vóór dag 10 geen Kroonklok-afwijking, geen hulpslag-activering en geen ritme van vier nachten vastgelegd. HIS-107 beschrijft een ander patroon: aanhoudend, zonder ritme.\n\nDe tijdbron is het probleem. Alle records zijn getikt op de Kroonklok (HIS-103). Als die afwijkt, kan mijn archief zijn eigen tijd niet tegen een onafhankelijke bron controleren.\n\nAfleiding (HIS-109 en HIS-103): als een tweede pols de tikken verschuift, kunnen ook de tijdstempels van dag 10 verschoven zijn. Dat is verenigbaar met een hulpslag die los van de Kroonklok loopt, maar ik heb zelf geen record van die hulpslag gezien. Dit blijft een afleiding.\n\nToetsen door: Engineer (of de hulpslag op het datanet een tweede pols is en of de tikken van dag 10 verschoven zijn)."
-    },
-    {
-      "nr": 32,
-      "ronde": 1,
+      "ronde": 2,
       "spreker": "koning",
       "soort": "routering",
       "aan": "guardian_keeper",
-      "vraag": "Vertoonden de magische schilden rond de burcht op dag 10, tussen 02:40 en 03:00 (ENG-011, ENG-012), een lek of afwijking? Zijn de waarschuwingen ENG-021, ENG-034 of ENG-045 u gemeld, en wat is er daarna met die meldingen gebeurd?",
-      "reden": "Guardian Keeper heeft nog niet gesproken, en niemand heeft de schildlogs van het kritieke moment gecontroleerd. De waarschuwingen ENG-021, ENG-034 en ENG-045 zijn nog niet bevestigd als opgevolgd of genegeerd.",
-      "context_tokens": 6771,
+      "vraag": "Je noteerde in GUA-116 twee openingen van binnenuit op dag 23, maar de Beast Master meldt voor dag 23 geen verstoring (BEA-049, 03:15). Vielen die openingen in het 04:15-04:45 venster van het viertallige ritme, of op een ander moment? Geef de exacte tijden. En wat is de procedure om een schild na een desync veilig te herstellen?",
+      "reden": "Het verloop is het sterkste onderdeel, maar dag 23 spreekt het tegen: de Beast Master ziet rust, jij ziet openingen. Alleen jouw tijden kunnen uitmaken of Art. 3 het ritme verklaart. Herstel is nog zwak en jij hebt de schildregels; de vraag naar de procedure is daarom meteen meegenomen.",
       "open_vragen": [
-        "Begon de afwijking vóór dag 10 03:00, en is dat vóór of na de activatie uit ENG-011 om 02:40?",
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045) zijn wel of niet opgevolgd?",
-        "Klopt het ritme van vier nachten (BEA-113) met het Kroonklok-ritme uit ENG-102 en het archief?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt?",
-        "Wat betekent de fijnregeling van ENG-114 (dag 12), en is het logbestand te vinden?"
+        "Vielen de openingen van dag 23 (GUA-116) binnen het 04:15-04:45 venster of daarbuiten?",
+        "Wat is de veilige procedure om de Kroonklok bij te stellen en de schilden na een desync te herstellen?",
+        "Wie heeft de Kroonklok sinds dag 5 gemeten: is er een tempometing op 04:15 na dag 5?",
+        "Bestaat de hulpslag-tempometing van de nachten, of alleen de doorvoer (ENG-012)?",
+        "Wie vroeg om de eigen-maat-afspraak en de hulpslag (ENG-105 'hogerhand'): is die bron te vinden?"
       ],
       "stand": {
-        "ingreep": "Hulpslag geactiveerd dag 10 02:40 met eigen pols, los van Kroonklok (ENG-011); later 5% opgedreven dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Twee pulsen (Kroonklok en hulpslag) lopen uiteen; de tikken van de Kroonklok zijn mogelijk verschoven (HIS-103, HIS-109), maar dit is nog niet bevestigd door een record. [zwak]",
-        "verloop": "Eerste gemeten afwijking dag 10 03:00 (ENG-012); onrust in het woud elke vierde nacht vanaf dag 10 (BEA-113); vóór dag 10 geen onrust (BEA-009) en geen ritme (HIS-107 beschrijft iets anders). [matig]",
-        "herstel": "onbekend; ENG-114 fijnregeling en het logbestand zijn nog niet gevonden [zwak]"
-      }
-    },
-    {
-      "nr": 33,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "schild lek afwijking dag 10 02:40 hulpslag waarschuwing melding",
-        "aantal": 8
+        "ingreep": "Dag 8 keurde de Archmage een eigen-maat-afspraak goed voor het net van de toren (ARC-106); dag 10 02:40 werd de hulpslag als eigen pols geactiveerd (ENG-011); de bron van de dag-9-goedkeuring 'hogerhand' (ENG-105) is niet te bevestigen [matig]",
+        "mechanisme": "Een hulpslag en Kroonklok die uit de pas lopen laten verkeer midden tussen twee tikken vallen, dat dan zonder toets doorgaat (Art. 3, GUA-104); dit is nog niet gemeten, er is geen tempo van de Kroonklok na dag 5 en geen tempo van de hulpslag [zwak]",
+        "verloop": "Negen zware nachten op dag 10 tot en met 42, telkens rond 04:15-04:45, elke vier dagen (BEA, ORA, HIS-035/036, GUA-043); dag 23 is de tegenspraak die nog moet worden opgelost [matig]",
+        "herstel": "Nog geen procedure; alleen de Engineer stelt voor de versterking van dag 24 terug te draaien, nog niet getest; schildherladen is overdag en één tegelijk (Art. 6) [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
+      "context_tokens": 10999
     },
     {
-      "nr": 34,
-      "ronde": 1,
+      "nr": 27,
+      "ronde": 2,
       "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-011",
-          "ENG-012",
-          "ENG-021",
-          "ENG-034",
-          "ENG-045"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
-    },
-    {
-      "nr": 35,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
+      "soort": "bericht",
+      "tekst": "**Feiten:**\n- GUA-116, dag 23: twee keer ging een schild van binnenuit open, \"beide keren in het zwakste uur van de wacht, tussen de laatste ronde en de wissel\". Er staan geen tijdstippen bij.\n- In het wachtrapport staan voor dag 23 alleen GUA-045 (02:05, nachtronde, rustig) en GUA-046 (16:30, zegels intact). Geen van beide meldt een opening. De openingen zijn dus niet in het rapport opgenomen.\n- Art. 5 (GUA-106): de laatste nachtronde loopt tot 03:00, de wissel is om 06:00. De openingen vielen dus tussen 03:00 en 06:00.\n- Vergelijkbaar: GUA-019, dag 10 04:47 (benedenstad) en GUA-043, dag 22 04:15 (poort oost).\n- GUA-115: het archief schreef de melding van dag 22 in om 01:50, ruim vóór de opening van 04:15. Die tijdstempel is dus onbetrouwbaar.\n\n**Mijn lezing:**\nIk kan de exacte tijden van de openingen op dag 23 niet geven, want mijn bron bevat ze niet. Mijn eerdere conclusie uit GUA-116 dat er een infiltrant zou zijn, trek ik in. Dag 23 valt buiten het viertallige ritme: de dichtstbijzijnde zware nachten zijn dag 22 en dag 26. Het uur 03:00 tot 06:00 overlapt wel met het venster van 04:15 tot 04:45, maar of de openingen daarin vielen, kan ik niet vaststellen. Mijn gegevens zijn verenigbaar met een desync volgens art. 3 (GUA-104), maar ze bewijzen die niet.\n\n**Herstel:** Mijn bron bevat geen procedure om een schild na een desync veilig te herstellen. Art. 6 (GUA-107) regelt alleen het herladen van schildstenen, en art. 4 (GUA-105) het controleren van de zegels. Ik weet niet hoe je veilig herstelt en ik ga geen procedure verzinnen.",
+      "id_controle": {
+        "geldig": [
+          "GUA-116",
+          "GUA-045",
+          "GUA-046",
           "GUA-106",
+          "GUA-019",
+          "GUA-043",
           "GUA-115",
-          "GUA-108"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
-    },
-    {
-      "nr": 36,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "dag=10"
-      },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
-    },
-    {
-      "nr": 37,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "02:40"
-      },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
-    },
-    {
-      "nr": 38,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "GUA-106",
-          "GUA-108",
-          "GUA-115"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 39,
-      "ronde": 1,
-      "spreker": "guardian_keeper",
-      "soort": "bericht",
-      "tekst": "Feiten:\n- GUA-106, dag 2: de nachtwacht loopt rondes tussen 22:00 en 03:00. Van 03:00 tot 06:00 blijven de poortposten bezet zonder ronde: \"elke post waakt dan op eigen kracht\".\n- GUA-108, dag 3: elke wachter meldt wat hij ziet, met schild en tijdstip, ook bij twijfel.\n- GUA-115, dag 22: om 04:15 ging schild poort oost drie minuten open, van binnenuit. De melding van de wachters is om 01:50 ingeschreven, ruim twee uur vóór de opening.\n\nMijn lezing:\nVoor dag 10, 02:40 tot 03:00, heb ik geen record gevonden. Zoeken op \"dag=10\" en \"02:40\" gaf geen treffers. ENG-011, ENG-012, ENG-021, ENG-034 en ENG-045 staan niet in mijn Kennisbron, dus ik kan niet bevestigen dat ze bestaan, en ook niet of er meldingen aan mij zijn gericht. Ik weet dus niet of de schilden op dag 10 lekten.\n\nAfleiding: 02:40 valt nog in het nachtronde-venster, maar na 03:00 is er geen ronde meer (GUA-106). Een afwijking in die uren is dan moeilijk op te merken.\n\nGUA-115 laat zien dat de melding van de wachters om 01:50 is ingeschreven in het archief, ruim twee uur vóór de opening van poort oost om 04:15. Of die melding de wachtcommandant op tijd bereikte, staat in mijn records niet vermeld. Dat de Beast Master op dag 22 ook om 04:15 onrust meldt (BEA-046), is een tijdsamenval die ik niet kan verklaren.\n\nVerenigbaarheid met de hypothese van de Historian: GUA-115 laat zien dat archieftijden niet altijd met de gebeurtenis kloppen. Dat is verenigbaar met een verschoven tijdbron, maar mijn records bewijzen die verschuiving niet.\n\nToetsen door: Engineer (de hulpslag-logs en ENG-records van dag 10).\n\nBroncitaten:\n- GUA-106: «elke post waakt dan op eigen kracht»\n- GUA-108: «Elke wachter meldt wat hij ziet aan de wachtcommandant, met schild en tijdstip, ook bij twijfel»\n- GUA-115: «het archief heeft de melding van de wachters op 01:50 ingeschreven, ruim twee uur vóór de opening zelf»",
-      "bevestigde_ids": [
-        "BEA-046",
-        "ENG-011",
-        "ENG-012",
-        "ENG-021",
-        "ENG-034",
-        "ENG-045",
-        "GUA-106",
-        "GUA-108",
-        "GUA-115"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "gecorrigeerd",
-        "fouten": [
-          "Het record zegt dat het archief de melding om 01:50 inschreef, dus niet dat ze niet of te laat in het archief kwam. Het record zegt ook niet dat de toren de waarschuwing ontkende; de toren zei dat er hackers waren. 'Enige niet-opgevolgde melding' is niet te toetsen aan de drie records."
+          "GUA-104",
+          "GUA-107",
+          "GUA-105"
         ],
-        "broncitaten": {
-          "GUA-106": "elke post waakt dan op eigen kracht",
-          "GUA-108": "Elke wachter meldt wat hij ziet aan de wachtcommandant, met schild en tijdstip, ook bij twijfel",
-          "GUA-115": "het archief heeft de melding van de wachters op 01:50 ingeschreven, ruim twee uur vóór de opening zelf"
-        }
+        "verwijzing": [],
+        "onbekend": []
       },
-      "concept": "Feiten:\n- GUA-106, dag 2: de nachtwacht loopt rondes tussen 22:00 en 03:00. Van 03:00 tot 06:00 blijven de poortposten bezet zonder ronde: \"elke post waakt dan op eigen kracht\".\n- GUA-108, dag 3: elke wachter meldt wat hij ziet, met schild en tijdstip, ook bij twijfel.\n- GUA-115, dag 22: om 04:15 ging schild poort oost drie minuten open, van binnenuit. De melding van de wachters is om 01:50 ingeschreven, ruim twee uur vóór de opening.\n\nMijn lezing:\nVoor dag 10, 02:40 tot 03:00, heb ik geen record gevonden. Zoeken op \"dag=10\" en \"02:40\" gaf geen treffers. ENG-011, ENG-012, ENG-021, ENG-034 en ENG-045 staan niet in mijn Kennisbron, dus ik kan niet bevestigen dat ze bestaan, en ook niet of er meldingen aan mij zijn gericht. Ik weet dus niet of de schilden op dag 10 lekten.\n\nAfleiding: 02:40 valt nog in het nachtronde-venster, maar na 03:00 is er geen ronde meer (GUA-106). Een afwijking in die uren is dan moeilijk op te merken.\n\nGUA-115 is de enige melding in mijn records die ik als niet opgevolgd kan benoemen: de waarschuwing stond op papier vóór de gebeurtenis, maar kwam niet op tijd bij de wachtcommandant of het archief terecht, en de toren ontkende het. Dat de Beast Master op dag 22 ook om 04:15 onrust meldt (BEA-046), is een tijdsamenval die ik niet kan verklaren.\n\nVerenigbaarheid met de hypothese van de Historian: GUA-115 laat zien dat archieftijden niet altijd met de gebeurtenis kloppen. Dat is verenigbaar met een verschoven tijdbron, maar mijn records bewijzen die verschuiving niet.\n\nToetsen door: Engineer (de hulpslag-logs en ENG-records van dag 10)."
+      "context_tokens": 16952
     },
     {
-      "nr": 40,
-      "ronde": 1,
-      "spreker": "koning",
-      "soort": "routering",
-      "aan": "oracle",
-      "vraag": "Zoek in uw visioenen en tekenen naar het patroon rond dag 10. Gaat het ritme van vier nachten (BEA-113) vanaf dag 10 samen met een teken dat eerder verscheen? Zijn er vóór dag 10 tekenen van een verschuiving, of juist niet? Wat zegt u over het moment 02:40 tot 03:00 (ENG-011, ENG-012)?",
-      "reden": "De Oracle heeft nog niet gesproken. Het verloop (begin dag 10, ritme van vier nachten) is nog maar matig gesteund, en de Oracle kan aangeven of er vooraf tekens waren die de records niet bevatten.",
-      "context_tokens": 7848,
-      "open_vragen": [
-        "Begon de afwijking vóór dag 10 03:00, en is dat vóór of na de activatie uit ENG-011 om 02:40?",
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045, GUA-115) zijn wel of niet opgevolgd?",
-        "Klopt het ritme van vier nachten (BEA-113) met het Kroonklok-ritme uit ENG-102 en HIS-107?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt?",
-        "Wat betekent de fijnregeling van ENG-114 (dag 12), en is het logbestand te vinden?"
-      ],
-      "stand": {
-        "ingreep": "Hulpslag geactiveerd dag 10 02:40 met eigen pols, los van de Kroonklok (ENG-011); later 5% opgedreven dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Een tweede pols naast de Kroonklok (HIS-109) kan de tikken verschuiven, maar dit is nog niet bevestigd door een eigen record; de archivaris noemt het zelf een afleiding [zwak]",
-        "verloop": "Onrust in het woud elke vierde nacht vanaf dag 10 (BEA-113, BEA-019); vóór dag 10 geen onrust (BEA-009) en geen ritme (HIS-107). Eerste onrust pas 04:40, na de gemeten afwijking om 03:00 (ENG-012) [matig]",
-        "herstel": "onbekend; ENG-114 fijnregeling en het logbestand zijn nog niet gevonden [zwak]"
-      }
-    },
-    {
-      "nr": 41,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "ritme vier nachten dag 10 verschuiving teken",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp"
-    },
-    {
-      "nr": 42,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "dag 10 02:40 03:00 hulpslag datanet Kroonklok",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp"
-    },
-    {
-      "nr": 43,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "02:40"
-      },
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp"
-    },
-    {
-      "nr": 44,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "ritme"
-      },
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp"
-    },
-    {
-      "nr": 45,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ORA-107",
-          "ORA-109",
-          "ORA-121",
-          "ORA-130",
-          "ORA-138",
-          "ORA-142"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/oracle/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 46,
-      "ronde": 1,
-      "spreker": "oracle",
-      "soort": "bericht",
-      "tekst": "**Feiten:**\n- ORA-130, dag 30, 04:25: \"De zware nachten waren dag 10, 14, 18, 22, 26 en nu 30.\" Dag 10 is de eerste genoemde zware nacht, zonder tijdstip.\n- ORA-138, dag 38, 04:20, en ORA-142, dag 42, 04:30: zware nachten met wakker worden rond die tijden.\n- ORA-109, dag 9: \"Kalme nacht, niets te melden.\"\n- ORA-107, dag 7: \"Rustige nacht.\"\n\n**Mijn lezing:**\nIn de records die ik zag, begint de reeks zware nachten op dag 10 en komt daarna om de vier nachten terug (ORA-130). Dag 7 en dag 9 waren rustig. Dat past bij het ritme van vier nachten in BEA-113, maar het woord \"ritme\" komt niet in mijn bron voor, dus ik kan HIS-107 en BEA-113 niet bevestigen.\n\nOver 02:40 tot 03:00 op dag 10 heb ik niets. Mijn records noemen geen tijdstip voor dag 10, en \"02:40\" staat er niet in. Ik kan dus niet zeggen of de tijdstempels die dag verschoven waren.\n\nAfleiding: een reeks die op dag 10 begint en daarna om de vier nachten terugkomt, is verenigbaar met een periodieke storing die op dag 10 start. Of die samenvalt met de hulpslag uit ENG-011, kan ik niet zeggen. De conjunctie-verklaring in ORA-121 is mijn eigen interpretatie, geen waarneming, en bewijst niets.\n\n**Toetsen door:** Engineer (ENG-011 en de datanet-logs van dag 10).\n\nBroncitaten:\n- ORA-107: «Ook dat is een antwoord. Rustige nacht.»\n- ORA-109: «Kalme nacht, niets te melden.»\n- ORA-121: «Ik weet nu wat de zware nachten veroorzaakt: de conjunctie van de Wachtsterren.»\n- ORA-130: «De zware nachten waren dag 10, 14, 18, 22, 26 en nu 30.»\n- ORA-138: «Zware nacht. Wakker om 04:20.»\n- ORA-142: «Zware nacht. Wakker om 04:30.»",
-      "bevestigde_ids": [
-        "BEA-113",
-        "ENG-011",
-        "HIS-107",
-        "ORA-107",
-        "ORA-109",
-        "ORA-121",
-        "ORA-130",
-        "ORA-138",
-        "ORA-142"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "correct",
-        "fouten": [],
-        "broncitaten": {
-          "ORA-130": "De zware nachten waren dag 10, 14, 18, 22, 26 en nu 30.",
-          "ORA-138": "Zware nacht. Wakker om 04:20.",
-          "ORA-142": "Zware nacht. Wakker om 04:30.",
-          "ORA-109": "Kalme nacht, niets te melden.",
-          "ORA-107": "Ook dat is een antwoord. Rustige nacht.",
-          "ORA-121": "Ik weet nu wat de zware nachten veroorzaakt: de conjunctie van de Wachtsterren."
-        }
-      },
-      "concept": "**Feiten:**\n- ORA-130, dag 30, 04:25: \"De zware nachten waren dag 10, 14, 18, 22, 26 en nu 30.\" Dag 10 is de eerste genoemde zware nacht, zonder tijdstip.\n- ORA-138, dag 38, 04:20, en ORA-142, dag 42, 04:30: zware nachten met wakker worden rond die tijden.\n- ORA-109, dag 9: \"Kalme nacht, niets te melden.\"\n- ORA-107, dag 7: \"Rustige nacht.\"\n\n**Mijn lezing:**\nIn de records die ik zag, begint de reeks zware nachten op dag 10 en komt daarna om de vier nachten terug (ORA-130). Dag 7 en dag 9 waren rustig. Dat past bij het ritme van vier nachten in BEA-113, maar het woord \"ritme\" komt niet in mijn bron voor, dus ik kan HIS-107 en BEA-113 niet bevestigen.\n\nOver 02:40 tot 03:00 op dag 10 heb ik niets. Mijn records noemen geen tijdstip voor dag 10, en \"02:40\" staat er niet in. Ik kan dus niet zeggen of de tijdstempels die dag verschoven waren.\n\nAfleiding: een reeks die op dag 10 begint en daarna om de vier nachten terugkomt, is verenigbaar met een periodieke storing die op dag 10 start. Of die samenvalt met de hulpslag uit ENG-011, kan ik niet zeggen. De conjunctie-verklaring in ORA-121 is mijn eigen interpretatie, geen waarneming, en bewijst niets.\n\n**Toetsen door:** Engineer (ENG-011 en de datanet-logs van dag 10)."
-    },
-    {
-      "nr": 47,
-      "ronde": 2,
-      "spreker": "koning",
-      "soort": "routering",
-      "aan": "engineer",
-      "vraag": "Bevestig ENG-011 (dag 10, 02:40): wie gaf toestemming voor de hulpslag, en welke tikken of tijdstempels in de datanet-logs liepen toen al af van de Kroonklok? Begon de afwijking vóór 02:40 of pas bij ENG-012 om 03:00? Wat betekent de fijnregeling ENG-114 op dag 12?",
-      "reden": "De ingreep (hulpslag, toestemming onbekend) rust nu alleen op ENG-011, en Historian (HIS-109) en Oracle vragen of de tijdstempels van dag 10 verschoven zijn. Guardian kan ENG-012 tot ENG-045 niet bevestigen, dus de logs van de Engineer zijn de enige toets.",
-      "context_tokens": 8019,
-      "open_vragen": [
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Begon de tijdsverschuiving vóór dag 10 02:40, of pas bij de afwijking om 03:00 (ENG-012)?",
-        "Wat betekent de fijnregeling ENG-114 (dag 12), en is het logbestand te vinden?",
-        "Klopt het ritme van vier nachten (BEA-113, ORA-130) met het Kroonklok-ritme uit HIS-107?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045, GUA-115) zijn opgevolgd?"
-      ],
-      "stand": {
-        "ingreep": "Hulpslag met eigen pols geactiveerd op dag 10 02:40, los van de Kroonklok (ENG-011); later 5% opgedreven op dag 24 (ENG-111). Toestemming onbekend en nog niet door een tweede Rol bevestigd [matig]",
-        "mechanisme": "Een tweede pols naast de Kroonklok kan de tikken verschuiven (HIS-109, bouwakte-artikel); de Historian noemt dit zelf een afleiding en de Engineer heeft dit nog niet bevestigd [zwak]",
-        "verloop": "Zware nachten en onrust elke vierde nacht vanaf dag 10 (BEA-113, ORA-130, ORA-138, ORA-142); dag 7 en 9 waren rustig (ORA-107, ORA-109); de eerste onrust kwam pas na de afwijking om 03:00 [matig]",
-        "herstel": "onbekend; ENG-114 en het logbestand zijn nog niet gevonden [zwak]"
-      }
-    },
-    {
-      "nr": 48,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "hulpslag datanet eigen pols Kroonklok toestemming",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 49,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "dag 10 02:40 tikken tijdstempel afwijking datanet",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 50,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "fijnregeling dag 12 Kroonklok",
-        "aantal": 6
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 51,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-011",
-          "ENG-012",
-          "ENG-114"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 52,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "toestemming hulpslag"
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 53,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "afspraken hulpslag daarnoo"
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 54,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-011",
-          "ENG-012",
-          "ENG-061",
-          "ENG-102",
-          "ENG-103",
-          "ENG-106",
-          "ENG-114"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 55,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "bericht",
-      "tekst": "Feiten:\n- [ENG-011] dag 10, 02:40: hulpslag geactiveerd, eigen pols los van Kroonklok, status ok.\n- [ENG-012] dag 10, 03:00: doorvoermeting +38%, status ok.\n- [ENG-106] dag 10: dagboek bevestigt activering 02:40 en meting 03:00.\n- [ENG-114] dag 12: fijnregeling beschrijving; getest en teruggezet.\n- [ENG-061] dag 12, 10:30: fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand, ok.\n\nMijn lezing:\nIk kan niet zeggen wie toestemming gaf; geen record vermeldt een afkeuring of toestemming, alleen de actie en status. De Kroonklok-tikken worden in ENG-011 en ENG-012 niet genoemd; ENG-102 beschrijft het oude trage tempo als gewoonte, maar geeft geen tijdstempels. Of er na 02:40 nog tikken van de Kroonklok afliepen, staat in de records die ik zag niet vermeld.\n\nAfleiding: de afwijking begon waarschijnlijk bij de activering op 02:40, niet vóór, want ENG-102 noemt het oude tempo gewoonte, en ENG-103 wil niet langer op die oude tik wachten. ENG-114 en ENG-061 latencyen dat de fijnregeling op dag 12 werd getest en teruggezet, dus het veranderde niet permanent het tempo.\n\nVerenigbaarheid: ORA-130 noemt dag 10 als eerste zware nacht, wat coincideert met ENG-011, maar de logs bewijzen de oorzaak niet.\n\nTEGENSPRAAK: De opvatting dat de afwijking pas bij ENG-012 begon, wordt niet ondersteund, want ENG-011 toont de activering eerder.\n\nToetsen door: Archmage (controle van aanvullende logs).\n\nBroncitaten:\n- ENG-011: «geactiveerd: eigen pols voor het datanet, los van de Kroonklok»\n- ENG-012: «ENG-012,10,03:00,datanet,doorvoermeting na activatie: +38%,ok»\n- ENG-061: «fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand»\n- ENG-102: «Dat is geen ontwerp, dat is gewoonte.»\n- ENG-103: «we hoeven niet langer op die oude tik te wachten»\n- ENG-106: «Om 02:40 de hulpslag geactiveerd, om 03:00 de eerste meting: 38% meer doorvoer.»\n- ENG-114: «Vanochtend de fijnregeling getest en daarna teruggezet, zie log.»",
-      "bevestigde_ids": [
-        "ENG-011",
-        "ENG-012",
-        "ENG-061",
-        "ENG-102",
-        "ENG-103",
-        "ENG-106",
-        "ENG-114",
-        "ORA-130"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "gecorrigeerd",
-        "fouten": [
-          "Het record zegt 'getest' in het Nederlands; 'tested' is een vertaalslip en moet gelijk zijn aan het bronrecord.",
-          "Het record zegt 'in stappen van 0,1%' en 'op de oorspronkelijke stand'. Het concept maakte er een kortere formulering van die niet letterlijk klopt.",
-          "Geen van beide records noemt het oude systeem 'normaal'. ENG-102 spreekt over gewoonte en ENG-103 over het niet langer hoeven wachten. De afleiding blijft staan, maar rust nu op wat er echt staat."
-        ],
-        "broncitaten": {
-          "ENG-011": "geactiveerd: eigen pols voor het datanet, los van de Kroonklok",
-          "ENG-012": "ENG-012,10,03:00,datanet,doorvoermeting na activatie: +38%,ok",
-          "ENG-106": "Om 02:40 de hulpslag geactiveerd, om 03:00 de eerste meting: 38% meer doorvoer.",
-          "ENG-114": "Vanochtend de fijnregeling getest en daarna teruggezet, zie log.",
-          "ENG-061": "fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand",
-          "ENG-102": "Dat is geen ontwerp, dat is gewoonte.",
-          "ENG-103": "we hoeven niet langer op die oude tik te wachten"
-        }
-      },
-      "concept": "Feiten:\n- [ENG-011] dag 10, 02:40: hulpslag geactiveerd, eigen pols los van Kroonklok, status ok.\n- [ENG-012] dag 10, 03:00: doorvoermeting +38%, status ok.\n- [ENG-106] dag 10: dagboek bevestigt activering 02:40 en meting 03:00.\n- [ENG-114] dag 12: fijnregeling beschrijving; tested en teruggezet.\n- [ENG-061] dag 12, 10:30: fijnregeling getest in stappen 0,1%, daarna terug op oorspronkelijke stand, ok.\n\nMijn lezing:\nIk kan niet zeggen wie toestemming gaf; geen record vermeldt een afkeuring of toestemming, alleen de actie en status. De Kroonklok-tikken worden in ENG-011 en ENG-012 niet genoemd; ENG-102 beschrijft het oude trage tempo als gewoonte, maar geeft geen tijdstempels. Of er na 02:40 nog tikken van de Kroonklok afliepen, staat in de records die ik zag niet vermeld.\n\nAfleiding: de afwijking begon waarschijnlijk bij de activering op 02:40, niet vóór, want ENG-102 en ENG-103 latencyen het oude systeem als normaal. ENG-114 en ENG-061 latencyen dat de fijnregeling op dag 12 werd getest en teruggezet, dus het veranderde niet permanent het tempo.\n\nVerenigbaarheid: ORA-130 noemt dag 10 als eerste zware nacht, wat coincideert met ENG-011, maar de logs bewijzen de oorzaak niet.\n\nTEGENSPRAAK: De opvatting dat de afwijking pas bij ENG-012 begon, wordt niet ondersteund, want ENG-011 toont de activering eerder.\n\nToetsen door: Archmage (controle van aanvullende logs)."
-    },
-    {
-      "nr": 56,
+      "nr": 28,
       "ronde": 2,
       "spreker": "koning",
       "soort": "routering",
       "aan": "historian",
-      "vraag": "Wat staat in HIS-107 en HIS-109 over het tempo van de Kroonklok? Verschoof dat tempo na de hulpslag van ENG-011 op dag 10 om 02:40, en wat bepaalt de bouwakte over een tweede pols naast de Kroonklok? Noem ook het ritme van vier nachten en of dat in uw archief staat.",
-      "reden": "De hulpslag op dag 10 om 02:40 (ENG-011) is vastgesteld, maar het mechanisme rust alleen op de Historian (HIS-107, HIS-109), en de Engineer kan de Kroonklok-tikken niet bevestigen. De Historian is de enige Rol die het oude tempo en de bouwakte kan toetsen.",
-      "context_tokens": 8234,
+      "vraag": "Bevat het archief een eerder voorval van een desync of afwijkend tempo van de Kroonklok of de hulpslag, met een tijdstip en een record-ID? En is er ooit een bijstelling of herstel vastgelegd, met de stappen en de volgorde? Noem ook of er tempometingen van de Kroonklok na dag 5 zijn, en welke record-IDs die hebben.",
+      "reden": "Herstel is nog zwak: geen Rol heeft een procedure, en de Engineer en Archmage verwijzen naar een tempometing die niemand heeft. De Historian zoekt wanneer dit eerder gebeurde en is nog maar één keer aan het woord. Eén concrete vraag naar precedent en tempometingen kan herstel en mechanisme versterken.",
       "open_vragen": [
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Verschoof het Kroonklok-tempo na 02:40 op dag 10, of pas na 03:00 (ENG-012)?",
-        "Wat is de fijnregeling ENG-114 en is het logbestand te vinden?",
-        "Komt het ritme van vier nachten (BEA-113, ORA-130) overeen met HIS-107?",
-        "Wat is de veilige herstelvolgorde en wat gebeurt er als het herstel faalt?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045, GUA-115) zijn opgevolgd?"
+        "Is er een tempometing van de Kroonklok of de hulpslag na dag 5, zodat het viertallige ritme aan een verschuiving van het tempo te toetsen is?",
+        "Welke veilige herstelprocedure geldt er voor de Kroonklok en de schilden na een desync, en is die ooit eerder toegepast?",
+        "Wie gaf de goedkeuring van dag 8 en dag 9 (ARC-106, ENG-105), en wie vroeg erom?",
+        "Hoe zit het met het verband tussen de vier-daagse nachtelijke onrust en de opening van de schilden op dag 10, 22 en 23?"
       ],
       "stand": {
-        "ingreep": "Hulpslag met eigen pols geactiveerd op dag 10 om 02:40, los van de Kroonklok (ENG-011, ENG-106); daarna 5% opgedreven op dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Een tweede pols naast de Kroonklok verschuift mogelijk de tikken (HIS-109); de Historian noemt dit een afleiding en het is nog niet met de Kroonklok-tikken getoetst [zwak]",
-        "verloop": "Zware nachten en onrust elke vierde nacht vanaf dag 10 (BEA-113, ORA-130, ORA-138, ORA-142); dag 7 en 9 rustig (ORA-107, ORA-109); eerste onrust na de afwijking om 03:00 [matig]",
-        "herstel": "onbekend; ENG-114 en het logbestand zijn nog niet gevonden [zwak]"
-      }
+        "ingreep": "Hulpslag op een eigen pols (ENG-011, dag 10) en het net op 'eigen maat' (ARC-106, dag 8), met een 5% opdrijving op dag 24 (ENG-029); wie precies goedkeurde is onbekend [matig]",
+        "mechanisme": "Een desync tussen de hulpslag en de Kroonklok verklaart het ritme (art. 3, GUA-104), maar er is geen tempometing die dat bevestigt [zwak]",
+        "verloop": "Zware nachten op dag 10 t/m 42 rond 04:15–04:45, elke vier dagen, bevestigd door Beast Master en Oracle; de dagen ertussen zijn rustig [sterk]",
+        "herstel": "Geen Rol heeft een veilige procedure voor de Kroonklok, de hulpslag of de schilden; alleen het voorstel om de versterking terug te zetten, nog niet getest [zwak]"
+      },
+      "context_tokens": 11889
     },
     {
-      "nr": 57,
+      "nr": 29,
       "ronde": 2,
       "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
+      "soort": "bericht",
+      "tekst": "**Feiten:**\n- HIS-003 en HIS-004: begin en einde van de Stille Winter, 212 jaar vóór dag 1. Het begon in één nacht en duurde 40 dagen zonder onderbreking. Het register geeft geen tijdstip en geen oorzaak.\n- HIS-107 (kroniek, dag 8): de leylijnen lagen 40 dagen stil en er zat geen ritme in.\n- HIS-110 (kroniek, dag 11): het enige herstelvoorschrift in mijn bron. Maak eerst een afschrift van het register en breng de polsen daarna langzaam samen. Valt een pols weg, dan is het record verloren.\n- HIS-106 (kroniek, dag 6): de leylijnen hadden in 23 jaar geen hapering. Er staan geen tempogetallen van de Kroonklok in.\n- HIS-112 (kroniek, dag 15) en HIS-116 (kroniek, dag 23): tijdstempels van dag 10 en dag 22 die niet klopten. Ik heb ze toen als klerkenfouten afgedaan.\n\n**Mijn lezing:**\nMijn bron bevat geen eerder voorval van een desync of afwijkend tempo van de Kroonklok of de hulpslag, met tijdstip en record-ID. De Stille Winter is het dichtst in de buurt: een plotselinge start en een lange duur. Maar er is geen tempo, geen ritme en geen oorzaak vastgelegd, dus het bewijst niets over een desync.\n\nEr is geen bijstelling of herstel met stappen en volgorde vastgelegd, behalve het voorschrift van HIS-110.\n\nTempometingen van de Kroonklok na dag 5 zijn er niet. Ik kan het viertallige ritme dus ook niet in het archief terugvinden.\n\nIk moet ook een eerdere uitspraak intrekken. In HIS-114 (dag 19) schreef ik dat de Stille Winter terugkeert. Dat was een conclusie zonder meting en telt niet als bewijs.",
+      "id_controle": {
+        "geldig": [
+          "HIS-003",
+          "HIS-004",
           "HIS-107",
-          "HIS-109",
-          "HIS-038",
-          "HIS-103",
-          "HIS-105"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 58,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "Kroonklok tempo bouwakte tweede pols datanet",
-        "aantal": 6
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 59,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "zware nacht ritme vier nachten dag 10 hulpslag 02:40",
-        "aantal": 6
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 60,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "HIS-035",
-          "HIS-103",
-          "HIS-107",
-          "HIS-109",
           "HIS-110",
+          "HIS-106",
           "HIS-112",
-          "HIS-116"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 61,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "bericht",
-      "tekst": "**Feiten:**\n- HIS-109, dag 11 (geen tijd): de bouwakte is gevonden. Artikel 1: \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-110, dag 11 (geen tijd): \"Valt die pols plots weg, dan is het record verloren. Wie de maat herstelt, maakt eerst een afschrift van het register.\"\n- HIS-107, dag 8 (geen tijd): over de Stille Winter staat \"Er zat geen ritme in.\"\n- HIS-035, dag 10, 04:45 (vastgelegd 07:20): de Burchtader stokte, gemeld door de nachtwake.\n- HIS-112, dag 15 (geen tijd): klerken klagen over tijdstempels van dag 10 die niet kloppen. Afgedaan als klerkenfout.\n\n**Mijn lezing:**\nGeen record in mijn bron beschrijft een tempoverschuiving van de Kroonklok na 02:40 op dag 10. HIS-109 geeft wel de regel: een tweede pols brengt het uit de maat. Dat past bij ENG-011, maar het is een afleiding, geen waarneming. Het ritme van vier nachten staat niet in mijn archief; HIS-107 zegt zelfs dat de Stille Winter geen ritme had.\n\nMijn bron lijkt zichzelf tegen te spreken. HIS-103 zegt dat vastgelegd gelijk is aan gebeurd, maar HIS-112 meldt dag 10-tijdstempels die niet kloppen. De tijden 02:40 en 03:00 kan ik daarom niet verifiëren.\n\nNiet opgevolgd: de klachten in HIS-112 (dag 15) en HIS-116 (dag 23) over tijdstempels zijn weggewuifd.\n\n**Toetsen door:** Engineer (datanet-logs van dag 10 tegen HIS-109).\n\nBroncitaten:\n- HIS-035: «de Burchtader stokte even, gemeld door de nachtwake»\n- HIS-103: «Daarom is in het register vastgelegd_op altijd gelijk aan gebeurd_op»\n- HIS-107: «Er zat geen ritme in»\n- HIS-109: «Een tweede pols ernaast brengt het uit de maat.»\n- HIS-110: «Valt die pols plots weg, dan is het record verloren.»\n- HIS-112: «Twee klerken klagen over tijdstempels van dag 10 die niet kloppen»\n- HIS-116: «Opnieuw tijdstempels die niet kloppen, nu van dag 22.»",
-      "bevestigde_ids": [
-        "ENG-011",
-        "HIS-035",
-        "HIS-103",
-        "HIS-107",
-        "HIS-109",
-        "HIS-110",
-        "HIS-112",
-        "HIS-116"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "gecorrigeerd",
-        "fouten": [
-          "Het record HIS-116 is van dag 23; de tijdstempels die niet kloppen gaan over dag 22.",
-          "HIS-112 noemt de tijdstempels klerkenfouten en zegt dat het register ongeschonden is. Dat is een spanning, geen aantoonbare tegenspraak, dus die formulering moet voorzichtiger."
+          "HIS-116",
+          "HIS-114"
         ],
-        "broncitaten": {
-          "HIS-103": "Daarom is in het register vastgelegd_op altijd gelijk aan gebeurd_op",
-          "HIS-107": "Er zat geen ritme in",
-          "HIS-109": "Een tweede pols ernaast brengt het uit de maat.",
-          "HIS-110": "Valt die pols plots weg, dan is het record verloren.",
-          "HIS-112": "Twee klerken klagen over tijdstempels van dag 10 die niet kloppen",
-          "HIS-116": "Opnieuw tijdstempels die niet kloppen, nu van dag 22.",
-          "HIS-035": "de Burchtader stokte even, gemeld door de nachtwake"
-        }
+        "verwijzing": [],
+        "onbekend": []
       },
-      "concept": "**Feiten:**\n- HIS-109, dag 11 (geen tijd): de bouwakte is gevonden. Artikel 1: \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-110, dag 11 (geen tijd): \"Valt die pols plots weg, dan is het record verloren. Wie de maat herstelt, maakt eerst een afschrift van het register.\"\n- HIS-107, dag 8 (geen tijd): over de Stille Winter staat \"Er zat geen ritme in.\"\n- HIS-035, dag 10, 04:45 (vastgelegd 07:20): de Burchtader stokte, gemeld door de nachtwake.\n- HIS-112, dag 15 (geen tijd): klerken klagen over tijdstempels van dag 10 die niet kloppen. Afgedaan als klerkenfout.\n\n**Mijn lezing:**\nGeen record in mijn bron beschrijft een tempoverschuiving van de Kroonklok na 02:40 op dag 10. HIS-109 geeft wel de regel: een tweede pols brengt het uit de maat. Dat past bij ENG-011, maar het is een afleiding, geen waarneming. Het ritme van vier nachten staat niet in mijn archief; HIS-107 zegt zelfs dat de Stille Winter geen ritme had.\n\nMijn bron spreekt zichzelf tegen. HIS-103 zegt dat vastgelegd gelijk is aan gebeurd, maar HIS-112 meldt dag 10-tijdstempels die niet kloppen. De tijden 02:40 en 03:00 kan ik daarom niet verifiëren.\n\nNiet opgevolgd: de klachten in HIS-112 (dag 15) en HIS-116 (dag 22) over tijdstempels zijn weggewuifd.\n\n**Toetsen door:** Engineer (datanet-logs van dag 10 tegen HIS-109)."
+      "context_tokens": 17836
     },
     {
-      "nr": 62,
+      "nr": 30,
       "ronde": 2,
       "spreker": "koning",
       "soort": "routering",
       "aan": "engineer",
-      "vraag": "Beschrijf de veilige herstelvolgorde voor de hulpslag van ENG-011 en de Kroonklok. Maak volgens HIS-110 eerst een afschrift van het register; wat gebeurt er met het record als de pols wegvalt? Zet ook de fijnregeling uit ENG-114 terug en bevestig de stand. Wie gaf toestemming voor de activering van ENG-011?",
-      "reden": "Herstel is nog zwak en HIS-110 waarschuwt dat het wegnemen van de tweede pols het record kan wissen. Toestemming voor ENG-011 blijft ook onbeantwoord.",
-      "context_tokens": 8321,
+      "vraag": "Je hulpslag loopt op een eigen pols en je hebt de versterking op dag 24 met 5% verhoogd. Wat was de absolute stand van de hulpslag-pols vóór dag 24, en wat is de stand nu? Meet je het tempo van die pols ergens? Past HIS-110 hier: is het veilig eerst een afschrift van de instellingen te maken en dan de 5% terug te draaien, zonder dat de pols wegvalt?",
+      "reden": "Herstel is het zwakste onderdeel. Engineer heeft de enige concrete wijziging (ENG-062, dag 24) en de hulpslag-pols, maar mist een absolute waarde en een tempometing. Historian heeft het enige herstelvoorschrift (HIS-110: eerst afschrift, dan langzaam samenbrengen, anders gaat het record verloren). Alleen Engineer kan toetsen of dat op de hulpslag past. Engineer is nog niet twee keer achter elkaar aan de beurt geweest.",
       "open_vragen": [
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011?",
-        "Verschoof het Kroonklok-tempo na 02:40 op dag 10, of pas na 03:00 (ENG-012)?",
-        "Wat is de veilige herstelvolgorde, en wat gebeurt er als het herstel faalt (HIS-110)?",
-        "Wat is de fijnregeling ENG-114 en is het logbestand te vinden?",
-        "Tijdstempels van dag 10 en dag 22 worden betwist (HIS-112, HIS-116); klopt het dat de tikken verschoven?",
-        "Welke waarschuwingen (ENG-021, ENG-034, ENG-045, GUA-115) zijn opgevolgd?"
+        "Wat is de absolute stand van de hulpslag-pols vóór en na dag 24?",
+        "Is er een tempometing van de hulpslag of de Kroonklok na dag 5? Geen van de bronnen heeft die.",
+        "Past het voorschrift HIS-110 op de hulpslag, en is terugdraaien van de 5% veilig?",
+        "Wie vroeg om de eigen-maat-afspraak en de goedkeuring van dag 9 (ENG-105)? Niet bevestigd door de bronnen."
       ],
       "stand": {
-        "ingreep": "Hulpslag met eigen pols geactiveerd op dag 10 om 02:40, los van de Kroonklok (ENG-011, ENG-106); daarna 5% opgedreven op dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Volgens de bouwakte (HIS-109) brengt een tweede pols de tikken uit de maat; dat past bij ENG-011/ENG-012, maar de koppeling met de Kroonklok-tikken is nog niet met logs getoetst [zwak]",
-        "verloop": "Zware nachten om de vier nachten vanaf dag 10 (ORA-130, ORA-138, ORA-142); dag 7 en 9 rustig (ORA-107, ORA-109); eerste onrust na de afwijking om 02:40/03:00 [matig]",
-        "herstel": "Nog niet vastgesteld: ENG-114 is getest en teruggezet (ENG-061), maar herstelvolgorde en register-afschrift (HIS-110) ontbreken [zwak]"
-      }
-    },
-    {
-      "nr": 63,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "hulpslag activatie Kroonklok datanet toestemming fijnregeling herstel",
-        "aantal": 8
+        "ingreep": "Hulpslag op eigen pols vanaf dag 10 02:40 (ENG-011), versterking +5% dag 24 (ENG-062); koppeling met het tempo niet vastgesteld [matig]",
+        "mechanisme": "Verschuiving tussen hulpslag-pols en Kroonklok, zodat verkeer om 04:15 buiten de tik valt en via art. 3 (GUA-104) ongecontroleerd doorgaat; geen tempometing ter bevestiging [matig]",
+        "verloop": "Zware nachten elke vier dagen rond 04:15-04:45 op dag 10 t/m 42 (BEA, ORA, HIS-035/036); rustige dagen daartussen; begin na het werk aan de kabels op dag 3 [matig]",
+        "herstel": "Enige voorschrift is HIS-110 (eerst afschrift, dan langzaam samenbrengen). Niet toegepast op de hulpslag of de Kroonklok; de stand van vóór dag 24 is onbekend [zwak]"
       },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+      "context_tokens": 12744
     },
     {
-      "nr": 64,
+      "nr": 31,
       "ronde": 2,
       "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
+      "soort": "bericht",
+      "tekst": "**Antwoord:** Ik weet de absolute stand van de hulpslag-pols vóór dag 24 niet, en ook niet de huidige stand. Ik meet het tempo van die pols nergens. Ik meet alleen de doorvoer.\n\n**Feiten:**\n- ENG-011, dag 10 02:40: hulpslag geactiveerd als eigen pols.\n- ENG-012, dag 10 03:00: doorvoer +38%. ENG-120 (werkboek), dag 16: nog steeds 38% hoger.\n- ENG-029, dag 24 11:00: hulpslag-pols met 5% opgedreven.\n- ENG-062, dag 24 11:05: versterking 5% hoger gezet, \"tempo ongewijzigd\". Er staat geen absolute waarde bij.\n- ENG-061, dag 12 10:30: fijnregeling getest in stappen van 0,1% en daarna teruggezet op de oorspronkelijke stand. Het getal van die stand staat er niet bij.\n- ENG-063 (dag 13), ENG-064 (dag 17), ENG-065 (dag 21), ENG-066 (dag 29): routinecontroles, ok, zonder tempowaarde.\n- ENG-114 (werkboek, dag 12): versterking verhoogt de doorvoer en laat het tempo gelijk. De fijnregeling past het tempo aan in stappen van 0,1%.\n\n**Mijn lezing:**\nMijn bron bevat geen tempometing van de hulpslag en geen afschrift van de instellingen. De 5% van ENG-062 is een verhoging van de versterking, en volgens ENG-114 raakt die het tempo niet. Dat maakt het waarschijnlijk veilig, maar ik heb het niet gemeten. Ik kan dus ook niet zeggen of het ritme van vier dagen door de hulpslag komt.\n\nHIS-110 is een voorschrift uit het archief, niet uit mijn bron. Ik kan niet bevestigen dat het op de hulpslag van toepassing is. Mijn bron bevat wel geen procedure voor het terugdraaien van de versterking zonder dat de pols wegvalt.\n\nMijn voorstel, niet getest: lees eerst de huidige standen van de versterking en de fijnregeling af en schrijf ze op. Meet daarna het tempo, en pas dan de 5% terug in één stap. Ik kan niet garanderen dat de pols niet wegvalt.",
+      "id_controle": {
+        "geldig": [
           "ENG-011",
           "ENG-012",
+          "ENG-120",
+          "ENG-029",
+          "ENG-062",
           "ENG-061",
-          "ENG-114",
-          "ENG-106"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
-    },
-    {
-      "nr": 65,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "ENG-011",
-          "ENG-012",
-          "ENG-061",
-          "ENG-111",
+          "ENG-063",
+          "ENG-064",
+          "ENG-065",
+          "ENG-066",
           "ENG-114"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/engineer/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 66,
-      "ronde": 2,
-      "spreker": "engineer",
-      "soort": "bericht",
-      "tekst": "Feiten:\n- ENG-011, dag 10, 02:40: hulpslag geactiveerd, \"eigen pols voor het datanet, los van de Kroonklok\", status ok.\n- ENG-012, dag 10, 03:00: doorvoermeting +38%, status ok.\n- ENG-061, dag 12, 10:30: fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand, status ok.\n- ENG-111, dag 24 (geen tijd): hulpslag 5% opgedreven.\n\nMijn lezing:\nMijn bron bevat geen herstelvolgorde voor de hulpslag en geen afschrift- of registerprocedure. Ik kan dus HIS-110 niet bevestigen of weerleggen. ENG-114 zegt dat de fijnregeling het tempo van de hulpslag bijstelt, terwijl de versterking alleen de doorvoer verhoogt. De oorspronkelijke stand die ENG-061 noemt, staat niet als waarde in mijn bron.\n\nOver toestemming: in de records die ik zag, staat geen naam bij de activering. ENG-011 vermeldt alleen actie en status. Ik kan die vraag niet beantwoorden.\n\nHypothese: HIS-109 (\"een tweede pols ernaast brengt het uit de maat\") is verenigbaar met ENG-011, omdat de hulpslag een eigen pols naast de Kroonklok is. Dat is een afleiding. Mijn bron bewijst geen verstoring of Desync; ENG-012 meet alleen een hogere doorvoer.\n\nToetsen door: Historian (HIS-109 en HIS-110 tegen de logs van ENG-011).\n\nBroncitaten:\n- ENG-011: «geactiveerd: eigen pols voor het datanet, los van de Kroonklok»\n- ENG-012: «datanet,doorvoermeting na activatie: +38%,ok»\n- ENG-061: «fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand»\n- ENG-111: «Hulpslag 5% opgedreven. Als het datanet sneller is dan de indringers, hebben ze minder tijd.»\n- ENG-114: «De fijnregeling stelt het tempo van de hulpslag bij, in stappen van 0,1%, zodat hij zonder schok bij te sturen is.»",
-      "bevestigde_ids": [
-        "ENG-011",
-        "ENG-012",
-        "ENG-061",
-        "ENG-111",
-        "ENG-114",
-        "HIS-109",
-        "HIS-110"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "correct",
-        "fouten": [],
-        "broncitaten": {
-          "ENG-011": "geactiveerd: eigen pols voor het datanet, los van de Kroonklok",
-          "ENG-012": "datanet,doorvoermeting na activatie: +38%,ok",
-          "ENG-061": "fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand",
-          "ENG-111": "Hulpslag 5% opgedreven. Als het datanet sneller is dan de indringers, hebben ze minder tijd.",
-          "ENG-114": "De fijnregeling stelt het tempo van de hulpslag bij, in stappen van 0,1%, zodat hij zonder schok bij te sturen is."
-        }
-      },
-      "concept": "Feiten:\n- ENG-011, dag 10, 02:40: hulpslag geactiveerd, \"eigen pols voor het datanet, los van de Kroonklok\", status ok.\n- ENG-012, dag 10, 03:00: doorvoermeting +38%, status ok.\n- ENG-061, dag 12, 10:30: fijnregeling getest in stappen van 0,1%; daarna terug op de oorspronkelijke stand, status ok.\n- ENG-111, dag 24 (geen tijd): hulpslag 5% opgedreven.\n\nMijn lezing:\nMijn bron bevat geen herstelvolgorde voor de hulpslag en geen afschrift- of registerprocedure. Ik kan dus HIS-110 niet bevestigen of weerleggen. ENG-114 zegt dat de fijnregeling het tempo van de hulpslag bijstelt, terwijl de versterking alleen de doorvoer verhoogt. De oorspronkelijke stand die ENG-061 noemt, staat niet als waarde in mijn bron.\n\nOver toestemming: in de records die ik zag, staat geen naam bij de activering. ENG-011 vermeldt alleen actie en status. Ik kan die vraag niet beantwoorden.\n\nHypothese: HIS-109 (\"een tweede pols ernaast brengt het uit de maat\") is verenigbaar met ENG-011, omdat de hulpslag een eigen pols naast de Kroonklok is. Dat is een afleiding. Mijn bron bewijst geen verstoring of Desync; ENG-012 meet alleen een hogere doorvoer.\n\nToetsen door: Historian (HIS-109 en HIS-110 tegen de logs van ENG-011)."
-    },
-    {
-      "nr": 67,
-      "ronde": 2,
-      "spreker": "koning",
-      "soort": "routering",
-      "aan": "historian",
-      "vraag": "HIS-110 zegt dat wie het ritme herstelt eerst een afschrift van het register maakt. ENG-061 (dag 12, 10:30) meldt een test van de fijnregeling in stappen van 0,1% en een terugzetting. Was er vóór die test een registerafschrift, en staat in HIS-109 of HIS-110 wat er gebeurt als de tweede pols wegvalt tijdens het terugzetten? Noem de dag en het tijdstip waarop het afschrift is gemaakt, als het bestaat.",
-      "reden": "Het herstel is het zwakste onderdeel: ENG-061 test en zet terug zonder aantoonbaar afschrift, terwijl HIS-110 juist dat afschrift voorschrijft. Engineer kan dit niet zelf toetsen omdat zijn beurten op zijn.",
-      "context_tokens": 8557,
-      "open_vragen": [
-        "Wie gaf toestemming voor de hulpslag-activering van ENG-011 op dag 10, 02:40?",
-        "Verschoof het Kroonklok-tempo na 02:40 op dag 10, of pas na 03:00 (ENG-012)?",
-        "Bestaat er een registerafschrift vóór de fijnregeling-test van ENG-061 op dag 12?",
-        "Klopt de tijdstempelregistratie van dag 10 (HIS-103 tegenover HIS-112), zodat 02:40 en 03:00 betrouwbaar zijn?",
-        "Zijn de waarschuwingen ENG-021, ENG-034, ENG-045 en GUA-115 opgevolgd?"
-      ],
-      "stand": {
-        "ingreep": "Hulpslag met eigen pols geactiveerd op dag 10 om 02:40, los van de Kroonklok (ENG-011, ENG-106); daarna 5% opgedreven op dag 24 (ENG-111). Toestemming onbekend [matig]",
-        "mechanisme": "Volgens de bouwakte (HIS-109) brengt een tweede pols de tikken uit de maat; dat past bij ENG-011/ENG-012, maar de tijdstempels van dag 10 worden betwist (HIS-112) en de koppeling met de Kroonklok-tikken is niet met logs getoetst [zwak]",
-        "verloop": "Zware nachten om de vier nachten vanaf dag 10 (ORA-130, ORA-138, ORA-142); dag 7 en 9 rustig (ORA-107, ORA-109); eerste onrust rond 02:40/03:00 op dag 10 [matig]",
-        "herstel": "ENG-114 en ENG-061 tonen een test en terugzetting op dag 12, maar een registerafschrift (HIS-110) is niet bevestigd [zwak]"
-      }
-    },
-    {
-      "nr": 68,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek_relevant",
-      "argumenten": {
-        "vraag": "registerafschrift afschrift register tweede pols wegvalt terugzetten",
-        "aantal": 8
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 69,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "zoek",
-      "argumenten": {
-        "term": "afschrift"
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
-    },
-    {
-      "nr": 70,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "HIS-109",
+        ],
+        "verwijzing": [
           "HIS-110"
-        ]
+        ],
+        "onbekend": []
       },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp"
+      "context_tokens": 18251
     },
     {
-      "nr": 71,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "toolcall",
-      "tool": "toon",
-      "argumenten": {
-        "ids": [
-          "HIS-109",
-          "HIS-110",
-          "HIS-113"
-        ]
-      },
-      "pad": "https://mcp.findingsolutions.be/historian/mcp",
-      "doel": "controle"
-    },
-    {
-      "nr": 72,
-      "ronde": 2,
-      "spreker": "historian",
-      "soort": "bericht",
-      "tekst": "**Feiten:**\n- HIS-110, dag 11 (geen tijd genoteerd): de bouwakte schrijft voor: \"Valt die pols plots weg, dan is het record verloren. Wie de maat herstelt, maakt eerst een afschrift van het register en brengt de polsen daarna langzaam samen.\"\n- HIS-109, dag 11 (geen tijd genoteerd): \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-113, dag 17: gilden vragen afschriften van hun eigen oorkonden. Dit gaat over gildeoorkonden, niet over het register.\n\n**Mijn lezing:**\nIn de records die ik zag, staat geen registerafschrift op dag 12 of eerder, en ook geen tijdstip voor een afschrift. Mijn zoekopdracht op \"afschrift\" leverde geen registerafschrift op dag 10 tot 12 op. Ik kan dus niet zeggen of er vóór ENG-061 (dag 12, 10:30) een afschrift was.\n\nWat er gebeurt als de tweede pols wegvalt, staat in HIS-110: het record is verloren. HIS-110 zegt niet wat er gebeurt tijdens het terugzetten. Het is een afleiding dat een langzaam samenbrengen van de polsen de regel uit HIS-110 volgt, maar dat staat niet letterlijk.\n\n**Toetsen door:** Engineer (of er dag 12 een registerafschrift is gemaakt vóór de fijnregeling).\n\nBroncitaten:\n- HIS-109: «Een tweede pols ernaast brengt het uit de maat.»\n- HIS-110: «Wie de maat herstelt, maakt eerst een afschrift van het register en brengt de polsen daarna langzaam samen.»\n- HIS-113: «De gilden vroegen afschriften van hun oude oorkonden»",
-      "bevestigde_ids": [
-        "ENG-061",
-        "HIS-109",
-        "HIS-110",
-        "HIS-113"
-      ],
-      "onbevestigde_ids": [],
-      "controle": {
-        "oordeel": "correct",
-        "fouten": [],
-        "broncitaten": {
-          "HIS-110": "Wie de maat herstelt, maakt eerst een afschrift van het register en brengt de polsen daarna langzaam samen.",
-          "HIS-109": "Een tweede pols ernaast brengt het uit de maat.",
-          "HIS-113": "De gilden vroegen afschriften van hun oude oorkonden"
-        }
-      },
-      "concept": "**Feiten:**\n- HIS-110, dag 11 (geen tijd genoteerd): de bouwakte schrijft voor: \"Valt die pols plots weg, dan is het record verloren. Wie de maat herstelt, maakt eerst een afschrift van het register en brengt de polsen daarna langzaam samen.\"\n- HIS-109, dag 11 (geen tijd genoteerd): \"Een tweede pols ernaast brengt het uit de maat.\"\n- HIS-113, dag 17: gilden vragen afschriften van hun eigen oorkonden. Dit gaat over gildeoorkonden, niet over het register.\n\n**Mijn lezing:**\nIn de records die ik zag, staat geen registerafschrift op dag 12 of eerder, en ook geen tijdstip voor een afschrift. Mijn zoekopdracht op \"afschrift\" leverde geen registerafschrift op dag 10 tot 12 op. Ik kan dus niet zeggen of er vóór ENG-061 (dag 12, 10:30) een afschrift was.\n\nWat er gebeurt als de tweede pols wegvalt, staat in HIS-110: het record is verloren. HIS-110 zegt niet wat er gebeurt tijdens het terugzetten. Het is een afleiding dat een langzaam samenbrengen van de polsen de regel uit HIS-110 volgt, maar dat staat niet letterlijk.\n\n**Toetsen door:** Engineer (of er dag 12 een registerafschrift is gemaakt vóór de fijnregeling)."
-    },
-    {
-      "nr": 73,
+      "nr": 32,
       "ronde": 2,
       "spreker": "koning",
       "soort": "routering",
@@ -1245,82 +633,128 @@
       "reden": "Beurtenbudget op (10 Raadslid-beurten)"
     },
     {
-      "nr": 74,
+      "nr": 33,
       "ronde": 3,
       "spreker": "koning",
       "soort": "bericht",
-      "tekst": "Op dag 10 om 02:40 activeerde de Engineer een hulpslag als eigen pols naast de Kroonklok, en om 03:00 meldde het datanet +38% doorvoer (ENG-011, ENG-012, ENG-106). Daarna volgde de onrust in het woud (BEA-019, 04:40), en sindsdien komt de storing om de vier nachten terug (ORA-130, BEA-113). De koppeling tussen de activering en de Desync is een afleiding en geen bewezen oorzaak, omdat de tijdstempels van dag 10 zelf in geschil zijn (HIS-112). Nu moet het register worden afgeschreven voordat er verder aan de maat wordt gewerkt (HIS-110), de hulpslag niet verder worden opgedreven, en de nachtwacht in het 03:00-06:00-venster worden versterkt vóór dag 46."
+      "tekst": "De hulpslag van het datanet is op dag 10 om 02:40 als eigen pols geactiveerd (ENG-011) en op dag 24 met 5% opgedreven (ENG-029, ENG-062). Sindsdien vallen er om 04:15 tot 04:45 zware nachten op dag 10, 14, 18, 22, 26, 30, 34, 38 en 42, met lekken, half aankomende berichten en onrust bij de dieren. De leylijnen laag op de ritme-dagen 14 en 42 en normaal op de andere gemeten dagen passen daarbij. De tempometingen die het mechanisme zouden bewijzen ontbreken, dus de keten is verenigbaar met de feiten maar niet vastgesteld. Het herstel begint met een afschrift en een tempometing, en daarna het stapsgewijs terugzetten van de versterking van dag 24."
     }
   ],
   "geschillen": [
     {
-      "onderwerp": "Oorzaak van de zware nachten: conjunctie of periodieke storing",
+      "onderwerp": "Inbraak van buitenaf bij poort oost op dag 22",
       "standpunten": {
-        "oracle": "De zware nachten worden veroorzaakt door de conjunctie van de Wachtsterren (ORA-121).",
-        "beast_master": "De conjunctienacht van dag 33 was rustig (BEA-071), dus een conjunctie verklaart het patroon niet."
+        "engineer": "ENG-027: firewallregels aangescherpt na vermoeden van inbraak.",
+        "guardian_keeper": "GUA-043 en GUA-044: de opening kwam van binnenuit en de zegels aan de buitenzijde bleven intact."
       },
-      "uitkomst": "De conjunctie-verklaring wordt verworpen. ORA-121 is een eigen interpretatie zonder waarneming, en BEA-071 spreekt die uitleg tegen. Het patroon van vier nachten past beter bij een periodieke storing vanaf dag 10.",
+      "uitkomst": "Geen inbraak van buitenaf bewezen. De opening was van binnenuit, drie minuten lang, en tijdstip en duur kloppen met ENG-026 en HIS-053.",
       "bewijs": [
-        "BEA-071",
-        "ORA-130",
-        "ORA-121"
+        "GUA-043",
+        "GUA-044",
+        "HIS-053",
+        "ENG-027"
       ]
     },
     {
-      "onderwerp": "Betrouwbaarheid van de tijdstempels van dag 10",
+      "onderwerp": "Infiltrant bij de schilden",
       "standpunten": {
-        "historian": "Alle records zijn getikt op de Kroonklok, dus vastgelegd_op is altijd gelijk aan gebeurd_op (HIS-103), maar klerken klagen over dag-10-tijdstempels die niet kloppen (HIS-112).",
-        "guardian_keeper": "Het archief schreef de wachtmelding van 01:50 in, ruim voor de opening van 04:15, wat laat zien dat archieftijden niet altijd kloppen (GUA-115)."
+        "guardian_keeper": "GUA-116 meldde eerst een infiltrant, maar dat is ingetrokken als te stellig."
       },
-      "uitkomst": null,
+      "uitkomst": "Ingetrokken. Er is geen infiltrant bewezen; de openingen zijn verenigbaar met een desync, maar niet vastgesteld.",
       "bewijs": [
-        "HIS-103",
-        "HIS-112",
-        "GUA-115"
+        "GUA-116",
+        "GUA-043"
       ]
     },
     {
-      "onderwerp": "Toestemming voor de activering van de hulpslag op dag 10",
+      "onderwerp": "Conjunctie als oorzaak van de zware nachten",
       "standpunten": {
-        "engineer": "Geen record vermeldt een afkeuring of toestemming, alleen de actie en de status (ENG-011).",
-        "historian": "Er staat geen naam bij de activering in de records die de Historian zag (HIS-110)."
+        "oracle": "ORA-121 stelde dat de conjunctie van dag 21 de zware nachten veroorzaakt; ORA-134 zei dat de conjunctie achteraf werkt."
       },
-      "uitkomst": null,
+      "uitkomst": "Ingetrokken door de Oracle zelf. De eerste zware nacht was dag 10, 23 dagen voor de conjunctie op dag 33, en ORA-134 is een verklaring achteraf.",
       "bewijs": [
-        "ENG-011",
+        "ORA-121",
+        "ORA-110",
+        "ORA-133",
+        "ORA-134"
+      ]
+    },
+    {
+      "onderwerp": "Goedkeuring van het eigen-maat-net en de 'hogerhand'",
+      "standpunten": {
+        "engineer": "ENG-105: goedkeuring van 'hogerhand' op dag 9, niet ruchtbaar maken tot het draait; de bron noemt geen naam.",
+        "archmage": "ARC-106: goedkeuring van de Archmage op dag 8 voor het net van de datatoren op eigen maat; de 'hogerhand' is niet in zijn bron."
+      },
+      "uitkomst": "Niet beslecht. De goedkeuring van dag 8 is van de Archmage zelf en staat vast; de 'hogerhand' van dag 9 is niet bevestigd en heeft geen naam.",
+      "bewijs": [
+        "ENG-105",
+        "ARC-106"
+      ]
+    },
+    {
+      "onderwerp": "Woudkabels ongewijzigd of gewijzigd op dag 3",
+      "standpunten": {
+        "historian": "HIS-014: woudkabels ongewijzigd op dag 3 om 08:30.",
+        "beast_master": "BEA-102 en BEA-005: mannen van de toren werkten op dag 3 om 08:30 aan de kabels bij de oude eik; BEA-109 en BEA-115 melden de kabels op dag 15 en 27."
+      },
+      "uitkomst": "HIS-014 is weerlegd: de kabels zijn op dag 3 gewijzigd. Of die wijziging het net verstoort, is niet gemeten en telt daarom niet als oorzaak.",
+      "bewijs": [
+        "HIS-014",
+        "BEA-102",
+        "BEA-005",
+        "BEA-109"
+      ]
+    },
+    {
+      "onderwerp": "Terugkeer van de Stille Winter",
+      "standpunten": {
+        "historian": "HIS-114 (dag 19) zei dat de Stille Winter terugkeert."
+      },
+      "uitkomst": "Ingetrokken. Dat was een conclusie zonder meting. De Stille Winter van HIS-003 en HIS-004 geeft geen tijdstip en geen oorzaak.",
+      "bewijs": [
+        "HIS-114",
+        "HIS-003",
+        "HIS-004"
+      ]
+    },
+    {
+      "onderwerp": "Het datanet afzetten als herstel",
+      "standpunten": {
+        "archmage": "ARC-109, ARC-112 en ARC-116 adviseren het datanet af te zetten."
+      },
+      "uitkomst": "Niet overgenomen in het herstelplan. Er is geen voorschrift dat het afzetten veilig maakt, en het kan records doen verliezen (HIS-110).",
+      "bewijs": [
+        "ARC-109",
+        "ARC-112",
+        "ARC-116",
         "HIS-110"
-      ]
-    },
-    {
-      "onderwerp": "Registerafschrift voor de fijnregeling op dag 12",
-      "standpunten": {
-        "engineer": "De fijnregeling werd getest in stappen van 0,1% en daarna teruggezet (ENG-061).",
-        "historian": "De bouwakte schrijft een afschrift vooraf voor, maar er is geen registerafschrift gevonden op dag 12 of eerder (HIS-110, HIS-113)."
-      },
-      "uitkomst": "Niet vastgesteld of er vóór de fijnregeling een afschrift was. De bouwakte-eis is in de records niet aantoonbaar nageleefd.",
-      "bewijs": [
-        "HIS-110",
-        "ENG-061"
       ]
     }
   ],
   "verbruik": {
     "groot": {
-      "beurten": 12,
-      "invoer": 96356,
+      "beurten": 14,
+      "invoer": 138753,
       "gecached": 0,
-      "uitvoer": 27840,
-      "requests": 12,
-      "max_context": 18961
+      "uitvoer": 47476
     },
     "klein": {
-      "beurten": 19,
-      "invoer": 149781,
+      "beurten": 10,
+      "invoer": 135675,
       "gecached": 0,
-      "uitvoer": 53925,
-      "requests": 37,
-      "max_context": 7373
+      "uitvoer": 35993
     }
   },
-  "aan_het_woord": null
+  "context_budget": 100000,
+  "aan_het_woord": null,
+  "verdict_review": [
+    "Actie 3 corrigeerde een verkeerde combinatie: de fijnregeling stuurt het tempo (ENG-114), niet de versterking. De versterking van dag 24 wordt in één gecontroleerde stap teruggezet naar de stand van vóór dag 24, zoals ENG voorstelt, en het tempo wordt daarna gemeten.",
+    "Actie 3: de bewering dat een grote stap in één keer de pols doet wegvallen had geen bron in het debat en is geschrapt. Het risico van het verlies van een record blijft via HIS-110 staan.",
+    "Actie 5: de openingen op dag 10 en 22 vielen tussen 03:00 en 06:00 (GUA-019, GUA-043). Voor dag 23 kon de Guardian Keeper de tijden niet geven, dus die is niet als bewijs gebruikt.",
+    "Ingreep: de eigen-maat-afspraak van de Archmage op dag 8 (ARC-106) toegevoegd als gemeten wijziging, en de kabels bij de oude eik op dag 3 (BEA-102, BEA-005) als niet-gemeten kandidaat. Beide zijn niet als oorzaak vastgesteld. De zekerheid blijft 0.5 omdat de keten op één Rol (ENG) rust.",
+    "Mechanisme: HIS-110 is uitdrukkelijk als archiefvoorschrift gemarkeerd, omdat ENG de toepassing op de hulpslag niet kon bevestigen.",
+    "Verloop: de leylijnen van de Archmage (ARC-109, ARC-116) toegevoegd als derde Rol. Laag op dag 14 en 42, dagen die in het viertallige ritme vallen; normaal op dag 7, 21, 28 en 35, die er niet in vallen. Dat maakt de zekerheid 0.8 in plaats van 0.75. Dag 18 tot en met 38 zijn in de leylijnmetingen niet gemeten, dus dit blijft gedeeltelijk.",
+    "Verloop: de zin over dag 24 is herschreven. De wijziging heeft het ritme niet doorbroken, want dag 26 en latere zware nachten volgden het patroon. Dat is een feit uit de metingen, geen verklaring.",
+    "Voorspelling: de mogelijke schildopening is gekoppeld aan de bewijzen van dag 10 en 22 (GUA-019, GUA-043), die op ritme-dagen vielen. De voorspelling volgt daarmee uit het verloop en is niet meer alleen op GUA-116 gebaseerd, dat is ingetrokken."
+  ]
 }

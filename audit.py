@@ -38,7 +38,11 @@ def controleer(root=ROOT):
     if len({b["spreker"] for b in berichten}) < 3:
         fouten.append("Minder dan 3 verschillende Rollen spraken (spelregel: minstens 3 Rollen).")
 
-    # Bronlezing: alleen de eigen bron, en vóór elk bericht.
+    # Bronlezing: alleen de eigen bron, en vóór elk bericht. Wie zijn volledige bron in de prompt kreeg
+    # ("bestand" of lees_kennisbron vóór het debat), heeft die bij elke beurt gelezen.
+    in_prompt = {b["spreker"] for b in beurten if b["soort"] == "bestand"
+                 or (b["soort"] == "toolcall" and b.get("tool") == "lees_kennisbron" and b.get("ronde") == 0
+                     and "niet in de prompt" not in (b.get("doel") or ""))}
     laatste_routering = None
     gelezen = set()
     for b in beurten:
@@ -52,7 +56,7 @@ def controleer(root=ROOT):
             if f"/{b['spreker']}/" not in f"/{pad}" and not pad.startswith(f"{b['spreker']}/"):
                 fouten.append(f"Beurt {b['nr']}: {b['spreker']} gebruikt een bron die niet van zijn Rol is ({pad}).")
             gelezen.add(b["spreker"])
-        elif b in berichten and laatste_routering is not None and b["spreker"] not in gelezen:
+        elif b in berichten and laatste_routering is not None and b["spreker"] not in gelezen | in_prompt:
             waarschuwingen.append(f"Beurt {b['nr']}: {b['spreker']} sprak zonder bronlezing in deze beurt.")
 
     # Bestaan de ID's? (alleen als het pack lokaal staat)
